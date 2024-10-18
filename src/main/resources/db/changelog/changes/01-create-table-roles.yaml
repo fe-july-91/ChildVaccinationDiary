@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-roles
+      author: yana_stepanova
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(6)
+                  constraints:
+                    nullable: false
+                    unique: true
