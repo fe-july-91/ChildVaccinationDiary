@@ -8,7 +8,7 @@ databaseChangeLog:
              columns:
                - column:
                    name: user_id
-                   type: bigint
+                   type: bigserial
                    constraints:
                      nullable: false
                      foreignKeyName: fk_users_roles_users
@@ -16,7 +16,7 @@ databaseChangeLog:
                      referencedColumnNames: id
                - column:
                    name: role_id
-                   type: bigint
+                   type: bigserial
                    constraints:
                      nullable: false
                      foreignKeyName: fk_users_roles_roles

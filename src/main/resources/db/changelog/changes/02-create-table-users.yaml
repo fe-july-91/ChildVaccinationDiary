@@ -1,44 +1,42 @@
 databaseChangeLog:
   - changeSet:
-      id: create-table-weights
+      id: create-table-users
       author: yana_stepanova
       changes:
         - createTable:
-            tableName: weights
+            tableName: users
             columns:
               - column:
                   name: id
-                  type: bigint
+                  type: bigserial
                   autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: year
-                  type: int
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password
+                  type: varchar(255)
                   constraints:
                     nullable: false
               - column:
-                  name: month
-                  type: tinyint
+                  name: first_name
+                  type: varchar(255)
                   constraints:
                     nullable: false
               - column:
-                  name: value
-                  type: smallint
+                  name: last_name
+                  type: varchar(255)
                   constraints:
                     nullable: false
-              - column:
-                  name: child_id
-                  type: bigint
-                  constraints:
-                    nullable: false
-                    foreignKeyName: fk_weights_childs
-                    referencedTableName: childs
-                    referencedColumnNames: id
               - column:
                   name: is_deleted
-                  type: bit
+                  type: boolean
                   defaultValueBoolean: false
                   constraints:
                     nullable: false

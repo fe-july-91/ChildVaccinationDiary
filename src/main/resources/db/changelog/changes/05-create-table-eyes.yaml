@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: child_id
-                  type: bigint
+                  type: bigserial
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -23,7 +23,7 @@ databaseChangeLog:
                   type: float
               - column:
                   name: is_deleted
-                  type: bit
+                  type: boolean
                   defaultValueBoolean: false
                   constraints:
                     nullable: false

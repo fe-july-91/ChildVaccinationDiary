@@ -1,26 +1,21 @@
 databaseChangeLog:
   - changeSet:
-      id: create-table-types
+      id: create-table-roles
       author: yana_stepanova
       changes:
         - createTable:
-            tableName: types
+            tableName: roles
             columns:
               - column:
                   name: id
-                  type: bigint
+                  type: bigserial
                   autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: type_name
-                  type: enum ('TUBERCULOSIS', 'HEPATITIS_B', 'DIPHTHERIA_TETANUS', 'WHOOPING_COUGH', 'POLIOMYELITIS', 'HIB_INFECTION', 'MMR')
+                  name: name
+                  type: varchar(6)
                   constraints:
                     nullable: false
                     unique: true
-              - column:
-                  name: description
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
