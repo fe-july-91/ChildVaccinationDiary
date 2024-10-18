@@ -1,4 +1,4 @@
-package com.team.project.ChildVaccinationDiary.model;
+package team.project.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,10 +13,10 @@ import org.hibernate.annotations.SQLRestriction;
 @Getter
 @Setter
 @Entity
-@SQLDelete(sql = "UPDATE foots SET is_deleted = TRUE WHERE id = ?")
+@SQLDelete(sql = "UPDATE weights SET is_deleted = TRUE WHERE id = ?")
 @SQLRestriction("is_deleted = FALSE")
-@Table(name = "foots")
-public class Foot extends Journal {
+@Table(name = "weights")
+public class Weight extends Journal {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "child_id", nullable = false)
     private Child child;

@@ -1,16 +1,15 @@
-package com.team.project.ChildVaccinationDiary.model;
+package team.project.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import java.time.Month;
+import java.time.Year;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.Month;
-import java.time.Year;
 
 @NoArgsConstructor
 @Getter

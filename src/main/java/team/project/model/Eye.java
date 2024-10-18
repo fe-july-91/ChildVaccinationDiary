@@ -1,4 +1,4 @@
-package com.team.project.ChildVaccinationDiary.model;
+package team.project.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
