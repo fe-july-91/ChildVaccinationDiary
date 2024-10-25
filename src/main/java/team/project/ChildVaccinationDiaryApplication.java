@@ -8,6 +8,5 @@ public class ChildVaccinationDiaryApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ChildVaccinationDiaryApplication.class, args);
-
     }
 }

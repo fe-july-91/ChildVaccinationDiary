@@ -1,11 +1,12 @@
 package team.project.dto.child;
 
+import lombok.Getter;
+import lombok.Setter;
 import team.project.model.Gender;
-import lombok.Data;
-
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 public class ChildSearchParametersDto {
     private String[] names;
     private String[] surnames;

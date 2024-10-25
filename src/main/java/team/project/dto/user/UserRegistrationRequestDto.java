@@ -1,11 +1,13 @@
 package team.project.dto.user;
 
+import lombok.Getter;
+import lombok.Setter;
 import team.project.validation.EmailValues;
 import team.project.validation.PasswordValues;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
-@Data
+@Getter
+@Setter
 public class UserRegistrationRequestDto {
     @NotNull
     @EmailValues
