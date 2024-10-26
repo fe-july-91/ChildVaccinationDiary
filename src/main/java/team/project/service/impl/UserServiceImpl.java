@@ -38,13 +38,12 @@ public class UserServiceImpl implements UserService {
         if (!requestDto.getPassword().equals(requestDto.getRepeatPassword())) {
             throw new RegistrationException("Invalid passwords");
         }
-        User newUser = new User();
-        newUser.setEmail(requestDto.getEmail());
-        newUser.setPassword(passwordEncoder.encode(requestDto.getPassword()));
-        newUser.setLastName(requestDto.getLastName());
-        newUser.setFirstName(requestDto.getFirstName());
+        User newUser = userMapper.toModel(requestDto);
         Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findByName(RoleName.PARENT));
+        Role parentRole = roleRepository.findByName(RoleName.PARENT);
+        if (parentRole != null) {
+            roles.add(parentRole);
+        }
         newUser.setRoles(roles);
         userRepository.save(newUser);
         return userMapper.toDto(newUser);
