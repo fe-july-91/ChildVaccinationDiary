@@ -2,6 +2,8 @@ package team.project.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,9 +17,6 @@ import team.project.model.User;
 import team.project.repository.user.RoleRepository;
 import team.project.repository.user.UserRepository;
 import team.project.service.UserService;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @Service

@@ -5,26 +5,18 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
-
-import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.function.Function;
+import javax.crypto.SecretKey;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 @Component
-//@PropertySource("classpath:application.properties")
 public class JwtUtil {
     private final SecretKey secret;
     @Value("${jwt.expiration}")
     private long expiration;
-
-   /* @PostConstruct
-    public void init() {
-        Stripe.apiKey = Dotenv.load().get("STRIPE_SECRET_KEY");
-    }*/
 
     public JwtUtil(@Value("${jwt.secret}") String secretString) {
         secret = Keys.hmacShaKeyFor(secretString.getBytes(StandardCharsets.UTF_8));
