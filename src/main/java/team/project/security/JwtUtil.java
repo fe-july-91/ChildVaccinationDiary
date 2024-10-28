@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Component
-@PropertySource("classpath:application.properties")
+//@PropertySource("classpath:application.properties")
 public class JwtUtil {
     private final SecretKey secret;
     @Value("${jwt.expiration}")
