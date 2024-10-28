@@ -2,11 +2,11 @@ package team.project.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
@@ -14,20 +14,17 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-    private static final String ALGORITHM_NAME = "HmacSHA256";
     private Key secret;
-
     @Value("${jwt.expiration}")
     private long expiration;
 
     public JwtUtil(@Value("${jwt.secret}") String secretString) {
-        this.secret =
-                new SecretKeySpec(secretString.getBytes(StandardCharsets.UTF_8), ALGORITHM_NAME);
+        secret = Keys.hmacShaKeyFor(secretString.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateToken(String email) {
+    public String generateToken(String username) {
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(secret)
@@ -35,23 +32,27 @@ public class JwtUtil {
     }
 
     public boolean isValidToken(String token) {
-        Jws<Claims> claimsJws = Jwts.parser()
-                .setSigningKey(secret)
-                .build()
-                .parseClaimsJws(token);
-        return !claimsJws.getBody().getExpiration().before(new Date());
+        try {
+            Jws<Claims> claimsJws =Jwts.parserBuilder()
+                    .setSigningKey(secret)
+                    .build()
+                    .parseClaimsJws(token);
+            return !claimsJws.getBody().getExpiration().before(new Date());
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new JwtException("Expired or invalid JWT token");
+        }
     }
 
-    public String getUserName(String token) {
+    public String getUsername(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
-    private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolved) {
-        final Claims claims = Jwts.parser()
+    private <T> T getClaimFromToken(java.lang.String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = Jwts.parserBuilder()
                 .setSigningKey(secret)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        return claimsResolved.apply(claims);
+        return claimsResolver.apply(claims);
     }
 }

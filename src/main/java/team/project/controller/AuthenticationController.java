@@ -24,16 +24,14 @@ public class AuthenticationController {
     private final UserService userService;
     private final AuthenticationService authenticationService;
 
-    @PostMapping("/registration")
-    @Operation(summary = "Register user", description = "Register a new user")
-    public UserResponseDto register(@RequestBody @Valid UserRegistrationRequestDto requestDto)
-            throws RegistrationException {
-        return userService.register(requestDto);
-    }
-
     @PostMapping("/login")
-    @Operation(summary = "Login user", description = "Login user")
     public UserLoginResponseDto login(@RequestBody UserLoginRequestDto requestDto) {
         return authenticationService.authenticate(requestDto);
+    }
+
+    @PostMapping("/registration")
+    public UserResponseDto registerUser(@Valid @RequestBody UserRegistrationRequestDto requestDto)
+            throws RegistrationException {
+        return userService.register(requestDto);
     }
 }
