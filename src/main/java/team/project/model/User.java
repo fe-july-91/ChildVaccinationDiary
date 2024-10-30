@@ -36,9 +36,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
-    private String firstName;
-    @Column(nullable = false)
-    private String lastName;
+    private String name;
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted;
     @ManyToMany(fetch = FetchType.EAGER)

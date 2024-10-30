@@ -13,11 +13,8 @@ databaseChangeLog:
                   name: password
                   value: 'admin1234'
               - column:
-                  name: first_name
+                  name: name
                   value: 'Some admin'
-              - column:
-                  name: last_name
-                  value: 'Default'
   - changeSet:
       id: insert-default-parent
       author: yana_stepanova
@@ -32,8 +29,5 @@ databaseChangeLog:
                   name: password
                   value: 'maria1234'
               - column:
-                  name: first_name
-                  value: 'Марія'
-              - column:
-                  name: last_name
-                  value: 'Шмакова'
+                  name: name
+                  value: 'Марія Шмакова'
