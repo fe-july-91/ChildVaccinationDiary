@@ -5,7 +5,7 @@ services:
     platform: linux/amd64
     image: postgres
     restart: unless-stopped
-    env_file: ./.env
+    env_file: ./_env
     environment:
       - POSTGRES_USER=${POSTGRESDB_USERNAME}
       - POSTGRES_PASSWORD=${POSTGRESDB_PASSWORD}
@@ -21,9 +21,9 @@ services:
     depends_on:
       - postgresdb
     restart: on-failure
-    image: kidty-app:1.0
+    image: yannastepanova/child-vaccination-app
     build: .
-    env_file: ./.env
+    env_file: ./_env
     ports:
       - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
       - $DEBUG_PORT:$DEBUG_PORT
