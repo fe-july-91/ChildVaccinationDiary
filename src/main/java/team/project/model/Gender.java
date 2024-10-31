@@ -18,7 +18,7 @@ public enum Gender {
 
     public static Gender getByType(String type) {
         for (Gender item : Gender.values()) {
-            if (Objects.equals(item.getGenderName(), type)) {
+            if (Objects.equals(item.getGenderName().toUpperCase(), type.toUpperCase())) {
                 return item;
             }
         }

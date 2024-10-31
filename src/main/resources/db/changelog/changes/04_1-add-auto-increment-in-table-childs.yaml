@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-auto-incremet-in-table-childs
+      author: yana_stepanova
+      changes:
+        - addAutoIncrement:
+            columnDataType: bigint
+            columnName: id
+            generationType: ALWAYS
+            incrementBy: 1
+            startWith: 111
+            tableName: childs

@@ -26,6 +26,10 @@ import org.hibernate.annotations.SQLRestriction;
 public class Child {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    /*@SequenceGenerator(name = "child_seq",
+            sequenceName = "child_sequence",
+            initialValue = 111, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "child_seq")*/
     private Long id;
     @Column(nullable = false)
     private String name;
