@@ -1,5 +1,7 @@
 package team.project.service.impl;
 
+import jakarta.transaction.Transactional;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import team.project.dto.child.ChildDto;
@@ -21,5 +23,12 @@ public class ChildServiceImpl implements ChildService {
         Child child = childMapper.toModel(requestDto);
         child.setUser(user);
         return childMapper.toDto(childRepo.save(child));
+    }
+
+    @Override
+    @Transactional
+    public List<ChildDto> getChildsByUser(Long userId) {
+        return childRepo.findAllByUserId(userId).stream()
+                .map(childMapper::toDto).toList();
     }
 }

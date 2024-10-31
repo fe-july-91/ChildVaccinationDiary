@@ -21,7 +21,7 @@ services:
     depends_on:
       - postgresdb
     restart: on-failure
-    image: yannastepanova/child-vaccination-app
+    image: kidty-app:1.2
     build: .
     env_file: ./_env
     ports:
