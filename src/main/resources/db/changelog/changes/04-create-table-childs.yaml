@@ -37,7 +37,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: gender
+                  name: gender_name
                   type: varchar(8)
                   constraints:
                     nullable: false
