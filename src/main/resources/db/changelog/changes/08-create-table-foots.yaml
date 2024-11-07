@@ -20,7 +20,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: month
-                  type: tinyint
+                  type: varchar
                   constraints:
                     nullable: false
               - column:

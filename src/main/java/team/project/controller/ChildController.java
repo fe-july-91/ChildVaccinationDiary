@@ -22,8 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 import team.project.dto.child.ChildDto;
 import team.project.dto.child.CreateChildRequestDto;
 import team.project.dto.child.UpdateChildRequestDto;
+import team.project.dto.height.CreateHeightRequestDto;
+import team.project.dto.height.HeightDto;
+import team.project.dto.height.UpdateHeightRequestDto;
 import team.project.model.User;
 import team.project.service.ChildService;
+import team.project.service.HeightService;
 
 @Tag(name = "Children manager", description = "Endpoints for managing children")
 @RequiredArgsConstructor
@@ -32,6 +36,7 @@ import team.project.service.ChildService;
 @Validated
 public class ChildController {
     private final ChildService childService;
+    private final HeightService heightService;
 
     @PostMapping
     @Operation(summary = "Create a new child card",
@@ -79,5 +84,32 @@ public class ChildController {
             description = "Get all children for admin")
     public List<ChildDto> getAll(@ParameterObject @PageableDefault Pageable pageable) {
         return childService.getAll(pageable);
+    }
+
+    @GetMapping("/{id}/height")
+    @Operation(summary = "Get all info about kid's height",
+            description = "Get all info about kid's height for parent")
+    public List<HeightDto> getAllHeight(@AuthenticationPrincipal User user,
+                                        @PathVariable @Positive Long id) {
+        return childService.getAllHeightByChildId(user.getId(), id);
+    }
+
+    @PostMapping("/{childId}/height")
+    @Operation(summary = "Add info about kid's height",
+            description = "Add info about kid's height by parent")
+    public HeightDto createHeight(@AuthenticationPrincipal User user,
+                                  @PathVariable @Positive Long childId,
+                                  @RequestBody @Valid CreateHeightRequestDto requestDto) {
+        return childService.saveHeight(user.getId(), childId, requestDto);
+    }
+
+    @PutMapping("/{childId}/height/{heightId}")
+    @Operation(summary = "Update height by id",
+            description = "Update kid's height by id")
+    public HeightDto updateHeight(@AuthenticationPrincipal User user,
+                                  @PathVariable @Positive Long childId,
+                                  @PathVariable @Positive Long heightId,
+                                  @RequestBody @Valid UpdateHeightRequestDto requestDto) {
+        return childService.updateHeight(user.getId(), childId, heightId, requestDto);
     }
 }
