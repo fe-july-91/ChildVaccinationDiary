@@ -1,5 +1,7 @@
 package team.project.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +17,7 @@ import team.project.exception.RegistrationException;
 import team.project.security.AuthenticationService;
 import team.project.service.UserService;
 
+@Tag(name = "Authentication manager", description = "Endpoints for managing users")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/auth")
@@ -24,12 +27,16 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/registration")
+    @Operation(summary = "Create a new user",
+            description = "Create a new user entity in the database")
     public UserResponseDto register(@RequestBody @Valid UserRegistrationRequestDto requestDto)
             throws RegistrationException {
         return userService.register(requestDto);
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Login a user",
+            description = "Login a user that exists in the database")
     public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto requestDto) {
         return authenticationService.authenticate(requestDto);
     }
