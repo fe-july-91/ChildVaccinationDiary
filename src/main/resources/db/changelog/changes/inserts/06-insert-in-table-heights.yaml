@@ -17,7 +17,7 @@ databaseChangeLog:
                   valueNumeric: 100
               - column:
                   name: child_id
-                  valueNumeric: 111
+                  valueNumeric: 1
   - changeSet:
       id: insert-height2-of-first-child
       author: yana_stepanova
@@ -36,7 +36,7 @@ databaseChangeLog:
                   valueNumeric: 100
               - column:
                   name: child_id
-                  valueNumeric: 111
+                  valueNumeric: 1
   - changeSet:
       id: insert-height3-of-first-child
       author: yana_stepanova
@@ -55,7 +55,7 @@ databaseChangeLog:
                   valueNumeric: 102
               - column:
                   name: child_id
-                  valueNumeric: 111
+                  valueNumeric: 1
   - changeSet:
       id: insert-height4-of-first-child
       author: yana_stepanova
@@ -74,7 +74,7 @@ databaseChangeLog:
                   valueNumeric: 105
               - column:
                   name: child_id
-                  valueNumeric: 111
+                  valueNumeric: 1
   - changeSet:
       id: insert-height5-of-first-child
       author: yana_stepanova
@@ -93,7 +93,7 @@ databaseChangeLog:
                   valueNumeric: 110
               - column:
                   name: child_id
-                  valueNumeric: 111
+                  valueNumeric: 1
   - changeSet:
       id: insert-height6-of-first-child
       author: yana_stepanova
@@ -112,7 +112,7 @@ databaseChangeLog:
                   valueNumeric: 112
               - column:
                   name: child_id
-                  valueNumeric: 111
+                  valueNumeric: 1
   - changeSet:
       id: insert-height7-of-first-child
       author: yana_stepanova
@@ -131,7 +131,7 @@ databaseChangeLog:
                   valueNumeric: 112
               - column:
                   name: child_id
-                  valueNumeric: 111
+                  valueNumeric: 1
   - changeSet:
       id: insert-height8-of-first-child
       author: yana_stepanova
@@ -150,7 +150,7 @@ databaseChangeLog:
                   valueNumeric: 115
               - column:
                   name: child_id
-                  valueNumeric: 111
+                  valueNumeric: 1
   - changeSet:
       id: insert-height9-of-first-child
       author: yana_stepanova
@@ -169,4 +169,4 @@ databaseChangeLog:
                   valueNumeric: 116
               - column:
                   name: child_id
-                  valueNumeric: 111
+                  valueNumeric: 1
