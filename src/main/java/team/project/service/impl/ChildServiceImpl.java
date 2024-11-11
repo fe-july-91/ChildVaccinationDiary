@@ -98,4 +98,18 @@ public class ChildServiceImpl implements ChildService {
         return (childRepo.existsByIdAndUserId(childId, userId))
                 ? heightService.update(childId, heightId, requestDto) : new HeightDto();
     }
+
+    @Override
+    public String deleteHeight(Long userId, Long childId, Long heightId) {
+        return (childRepo.existsByIdAndUserId(childId, userId))
+                ? heightService.delete(childId, heightId)
+                : "The operation is impossible";
+    }
+
+    @Override
+    public List<HeightDto> getAllHeightByYearAndChildId(Long userId, Long childId, int year) {
+        return (childRepo.existsByIdAndUserId(childId, userId))
+                ? heightService.getAllByYearAndChildId(childId, year)
+                : List.of();
+    }
 }

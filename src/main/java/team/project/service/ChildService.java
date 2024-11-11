@@ -30,4 +30,8 @@ public interface ChildService {
 
     HeightDto updateHeight(Long userId, Long childId, Long heightId,
                            UpdateHeightRequestDto requestDto);
+
+    String deleteHeight(Long userId, Long childId, Long heightId);
+
+    List<HeightDto> getAllHeightByYearAndChildId(Long userId, Long childId, int year);
 }

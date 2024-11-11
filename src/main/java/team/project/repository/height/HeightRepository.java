@@ -9,4 +9,8 @@ public interface HeightRepository extends JpaRepository<Height, Long> {
     List<Height> findAllByChildId(Long childId);
 
     Optional<Height> findByIdAndChildId(Long heightId, Long childId);
+
+    boolean existsByIdAndChildId(Long heightId, Long childId);
+
+    List<Height> findAllByYearAndChildId(int year, Long childId);
 }

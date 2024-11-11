@@ -12,4 +12,8 @@ public interface HeightService {
     HeightDto save(Child child, CreateHeightRequestDto requestDto);
 
     HeightDto update(Long childId, Long heightId, UpdateHeightRequestDto requestDto);
+
+    String delete(Long childId, Long heightId);
+
+    List<HeightDto> getAllByYearAndChildId(Long childId, int year);
 }

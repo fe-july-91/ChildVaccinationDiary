@@ -12,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -86,12 +87,12 @@ public class ChildController {
         return childService.getAll(pageable);
     }
 
-    @GetMapping("/{id}/height")
+    @GetMapping("/{childId}/height")
     @Operation(summary = "Get all info about kid's height",
             description = "Get all info about kid's height for parent")
     public List<HeightDto> getAllHeight(@AuthenticationPrincipal User user,
-                                        @PathVariable @Positive Long id) {
-        return childService.getAllHeightByChildId(user.getId(), id);
+                                        @PathVariable @Positive Long childId) {
+        return childService.getAllHeightByChildId(user.getId(), childId);
     }
 
     @PostMapping("/{childId}/height")
@@ -111,5 +112,23 @@ public class ChildController {
                                   @PathVariable @Positive Long heightId,
                                   @RequestBody @Valid UpdateHeightRequestDto requestDto) {
         return childService.updateHeight(user.getId(), childId, heightId, requestDto);
+    }
+
+    @DeleteMapping("/{childId}/height/{heightId}")
+    @Operation(summary = "Delete height by id",
+            description = "Delete kid's height by id")
+    public String deleteHeight(@AuthenticationPrincipal User user,
+                                  @PathVariable @Positive Long childId,
+                                  @PathVariable @Positive Long heightId) {
+        return childService.deleteHeight(user.getId(), childId, heightId);
+    }
+
+    @GetMapping("/{childId}/height/{year}")
+    @Operation(summary = "Get all heights for a year by child",
+            description = "Get all heights for a year by child")
+    public List<HeightDto> getHeightsByYear(@AuthenticationPrincipal User user,
+                                        @PathVariable @Positive Long childId,
+                                        @PathVariable @Positive int year) {
+        return childService.getAllHeightByYearAndChildId(user.getId(), childId, year);
     }
 }

@@ -23,7 +23,9 @@ public class HeightServiceImpl implements HeightService {
     @Override
     public List<HeightDto> getAllByChildId(Long childId) {
         List<Height> result = heightRepo.findAllByChildId(childId);
-        return result.stream().map(heightMapper::toDto).toList();
+        return result.stream()
+                .map(heightMapper::toDto)
+                .toList();
     }
 
     @Override
@@ -42,5 +44,26 @@ public class HeightServiceImpl implements HeightService {
                                 heightId, childId)));
         return heightMapper.toDto(heightRepo.save(
                 heightMapper.updateFromDto(heightFromDB, requestDto)));
+    }
+
+    @Override
+    @Transactional
+    public String delete(Long childId, Long heightId) {
+        Height heightFromDB = heightRepo.findByIdAndChildId(heightId, childId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Height with id = %s not found for this childId = %s",
+                                heightId, childId)));
+        heightRepo.delete(heightFromDB);
+        return (!heightRepo.existsByIdAndChildId(heightId, childId))
+                ? String.format("The height with id = %s was deleted", heightId)
+                : String.format("The height with id = %s wasn't deleted", heightId);
+    }
+
+    @Override
+    public List<HeightDto> getAllByYearAndChildId(Long childId, int year) {
+        List<Height> result = heightRepo.findAllByYearAndChildId(year, childId);
+        return result.stream()
+                .map(heightMapper::toDto)
+                .toList();
     }
 }
