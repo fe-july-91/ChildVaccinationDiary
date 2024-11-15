@@ -16,6 +16,7 @@ import team.project.model.RoleName;
 import team.project.model.User;
 import team.project.repository.user.RoleRepository;
 import team.project.repository.user.UserRepository;
+import team.project.service.EmailSenderService;
 import team.project.service.UserService;
 
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepo;
+    private final EmailSenderService emailSenderService;
 
     @Override
     @Transactional
@@ -37,8 +39,9 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.toModel(requestDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(generateDefaultSetRoles());
-        User savedUser = userRepo.save(user);
-        return userMapper.toResponseDto(savedUser);
+        emailSenderService.sendMail(user);
+        //User savedUser = userRepo.save(user);
+        return userMapper.toResponseDto(user);//savedUser
     }
 
     private Set<Role> generateDefaultSetRoles() {
