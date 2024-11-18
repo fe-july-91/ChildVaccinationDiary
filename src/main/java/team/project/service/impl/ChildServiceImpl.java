@@ -12,6 +12,7 @@ import team.project.dto.child.UpdateChildRequestDto;
 import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
+import team.project.dto.weight.CreateWeightRequestDto;
 import team.project.dto.weight.WeightDto;
 import team.project.mapper.ChildMapper;
 import team.project.model.Child;
@@ -121,5 +122,13 @@ public class ChildServiceImpl implements ChildService {
     public List<WeightDto> getAllWeightByChildId(Long userId, Long childId) {
         return (childRepo.existsByIdAndUserId(childId, userId))
                 ? weightService.getAllByChildId(childId) : List.of();
+    }
+
+    @Override
+    public WeightDto saveWeight(Long userId, Long childId, CreateWeightRequestDto requestDto) {
+        Child child = childRepo.findByIdAndUserId(childId, userId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Child with id = %s not found for this parent", childId)));
+        return weightService.save(child, requestDto);
     }
 }

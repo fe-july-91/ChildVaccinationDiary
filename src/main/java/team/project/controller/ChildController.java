@@ -26,6 +26,7 @@ import team.project.dto.child.UpdateChildRequestDto;
 import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
+import team.project.dto.weight.CreateWeightRequestDto;
 import team.project.dto.weight.WeightDto;
 import team.project.model.User;
 import team.project.service.ChildService;
@@ -137,5 +138,14 @@ public class ChildController {
     public List<WeightDto> getAllWeight(@AuthenticationPrincipal User user,
                                         @PathVariable @Positive Long childId) {
         return childService.getAllWeightByChildId(user.getId(), childId);
+    }
+
+    @PostMapping("/{childId}/weight")
+    @Operation(summary = "Add info about kid's weight",
+            description = "Add info about kid's weight by parent")
+    public WeightDto createWeight(@AuthenticationPrincipal User user,
+                                  @PathVariable @Positive Long childId,
+                                  @RequestBody @Valid CreateWeightRequestDto requestDto) {
+        return childService.saveWeight(user.getId(), childId, requestDto);
     }
 }
