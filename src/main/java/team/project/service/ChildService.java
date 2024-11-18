@@ -8,6 +8,9 @@ import team.project.dto.child.UpdateChildRequestDto;
 import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
+import team.project.dto.weight.CreateWeightRequestDto;
+import team.project.dto.weight.UpdateWeightRequestDto;
+import team.project.dto.weight.WeightDto;
 import team.project.model.User;
 
 public interface ChildService {
@@ -34,4 +37,15 @@ public interface ChildService {
     String deleteHeight(Long userId, Long childId, Long heightId);
 
     List<HeightDto> getAllHeightByYearAndChildId(Long userId, Long childId, int year);
+
+    List<WeightDto> getAllWeightByChildId(Long userId, Long childId);
+
+    WeightDto saveWeight(Long userId, Long childId, CreateWeightRequestDto requestDto);
+
+    WeightDto updateWeight(Long userId, Long childId, Long weightId,
+                           UpdateWeightRequestDto requestDto);
+
+    void deleteWeight(Long userId, Long childId, Long weightId);
+
+    List<WeightDto> getAllWeightByYearAndChildId(Long userId, Long childId, int year);
 }

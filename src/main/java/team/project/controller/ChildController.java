@@ -26,9 +26,11 @@ import team.project.dto.child.UpdateChildRequestDto;
 import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
+import team.project.dto.weight.CreateWeightRequestDto;
+import team.project.dto.weight.UpdateWeightRequestDto;
+import team.project.dto.weight.WeightDto;
 import team.project.model.User;
 import team.project.service.ChildService;
-import team.project.service.HeightService;
 
 @Tag(name = "Children manager", description = "Endpoints for managing children")
 @RequiredArgsConstructor
@@ -37,7 +39,6 @@ import team.project.service.HeightService;
 @Validated
 public class ChildController {
     private final ChildService childService;
-    private final HeightService heightService;
 
     @PostMapping
     @Operation(summary = "Create a new child card",
@@ -130,5 +131,50 @@ public class ChildController {
                                         @PathVariable @Positive Long childId,
                                         @PathVariable @Positive int year) {
         return childService.getAllHeightByYearAndChildId(user.getId(), childId, year);
+    }
+
+    @GetMapping("/{childId}/weight")
+    @Operation(summary = "Get all info about kid's weight",
+            description = "Get all info about kid's weight for parent")
+    public List<WeightDto> getAllWeight(@AuthenticationPrincipal User user,
+                                        @PathVariable @Positive Long childId) {
+        return childService.getAllWeightByChildId(user.getId(), childId);
+    }
+
+    @PostMapping("/{childId}/weight")
+    @Operation(summary = "Add info about kid's weight",
+            description = "Add info about kid's weight by parent")
+    public WeightDto createWeight(@AuthenticationPrincipal User user,
+                                  @PathVariable @Positive Long childId,
+                                  @RequestBody @Valid CreateWeightRequestDto requestDto) {
+        return childService.saveWeight(user.getId(), childId, requestDto);
+    }
+
+    @PutMapping("/{childId}/weight/{weightId}")
+    @Operation(summary = "Update weight by id",
+            description = "Update kid's weight by id")
+    public WeightDto updateWeight(@AuthenticationPrincipal User user,
+                                  @PathVariable @Positive Long childId,
+                                  @PathVariable @Positive Long weightId,
+                                  @RequestBody @Valid UpdateWeightRequestDto requestDto) {
+        return childService.updateWeight(user.getId(), childId, weightId, requestDto);
+    }
+
+    @DeleteMapping("/{childId}/weight/{weightId}")
+    @Operation(summary = "Delete weight by id",
+            description = "Delete kid's weight by id")
+    public void deleteWeight(@AuthenticationPrincipal User user,
+                               @PathVariable @Positive Long childId,
+                               @PathVariable @Positive Long weightId) {
+        childService.deleteWeight(user.getId(), childId, weightId);
+    }
+
+    @GetMapping("/{childId}/weight/{year}")
+    @Operation(summary = "Get all weights for a year by child",
+            description = "Get all weights for a year by child")
+    public List<WeightDto> getWeightsByYear(@AuthenticationPrincipal User user,
+                                            @PathVariable @Positive Long childId,
+                                            @PathVariable @Positive int year) {
+        return childService.getAllWeightByYearAndChildId(user.getId(), childId, year);
     }
 }

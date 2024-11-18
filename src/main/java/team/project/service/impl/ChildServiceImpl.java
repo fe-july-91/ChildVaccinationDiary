@@ -12,12 +12,16 @@ import team.project.dto.child.UpdateChildRequestDto;
 import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
+import team.project.dto.weight.CreateWeightRequestDto;
+import team.project.dto.weight.UpdateWeightRequestDto;
+import team.project.dto.weight.WeightDto;
 import team.project.mapper.ChildMapper;
 import team.project.model.Child;
 import team.project.model.User;
 import team.project.repository.child.ChildRepository;
 import team.project.service.ChildService;
 import team.project.service.HeightService;
+import team.project.service.WeightService;
 
 @RequiredArgsConstructor
 @Service
@@ -25,6 +29,7 @@ public class ChildServiceImpl implements ChildService {
     private final ChildRepository childRepo;
     private final ChildMapper childMapper;
     private final HeightService heightService;
+    private final WeightService weightService;
 
     @Override
     public ChildDto save(User user, CreateChildRequestDto requestDto) {
@@ -110,6 +115,43 @@ public class ChildServiceImpl implements ChildService {
     public List<HeightDto> getAllHeightByYearAndChildId(Long userId, Long childId, int year) {
         return (childRepo.existsByIdAndUserId(childId, userId))
                 ? heightService.getAllByYearAndChildId(childId, year)
+                : List.of();
+    }
+
+    @Override
+    @Transactional
+    public List<WeightDto> getAllWeightByChildId(Long userId, Long childId) {
+        return (childRepo.existsByIdAndUserId(childId, userId))
+                ? weightService.getAllByChildId(childId) : List.of();
+    }
+
+    @Override
+    public WeightDto saveWeight(Long userId, Long childId, CreateWeightRequestDto requestDto) {
+        Child child = childRepo.findByIdAndUserId(childId, userId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Child with id = %s not found for this parent", childId)));
+        return weightService.save(child, requestDto);
+    }
+
+    @Override
+    public WeightDto updateWeight(Long userId, Long childId, Long weightId,
+                                  UpdateWeightRequestDto requestDto) {
+        return (childRepo.existsByIdAndUserId(childId, userId))
+                ? weightService.update(childId, weightId, requestDto) : new WeightDto();
+
+    }
+
+    @Override
+    public void deleteWeight(Long userId, Long childId, Long weightId) {
+        if (childRepo.existsByIdAndUserId(childId, userId)) {
+            weightService.delete(childId, weightId);
+        }
+    }
+
+    @Override
+    public List<WeightDto> getAllWeightByYearAndChildId(Long userId, Long childId, int year) {
+        return (childRepo.existsByIdAndUserId(childId, userId))
+                ? weightService.getAllByYearAndChildId(childId, year)
                 : List.of();
     }
 }

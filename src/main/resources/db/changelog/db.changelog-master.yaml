@@ -34,10 +34,10 @@ databaseChangeLog:
       file: /db/changelog/changes/inserts/05-insert-in-table-eyes.yaml
   - include:
       file: /db/changelog/changes/inserts/06-insert-in-table-heights.yaml
-#  - include:
-#      file: /db/changelog/changes/inserts/07-insert-in-table-weights.yaml
-#  - include:
-#      file: /db/changelog/changes/inserts/08-insert-in-table-foots.yaml
+  - include:
+      file: /db/changelog/changes/inserts/07-insert-in-table-weights.yaml
+  - include:
+      file: /db/changelog/changes/inserts/08-insert-in-table-foots.yaml
 #  - include:
 #      file: /db/changelog/changes/inserts/09-insert-all-types.yaml
 #  - include:

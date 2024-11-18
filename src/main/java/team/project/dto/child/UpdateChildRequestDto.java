@@ -1,12 +1,11 @@
 package team.project.dto.child;
 
-import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.time.LocalDate;
 
-public record UpdateChildRequestDto(String name,
-                                    String surname,
-                                    @PastOrPresent LocalDate birth,
-                                    String genderName,
+public record UpdateChildRequestDto(@NotBlank String name,
+                                    @NotBlank String surname,
+                                    @NotBlank String birth,
+                                    @NotBlank String genderName,
                                     String image) implements Serializable {
 }
