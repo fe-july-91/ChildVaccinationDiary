@@ -1,7 +1,6 @@
 package team.project.dto.child;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,7 @@ public class ChildDto implements Serializable {
     private Long id;
     private String name;
     private String surname;
-    private LocalDate birth;
+    private String birth;
     private String genderName;
     private String image;
     private Long userId;
