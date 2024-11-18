@@ -12,12 +12,14 @@ import team.project.dto.child.UpdateChildRequestDto;
 import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
+import team.project.dto.weight.WeightDto;
 import team.project.mapper.ChildMapper;
 import team.project.model.Child;
 import team.project.model.User;
 import team.project.repository.child.ChildRepository;
 import team.project.service.ChildService;
 import team.project.service.HeightService;
+import team.project.service.WeightService;
 
 @RequiredArgsConstructor
 @Service
@@ -25,6 +27,7 @@ public class ChildServiceImpl implements ChildService {
     private final ChildRepository childRepo;
     private final ChildMapper childMapper;
     private final HeightService heightService;
+    private final WeightService weightService;
 
     @Override
     public ChildDto save(User user, CreateChildRequestDto requestDto) {
@@ -111,5 +114,12 @@ public class ChildServiceImpl implements ChildService {
         return (childRepo.existsByIdAndUserId(childId, userId))
                 ? heightService.getAllByYearAndChildId(childId, year)
                 : List.of();
+    }
+
+    @Override
+    @Transactional
+    public List<WeightDto> getAllWeightByChildId(Long userId, Long childId) {
+        return (childRepo.existsByIdAndUserId(childId, userId))
+                ? weightService.getAllByChildId(childId) : List.of();
     }
 }

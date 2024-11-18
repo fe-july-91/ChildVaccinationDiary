@@ -26,9 +26,9 @@ import team.project.dto.child.UpdateChildRequestDto;
 import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
+import team.project.dto.weight.WeightDto;
 import team.project.model.User;
 import team.project.service.ChildService;
-import team.project.service.HeightService;
 
 @Tag(name = "Children manager", description = "Endpoints for managing children")
 @RequiredArgsConstructor
@@ -37,7 +37,6 @@ import team.project.service.HeightService;
 @Validated
 public class ChildController {
     private final ChildService childService;
-    private final HeightService heightService;
 
     @PostMapping
     @Operation(summary = "Create a new child card",
@@ -130,5 +129,13 @@ public class ChildController {
                                         @PathVariable @Positive Long childId,
                                         @PathVariable @Positive int year) {
         return childService.getAllHeightByYearAndChildId(user.getId(), childId, year);
+    }
+
+    @GetMapping("/{childId}/weight")
+    @Operation(summary = "Get all info about kid's weight",
+            description = "Get all info about kid's weight for parent")
+    public List<WeightDto> getAllWeight(@AuthenticationPrincipal User user,
+                                        @PathVariable @Positive Long childId) {
+        return childService.getAllWeightByChildId(user.getId(), childId);
     }
 }
