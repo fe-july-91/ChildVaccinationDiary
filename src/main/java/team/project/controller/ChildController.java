@@ -27,6 +27,7 @@ import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
 import team.project.dto.weight.CreateWeightRequestDto;
+import team.project.dto.weight.UpdateWeightRequestDto;
 import team.project.dto.weight.WeightDto;
 import team.project.model.User;
 import team.project.service.ChildService;
@@ -147,5 +148,33 @@ public class ChildController {
                                   @PathVariable @Positive Long childId,
                                   @RequestBody @Valid CreateWeightRequestDto requestDto) {
         return childService.saveWeight(user.getId(), childId, requestDto);
+    }
+
+    @PutMapping("/{childId}/weight/{weightId}")
+    @Operation(summary = "Update weight by id",
+            description = "Update kid's weight by id")
+    public WeightDto updateWeight(@AuthenticationPrincipal User user,
+                                  @PathVariable @Positive Long childId,
+                                  @PathVariable @Positive Long weightId,
+                                  @RequestBody @Valid UpdateWeightRequestDto requestDto) {
+        return childService.updateWeight(user.getId(), childId, weightId, requestDto);
+    }
+
+    @DeleteMapping("/{childId}/weight/{weightId}")
+    @Operation(summary = "Delete weight by id",
+            description = "Delete kid's weight by id")
+    public void deleteWeight(@AuthenticationPrincipal User user,
+                               @PathVariable @Positive Long childId,
+                               @PathVariable @Positive Long weightId) {
+        childService.deleteWeight(user.getId(), childId, weightId);
+    }
+
+    @GetMapping("/{childId}/weight/{year}")
+    @Operation(summary = "Get all weights for a year by child",
+            description = "Get all weights for a year by child")
+    public List<WeightDto> getWeightsByYear(@AuthenticationPrincipal User user,
+                                            @PathVariable @Positive Long childId,
+                                            @PathVariable @Positive int year) {
+        return childService.getAllWeightByYearAndChildId(user.getId(), childId, year);
     }
 }

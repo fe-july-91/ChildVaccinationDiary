@@ -13,6 +13,7 @@ import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
 import team.project.dto.weight.CreateWeightRequestDto;
+import team.project.dto.weight.UpdateWeightRequestDto;
 import team.project.dto.weight.WeightDto;
 import team.project.mapper.ChildMapper;
 import team.project.model.Child;
@@ -130,5 +131,27 @@ public class ChildServiceImpl implements ChildService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Child with id = %s not found for this parent", childId)));
         return weightService.save(child, requestDto);
+    }
+
+    @Override
+    public WeightDto updateWeight(Long userId, Long childId, Long weightId,
+                                  UpdateWeightRequestDto requestDto) {
+        return (childRepo.existsByIdAndUserId(childId, userId))
+                ? weightService.update(childId, weightId, requestDto) : new WeightDto();
+
+    }
+
+    @Override
+    public void deleteWeight(Long userId, Long childId, Long weightId) {
+        if (childRepo.existsByIdAndUserId(childId, userId)) {
+            weightService.delete(childId, weightId);
+        }
+    }
+
+    @Override
+    public List<WeightDto> getAllWeightByYearAndChildId(Long userId, Long childId, int year) {
+        return (childRepo.existsByIdAndUserId(childId, userId))
+                ? weightService.getAllByYearAndChildId(childId, year)
+                : List.of();
     }
 }
