@@ -48,36 +48,44 @@ public class ChildController {
         return childService.save(user, requestDto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{childId}")
     @Operation(summary = "Get a child card by id",
             description = "Get a child card by id for parent")
     public ChildDto getChildById(@AuthenticationPrincipal User user,
-                                 @PathVariable @Positive Long id) {
-        return childService.getChildByIdAndUserId(user.getId(), id);
+                                 @PathVariable @Positive Long childId) {
+        return childService.getChildByIdAndUserId(user.getId(), childId);
     }
 
     @GetMapping
-    @Operation(summary = "Get parent's children",
+    @Operation(summary = "Get all parent's children",
             description = "Get all children for parent")
     public List<ChildDto> getChilds(@AuthenticationPrincipal User user) {
         return childService.getChildsByUser(user.getId());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{childId}")
     @Operation(summary = "Update all information of child by id",
             description = "Update child information by parent")
     public ChildDto updateChild(@AuthenticationPrincipal User user,
-                                @PathVariable @Positive Long id,
+                                @PathVariable @Positive Long childId,
                                 @RequestBody @Valid UpdateChildRequestDto newRequestDto) {
-        return childService.updateChildByIdAndUserId(user.getId(), id, newRequestDto);
+        return childService.updateChildByIdAndUserId(user.getId(), childId, newRequestDto);
+    }
+
+    @DeleteMapping("/{childId}")
+    @Operation(summary = "Delete child's card by id",
+            description = "Delete child's card by id (parent)")
+    public void deleteChild(@AuthenticationPrincipal User user,
+                            @PathVariable @Positive Long childId) {
+        childService.deleteChildByIdAndUserId(user.getId(), childId);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/admin/{id}")
+    @GetMapping("/admin/{childId}")
     @Operation(summary = "Get any child card by id",
             description = "Get any child card by id for admin")
-    public ChildDto getAnyChildById(@PathVariable @Positive Long id) {
-        return childService.getChildById(id);
+    public ChildDto getAnyChildById(@PathVariable @Positive Long childId) {
+        return childService.getChildById(childId);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

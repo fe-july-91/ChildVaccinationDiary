@@ -65,21 +65,25 @@ public class ChildServiceImpl implements ChildService {
     @Override
     @Transactional
     public ChildDto getChildByIdAndUserId(Long userId, Long childId) {
-        return childRepo.findByIdAndUserId(childId, userId)
-                .map(childMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Child with id = %s not found for this parent", childId)));
+        return childMapper.toDto(getChildOfUser(childId, userId));
+        // return childRepo.findByIdAndUserId(childId, userId)
+        //        .map(childMapper::toDto)
+        //            .orElseThrow(() -> new EntityNotFoundException(
+        //                String.format("Child with id = %s not found for this parent", childId)));
     }
 
     @Override
     @Transactional
     public ChildDto updateChildByIdAndUserId(Long userId, Long childId,
                                              UpdateChildRequestDto newRequestDto) {
-        Child child = childRepo.findByIdAndUserId(childId, userId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Child with id = %s not found for this parent", childId)));
-        child = childMapper.updateFromDto(child, newRequestDto);
-        return childMapper.toDto(childRepo.save(child));
+        return childMapper.toDto(childRepo.save(
+                childMapper.updateFromDto(getChildOfUser(childId, userId), newRequestDto)));
+    }
+
+    @Override
+    @Transactional
+    public void deleteChildByIdAndUserId(Long userId, Long childId) {
+        childRepo.delete(getChildOfUser(childId, userId));
     }
 
     @Override
@@ -91,10 +95,7 @@ public class ChildServiceImpl implements ChildService {
 
     @Override
     public HeightDto saveHeight(Long userId, Long childId, CreateHeightRequestDto requestDto) {
-        Child child = childRepo.findByIdAndUserId(childId, userId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Child with id = %s not found for this parent", childId)));
-        return heightService.save(child, requestDto);
+        return heightService.save(getChildOfUser(childId, userId), requestDto);
     }
 
     @Override
@@ -127,10 +128,7 @@ public class ChildServiceImpl implements ChildService {
 
     @Override
     public WeightDto saveWeight(Long userId, Long childId, CreateWeightRequestDto requestDto) {
-        Child child = childRepo.findByIdAndUserId(childId, userId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Child with id = %s not found for this parent", childId)));
-        return weightService.save(child, requestDto);
+        return weightService.save(getChildOfUser(childId, userId), requestDto);
     }
 
     @Override
@@ -138,7 +136,6 @@ public class ChildServiceImpl implements ChildService {
                                   UpdateWeightRequestDto requestDto) {
         return (childRepo.existsByIdAndUserId(childId, userId))
                 ? weightService.update(childId, weightId, requestDto) : new WeightDto();
-
     }
 
     @Override
@@ -153,5 +150,11 @@ public class ChildServiceImpl implements ChildService {
         return (childRepo.existsByIdAndUserId(childId, userId))
                 ? weightService.getAllByYearAndChildId(childId, year)
                 : List.of();
+    }
+
+    private Child getChildOfUser(Long childId, Long userId) {
+        return childRepo.findByIdAndUserId(childId, userId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Child with id = %s not found for this parent", childId)));
     }
 }
