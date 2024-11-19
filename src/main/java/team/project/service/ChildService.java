@@ -48,4 +48,6 @@ public interface ChildService {
     void deleteWeight(Long userId, Long childId, Long weightId);
 
     List<WeightDto> getAllWeightByYearAndChildId(Long userId, Long childId, int year);
+
+    void deleteChildByIdAndUserId(Long userId, Long childId);
 }
