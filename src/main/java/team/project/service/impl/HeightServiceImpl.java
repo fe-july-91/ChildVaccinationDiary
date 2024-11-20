@@ -66,4 +66,14 @@ public class HeightServiceImpl implements HeightService {
                 .map(heightMapper::toDto)
                 .toList();
     }
+
+    @Override
+    public Height createDefault(Child child) {
+        Height height = new Height();
+        height.setChild(child);
+        height.setYear(2024);
+        height.setMonth("Серпень");
+        height.setValue((short) 40);
+        return heightRepo.save(height);
+    }
 }

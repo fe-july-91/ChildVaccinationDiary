@@ -5,6 +5,7 @@ import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
 import team.project.model.Child;
+import team.project.model.Height;
 
 public interface HeightService {
     List<HeightDto> getAllByChildId(Long childId);
@@ -16,4 +17,6 @@ public interface HeightService {
     String delete(Long childId, Long heightId);
 
     List<HeightDto> getAllByYearAndChildId(Long childId, int year);
+
+    Height createDefault(Child child);
 }

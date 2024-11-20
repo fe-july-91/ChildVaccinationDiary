@@ -40,7 +40,9 @@ public class ChildServiceImpl implements ChildService {
     public ChildDto save(User user, CreateChildRequestDto requestDto) {
         Child child = childMapper.toModel(requestDto);
         child.setUser(user);
-        return childMapper.toDto(childRepo.save(child));
+        Child savedChild = childRepo.save(child);
+        createDefaultData(savedChild);
+        return childMapper.toDto(savedChild);
     }
 
     @Override
@@ -189,5 +191,11 @@ public class ChildServiceImpl implements ChildService {
         return childRepo.findByIdAndUserId(childId, userId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Child with id = %s not found for this parent", childId)));
+    }
+
+    private void createDefaultData(Child child) {
+        heightService.createDefault(child);
+        weightService.createDefault(child);
+        footService.createDefault(child);
     }
 }
