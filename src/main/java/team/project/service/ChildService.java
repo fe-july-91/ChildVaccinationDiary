@@ -5,6 +5,9 @@ import org.springframework.data.domain.Pageable;
 import team.project.dto.child.ChildDto;
 import team.project.dto.child.CreateChildRequestDto;
 import team.project.dto.child.UpdateChildRequestDto;
+import team.project.dto.foot.CreateFootRequestDto;
+import team.project.dto.foot.FootDto;
+import team.project.dto.foot.UpdateFootRequestDto;
 import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
@@ -50,4 +53,14 @@ public interface ChildService {
     List<WeightDto> getAllWeightByYearAndChildId(Long userId, Long childId, int year);
 
     void deleteChildByIdAndUserId(Long userId, Long childId);
+
+    List<FootDto> getAllFootByChildId(Long userId, Long childId);
+
+    FootDto saveFoot(Long userId, Long childId, CreateFootRequestDto requestDto);
+
+    FootDto updateFoot(Long userId, Long childId, Long footId, UpdateFootRequestDto requestDto);
+
+    void deleteFoot(Long userId, Long childId, Long footId);
+
+    List<FootDto> getAllFootByYearAndChildId(Long userId, Long childId, int year);
 }
