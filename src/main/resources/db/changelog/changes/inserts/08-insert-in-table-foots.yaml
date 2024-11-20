@@ -11,7 +11,7 @@ databaseChangeLog:
                   valueNumeric: 2023
               - column:
                   name: month
-                  valueNumeric: 1
+                  value: "Січень"
               - column:
                   name: value
                   valueNumeric: 15
@@ -30,7 +30,7 @@ databaseChangeLog:
                   valueNumeric: 2023
               - column:
                   name: month
-                  valueNumeric: 7
+                  value: "Липень"
               - column:
                   name: value
                   valueNumeric: 16
@@ -49,7 +49,7 @@ databaseChangeLog:
                   valueNumeric: 2023
               - column:
                   name: month
-                  valueNumeric: 12
+                  value: "Грудень"
               - column:
                   name: value
                   valueNumeric: 16
@@ -68,7 +68,7 @@ databaseChangeLog:
                   valueNumeric: 2024
               - column:
                   name: month
-                  valueNumeric: 3
+                  value: "Березень"
               - column:
                   name: value
                   valueNumeric: 16
@@ -87,7 +87,7 @@ databaseChangeLog:
                   valueNumeric: 2024
               - column:
                   name: month
-                  valueNumeric: 4
+                  value: "Квітень"
               - column:
                   name: value
                   valueNumeric: 17
@@ -106,7 +106,7 @@ databaseChangeLog:
                   valueNumeric: 2024
               - column:
                   name: month
-                  valueNumeric: 7
+                  value: "Липень"
               - column:
                   name: value
                   valueNumeric: 18

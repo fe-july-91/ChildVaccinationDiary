@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import team.project.dto.child.ChildDto;
 import team.project.dto.child.CreateChildRequestDto;
 import team.project.dto.child.UpdateChildRequestDto;
+import team.project.dto.foot.CreateFootRequestDto;
+import team.project.dto.foot.FootDto;
+import team.project.dto.foot.UpdateFootRequestDto;
 import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
@@ -20,6 +23,7 @@ import team.project.model.Child;
 import team.project.model.User;
 import team.project.repository.child.ChildRepository;
 import team.project.service.ChildService;
+import team.project.service.FootService;
 import team.project.service.HeightService;
 import team.project.service.WeightService;
 
@@ -30,6 +34,7 @@ public class ChildServiceImpl implements ChildService {
     private final ChildMapper childMapper;
     private final HeightService heightService;
     private final WeightService weightService;
+    private final FootService footService;
 
     @Override
     public ChildDto save(User user, CreateChildRequestDto requestDto) {
@@ -66,10 +71,6 @@ public class ChildServiceImpl implements ChildService {
     @Transactional
     public ChildDto getChildByIdAndUserId(Long userId, Long childId) {
         return childMapper.toDto(getChildOfUser(childId, userId));
-        // return childRepo.findByIdAndUserId(childId, userId)
-        //        .map(childMapper::toDto)
-        //            .orElseThrow(() -> new EntityNotFoundException(
-        //                String.format("Child with id = %s not found for this parent", childId)));
     }
 
     @Override
@@ -149,6 +150,38 @@ public class ChildServiceImpl implements ChildService {
     public List<WeightDto> getAllWeightByYearAndChildId(Long userId, Long childId, int year) {
         return (childRepo.existsByIdAndUserId(childId, userId))
                 ? weightService.getAllByYearAndChildId(childId, year)
+                : List.of();
+    }
+
+    @Override
+    public List<FootDto> getAllFootByChildId(Long userId, Long childId) {
+        return (childRepo.existsByIdAndUserId(childId, userId))
+                ? footService.getAllByChildId(childId) : List.of();
+    }
+
+    @Override
+    public FootDto saveFoot(Long userId, Long childId, CreateFootRequestDto requestDto) {
+        return footService.save(getChildOfUser(childId, userId), requestDto);
+    }
+
+    @Override
+    public FootDto updateFoot(Long userId, Long childId, Long footId,
+                              UpdateFootRequestDto requestDto) {
+        return (childRepo.existsByIdAndUserId(childId, userId))
+                ? footService.update(childId, footId, requestDto) : new FootDto();
+    }
+
+    @Override
+    public void deleteFoot(Long userId, Long childId, Long footId) {
+        if (childRepo.existsByIdAndUserId(childId, userId)) {
+            footService.delete(childId, footId);
+        }
+    }
+
+    @Override
+    public List<FootDto> getAllFootByYearAndChildId(Long userId, Long childId, int year) {
+        return (childRepo.existsByIdAndUserId(childId, userId))
+                ? footService.getAllByYearAndChildId(childId, year)
                 : List.of();
     }
 

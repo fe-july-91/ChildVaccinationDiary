@@ -23,6 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import team.project.dto.child.ChildDto;
 import team.project.dto.child.CreateChildRequestDto;
 import team.project.dto.child.UpdateChildRequestDto;
+import team.project.dto.foot.CreateFootRequestDto;
+import team.project.dto.foot.FootDto;
+import team.project.dto.foot.UpdateFootRequestDto;
 import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
@@ -184,5 +187,50 @@ public class ChildController {
                                             @PathVariable @Positive Long childId,
                                             @PathVariable @Positive int year) {
         return childService.getAllWeightByYearAndChildId(user.getId(), childId, year);
+    }
+
+    @GetMapping("/{childId}/foot")
+    @Operation(summary = "Get all info about kid's foot measurements",
+            description = "Get all info about kid's foot measurements for parent")
+    public List<FootDto> getAllFoot(@AuthenticationPrincipal User user,
+                                      @PathVariable @Positive Long childId) {
+        return childService.getAllFootByChildId(user.getId(), childId);
+    }
+
+    @PostMapping("/{childId}/foot")
+    @Operation(summary = "Add info about kid's foot measurement",
+            description = "Add info about kid's foot measurement by parent")
+    public FootDto createFoot(@AuthenticationPrincipal User user,
+                                  @PathVariable @Positive Long childId,
+                                  @RequestBody @Valid CreateFootRequestDto requestDto) {
+        return childService.saveFoot(user.getId(), childId, requestDto);
+    }
+
+    @PutMapping("/{childId}/foot/{footId}")
+    @Operation(summary = "Update foot measurement by id",
+            description = "Update kid's foot measurement by id")
+    public FootDto updateFoot(@AuthenticationPrincipal User user,
+                                  @PathVariable @Positive Long childId,
+                                  @PathVariable @Positive Long footId,
+                                  @RequestBody @Valid UpdateFootRequestDto requestDto) {
+        return childService.updateFoot(user.getId(), childId, footId, requestDto);
+    }
+
+    @DeleteMapping("/{childId}/foot/{footId}")
+    @Operation(summary = "Delete foot measurement by id",
+            description = "Delete kid's foot measurement by id")
+    public void deleteFoot(@AuthenticationPrincipal User user,
+                             @PathVariable @Positive Long childId,
+                             @PathVariable @Positive Long footId) {
+        childService.deleteFoot(user.getId(), childId, footId);
+    }
+
+    @GetMapping("/{childId}/foot/{year}")
+    @Operation(summary = "Get all foot measurements for a year by child",
+            description = "Get all foot measurements for a year by child")
+    public List<FootDto> getFootsByYear(@AuthenticationPrincipal User user,
+                                            @PathVariable @Positive Long childId,
+                                            @PathVariable @Positive int year) {
+        return childService.getAllFootByYearAndChildId(user.getId(), childId, year);
     }
 }

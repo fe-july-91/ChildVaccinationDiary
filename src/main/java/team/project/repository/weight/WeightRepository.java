@@ -8,10 +8,7 @@ import team.project.model.Weight;
 public interface WeightRepository extends JpaRepository<Weight, Long> {
     Optional<Weight> findByIdAndChildId(Long weightId, Long childId);
 
-    boolean existsByIdAndChildId(Long weightId, Long childId);
-
     List<Weight> findAllByYearAndChildId(int year, Long childId);
 
     List<Weight> findAllByChildId(Long childId);
-
 }
