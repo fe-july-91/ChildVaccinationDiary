@@ -5,6 +5,7 @@ import team.project.dto.foot.CreateFootRequestDto;
 import team.project.dto.foot.FootDto;
 import team.project.dto.foot.UpdateFootRequestDto;
 import team.project.model.Child;
+import team.project.model.Foot;
 
 public interface FootService {
     List<FootDto> getAllByChildId(Long childId);
@@ -16,4 +17,6 @@ public interface FootService {
     void delete(Long childId, Long footId);
 
     List<FootDto> getAllByYearAndChildId(Long childId, int year);
+
+    Foot createDefault(Child child, int currentYear, String currentMonth);
 }

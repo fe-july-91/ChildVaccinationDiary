@@ -63,4 +63,14 @@ public class WeightServiceImpl implements WeightService {
                 .map(weightMapper::toDto)
                 .toList();
     }
+
+    @Override
+    public Weight createDefault(Child child, int currentYear, String currentMonth) {
+        Weight weight = new Weight();
+        weight.setChild(child);
+        weight.setYear(currentYear);
+        weight.setMonth(currentMonth);
+        weight.setValue((short) 3);
+        return weightRepo.save(weight);
+    }
 }

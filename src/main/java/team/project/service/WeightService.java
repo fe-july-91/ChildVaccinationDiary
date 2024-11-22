@@ -5,6 +5,7 @@ import team.project.dto.weight.CreateWeightRequestDto;
 import team.project.dto.weight.UpdateWeightRequestDto;
 import team.project.dto.weight.WeightDto;
 import team.project.model.Child;
+import team.project.model.Weight;
 
 public interface WeightService {
     List<WeightDto> getAllByChildId(Long childId);
@@ -16,4 +17,6 @@ public interface WeightService {
     void delete(Long childId, Long weightId);
 
     List<WeightDto> getAllByYearAndChildId(Long childId, int year);
+
+    Weight createDefault(Child child, int currentYear, String currentMonth);
 }

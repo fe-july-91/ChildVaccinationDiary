@@ -2,7 +2,12 @@ package team.project.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+
+import java.time.YearMonth;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -40,7 +45,9 @@ public class ChildServiceImpl implements ChildService {
     public ChildDto save(User user, CreateChildRequestDto requestDto) {
         Child child = childMapper.toModel(requestDto);
         child.setUser(user);
-        return childMapper.toDto(childRepo.save(child));
+        Child savedChild = childRepo.save(child);
+        createDefaultData(savedChild);
+        return childMapper.toDto(savedChild);
     }
 
     @Override
@@ -189,5 +196,15 @@ public class ChildServiceImpl implements ChildService {
         return childRepo.findByIdAndUserId(childId, userId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Child with id = %s not found for this parent", childId)));
+    }
+
+    private void createDefaultData(Child child) {
+        YearMonth currentDate = YearMonth.now();
+        String monthLowCases = currentDate.getMonth()
+                .getDisplayName(TextStyle.FULL_STANDALONE, new Locale("uk"));
+        String formattedMonth = monthLowCases.substring(0, 1).toUpperCase() + monthLowCases.substring(1);
+        heightService.createDefault(child, currentDate.getYear(), formattedMonth);
+        weightService.createDefault(child, currentDate.getYear(), formattedMonth);
+        footService.createDefault(child, currentDate.getYear(), formattedMonth);
     }
 }

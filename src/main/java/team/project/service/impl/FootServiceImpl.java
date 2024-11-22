@@ -56,6 +56,16 @@ public class FootServiceImpl implements FootService {
                 .toList();
     }
 
+    @Override
+    public Foot createDefault(Child child, int currentYear, String currentMonth) {
+        Foot foot = new Foot();
+        foot.setChild(child);
+        foot.setYear(currentYear);
+        foot.setMonth(currentMonth);
+        foot.setValue((short) 4);
+        return footRepo.save(foot);
+    }
+
     private Foot getFootOfChild(Long footId, Long childId) {
         return footRepo.findByIdAndChildId(footId, childId)
                 .orElseThrow(() -> new EntityNotFoundException(
