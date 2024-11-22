@@ -65,11 +65,11 @@ public class WeightServiceImpl implements WeightService {
     }
 
     @Override
-    public Weight createDefault(Child child) {
+    public Weight createDefault(Child child, int currentYear, String currentMonth) {
         Weight weight = new Weight();
         weight.setChild(child);
-        weight.setYear(2024);
-        weight.setMonth("Серпень");
+        weight.setYear(currentYear);
+        weight.setMonth(currentMonth);
         weight.setValue((short) 3);
         return weightRepo.save(weight);
     }

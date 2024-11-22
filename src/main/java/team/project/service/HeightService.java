@@ -18,5 +18,5 @@ public interface HeightService {
 
     List<HeightDto> getAllByYearAndChildId(Long childId, int year);
 
-    Height createDefault(Child child);
+    Height createDefault(Child child, int currentYear, String currentMonth);
 }

@@ -18,5 +18,5 @@ public interface WeightService {
 
     List<WeightDto> getAllByYearAndChildId(Long childId, int year);
 
-    Weight createDefault(Child child);
+    Weight createDefault(Child child, int currentYear, String currentMonth);
 }

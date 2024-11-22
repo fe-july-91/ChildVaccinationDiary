@@ -18,5 +18,5 @@ public interface FootService {
 
     List<FootDto> getAllByYearAndChildId(Long childId, int year);
 
-    Foot createDefault(Child child);
+    Foot createDefault(Child child, int currentYear, String currentMonth);
 }

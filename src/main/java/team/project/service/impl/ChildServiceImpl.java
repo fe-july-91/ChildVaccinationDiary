@@ -2,7 +2,12 @@ package team.project.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+
+import java.time.YearMonth;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -194,8 +199,12 @@ public class ChildServiceImpl implements ChildService {
     }
 
     private void createDefaultData(Child child) {
-        heightService.createDefault(child);
-        weightService.createDefault(child);
-        footService.createDefault(child);
+        YearMonth currentDate = YearMonth.now();
+        String monthLowCases = currentDate.getMonth()
+                .getDisplayName(TextStyle.FULL_STANDALONE, new Locale("uk"));
+        String formattedMonth = monthLowCases.substring(0, 1).toUpperCase() + monthLowCases.substring(1);
+        heightService.createDefault(child, currentDate.getYear(), formattedMonth);
+        weightService.createDefault(child, currentDate.getYear(), formattedMonth);
+        footService.createDefault(child, currentDate.getYear(), formattedMonth);
     }
 }

@@ -57,11 +57,11 @@ public class FootServiceImpl implements FootService {
     }
 
     @Override
-    public Foot createDefault(Child child) {
+    public Foot createDefault(Child child, int currentYear, String currentMonth) {
         Foot foot = new Foot();
         foot.setChild(child);
-        foot.setYear(2024);
-        foot.setMonth("Серпень");
+        foot.setYear(currentYear);
+        foot.setMonth(currentMonth);
         foot.setValue((short) 4);
         return footRepo.save(foot);
     }

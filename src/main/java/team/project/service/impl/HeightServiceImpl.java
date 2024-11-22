@@ -68,11 +68,11 @@ public class HeightServiceImpl implements HeightService {
     }
 
     @Override
-    public Height createDefault(Child child) {
+    public Height createDefault(Child child, int currentYear, String currentMonth) {
         Height height = new Height();
         height.setChild(child);
-        height.setYear(2024);
-        height.setMonth("Серпень");
+        height.setYear(currentYear);
+        height.setMonth(currentMonth);
         height.setValue((short) 40);
         return heightRepo.save(height);
     }
