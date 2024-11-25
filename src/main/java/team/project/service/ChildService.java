@@ -5,6 +5,8 @@ import org.springframework.data.domain.Pageable;
 import team.project.dto.child.ChildDto;
 import team.project.dto.child.CreateChildRequestDto;
 import team.project.dto.child.UpdateChildRequestDto;
+import team.project.dto.eye.EyeDto;
+import team.project.dto.eye.UpdateEyeRequestDto;
 import team.project.dto.foot.CreateFootRequestDto;
 import team.project.dto.foot.FootDto;
 import team.project.dto.foot.UpdateFootRequestDto;
@@ -63,4 +65,8 @@ public interface ChildService {
     void deleteFoot(Long userId, Long childId, Long footId);
 
     List<FootDto> getAllFootByYearAndChildId(Long userId, Long childId, int year);
+
+    EyeDto updateEye(Long userId, Long childId, UpdateEyeRequestDto requestDto);
+
+    EyeDto getEye(Long userId, Long childId);
 }

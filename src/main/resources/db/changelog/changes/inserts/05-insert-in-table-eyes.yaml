@@ -10,8 +10,24 @@ databaseChangeLog:
                   name: child_id
                   valueNumeric: 1
               - column:
-                  name: left
+                  name: left_eye
                   valueNumeric: -1.5
               - column:
-                  name: right
+                  name: right_eye
+                  valueNumeric: 1
+  - changeSet:
+      id: insert-values-of-eyes-for-second-child
+      author: yana_stepanova
+      changes:
+        - insert:
+            tableName: eyes
+            columns:
+              - column:
+                  name: child_id
+                  valueNumeric: 2
+              - column:
+                  name: left_eye
+                  valueNumeric: 1
+              - column:
+                  name: right_eye
                   valueNumeric: 1
