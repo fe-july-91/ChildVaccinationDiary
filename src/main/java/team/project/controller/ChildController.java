@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import team.project.dto.child.ChildDto;
 import team.project.dto.child.CreateChildRequestDto;
 import team.project.dto.child.UpdateChildRequestDto;
+import team.project.dto.eye.EyeDto;
+import team.project.dto.eye.UpdateEyeRequestDto;
 import team.project.dto.foot.CreateFootRequestDto;
 import team.project.dto.foot.FootDto;
 import team.project.dto.foot.UpdateFootRequestDto;
@@ -220,8 +222,8 @@ public class ChildController {
     @Operation(summary = "Delete foot measurement by id",
             description = "Delete kid's foot measurement by id")
     public void deleteFoot(@AuthenticationPrincipal User user,
-                             @PathVariable @Positive Long childId,
-                             @PathVariable @Positive Long footId) {
+                           @PathVariable @Positive Long childId,
+                           @PathVariable @Positive Long footId) {
         childService.deleteFoot(user.getId(), childId, footId);
     }
 
@@ -229,8 +231,25 @@ public class ChildController {
     @Operation(summary = "Get all foot measurements for a year by child",
             description = "Get all foot measurements for a year by child")
     public List<FootDto> getFootsByYear(@AuthenticationPrincipal User user,
-                                            @PathVariable @Positive Long childId,
-                                            @PathVariable @Positive int year) {
+                                        @PathVariable @Positive Long childId,
+                                        @PathVariable @Positive int year) {
         return childService.getAllFootByYearAndChildId(user.getId(), childId, year);
+    }
+
+    @PutMapping("/{childId}/eye")
+    @Operation(summary = "Update info about kid's eyes measurement",
+            description = "Update info about kid's eyes measurement by parent")
+    public EyeDto updateEye(@AuthenticationPrincipal User user,
+                            @PathVariable @Positive Long childId,
+                            @RequestBody @Valid UpdateEyeRequestDto requestDto) {
+        return childService.updateEye(user.getId(), childId, requestDto);
+    }
+
+    @GetMapping("/{childId}/eye")
+    @Operation(summary = "Get info about kid's eyes measurement",
+            description = "Get info about kid's eyes measurement by parent")
+    public EyeDto getEye(@AuthenticationPrincipal User user,
+                            @PathVariable @Positive Long childId) {
+        return childService.getEye(user.getId(), childId);
     }
 }

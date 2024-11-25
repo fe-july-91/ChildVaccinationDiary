@@ -1,5 +1,6 @@
 package team.project.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,10 +23,11 @@ public class Eye {
     @Id
     private Long id;
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false,
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Child child;
-    private float left;
-    private float right;
+    private float leftEye;
+    private float rightEye;
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted;
 }

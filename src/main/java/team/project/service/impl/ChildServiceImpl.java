@@ -2,18 +2,18 @@ package team.project.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-
 import java.time.YearMonth;
 import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import team.project.dto.child.ChildDto;
 import team.project.dto.child.CreateChildRequestDto;
 import team.project.dto.child.UpdateChildRequestDto;
+import team.project.dto.eye.EyeDto;
+import team.project.dto.eye.UpdateEyeRequestDto;
 import team.project.dto.foot.CreateFootRequestDto;
 import team.project.dto.foot.FootDto;
 import team.project.dto.foot.UpdateFootRequestDto;
@@ -28,6 +28,7 @@ import team.project.model.Child;
 import team.project.model.User;
 import team.project.repository.child.ChildRepository;
 import team.project.service.ChildService;
+import team.project.service.EyeService;
 import team.project.service.FootService;
 import team.project.service.HeightService;
 import team.project.service.WeightService;
@@ -40,6 +41,7 @@ public class ChildServiceImpl implements ChildService {
     private final HeightService heightService;
     private final WeightService weightService;
     private final FootService footService;
+    private final EyeService eyeService;
 
     @Override
     public ChildDto save(User user, CreateChildRequestDto requestDto) {
@@ -192,6 +194,16 @@ public class ChildServiceImpl implements ChildService {
                 : List.of();
     }
 
+    @Override
+    public EyeDto updateEye(Long userId, Long childId, UpdateEyeRequestDto requestDto) {
+        return eyeService.updateById(getChildOfUser(childId, userId).getId(), requestDto);
+    }
+
+    @Override
+    public EyeDto getEye(Long userId, Long childId) {
+        return eyeService.getEyeById(getChildOfUser(childId, userId).getId());
+    }
+
     private Child getChildOfUser(Long childId, Long userId) {
         return childRepo.findByIdAndUserId(childId, userId)
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -202,9 +214,11 @@ public class ChildServiceImpl implements ChildService {
         YearMonth currentDate = YearMonth.now();
         String monthLowCases = currentDate.getMonth()
                 .getDisplayName(TextStyle.FULL_STANDALONE, new Locale("uk"));
-        String formattedMonth = monthLowCases.substring(0, 1).toUpperCase() + monthLowCases.substring(1);
+        String formattedMonth = monthLowCases.substring(0, 1).toUpperCase()
+                + monthLowCases.substring(1);
         heightService.createDefault(child, currentDate.getYear(), formattedMonth);
         weightService.createDefault(child, currentDate.getYear(), formattedMonth);
         footService.createDefault(child, currentDate.getYear(), formattedMonth);
+        eyeService.createDefault(child);
     }
 }
