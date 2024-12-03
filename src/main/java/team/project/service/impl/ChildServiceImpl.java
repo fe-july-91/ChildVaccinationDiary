@@ -20,6 +20,8 @@ import team.project.dto.foot.UpdateFootRequestDto;
 import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
+import team.project.dto.vaccine.CreateVaccineRequestDto;
+import team.project.dto.vaccine.VaccineDto;
 import team.project.dto.weight.CreateWeightRequestDto;
 import team.project.dto.weight.UpdateWeightRequestDto;
 import team.project.dto.weight.WeightDto;
@@ -31,6 +33,7 @@ import team.project.service.ChildService;
 import team.project.service.EyeService;
 import team.project.service.FootService;
 import team.project.service.HeightService;
+import team.project.service.VaccineService;
 import team.project.service.WeightService;
 
 @RequiredArgsConstructor
@@ -42,6 +45,7 @@ public class ChildServiceImpl implements ChildService {
     private final WeightService weightService;
     private final FootService footService;
     private final EyeService eyeService;
+    private final VaccineService vaccineService;
 
     @Override
     public ChildDto save(User user, CreateChildRequestDto requestDto) {
@@ -202,6 +206,11 @@ public class ChildServiceImpl implements ChildService {
     @Override
     public EyeDto getEye(Long userId, Long childId) {
         return eyeService.getEyeById(getChildOfUser(childId, userId).getId());
+    }
+
+    @Override
+    public VaccineDto saveVaccine(Long userId, Long childId, CreateVaccineRequestDto requestDto) {
+        return vaccineService.save(getChildOfUser(childId, userId), requestDto);
     }
 
     private Child getChildOfUser(Long childId, Long userId) {

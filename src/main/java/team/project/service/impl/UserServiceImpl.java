@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     private Set<Role> generateDefaultSetRoles() {
         Role roleFromDB = roleRepo.findByName(RoleName.getByType(DEFAULT_ROLE))
                 .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Can't find %s in table roles: ", DEFAULT_ROLE)));
+                        String.format("Can't find %s in table roles", DEFAULT_ROLE)));
         Set<Role> roles = new HashSet<>();
         roles.add(roleFromDB);
         return roles;

@@ -38,7 +38,7 @@ databaseChangeLog:
       file: /db/changelog/changes/inserts/07-insert-in-table-weights.yaml
   - include:
       file: /db/changelog/changes/inserts/08-insert-in-table-foots.yaml
-#  - include:
-#      file: /db/changelog/changes/inserts/09-insert-all-types.yaml
-#  - include:
-#      file: /db/changelog/changes/inserts/10-insert-in-table-vaccines.yaml
+  - include:
+      file: /db/changelog/changes/inserts/09-insert-all-types.yaml
+  - include:
+      file: /db/changelog/changes/inserts/10-insert-in-table-vaccines.yaml

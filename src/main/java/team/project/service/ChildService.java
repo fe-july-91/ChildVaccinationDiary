@@ -13,6 +13,8 @@ import team.project.dto.foot.UpdateFootRequestDto;
 import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
+import team.project.dto.vaccine.CreateVaccineRequestDto;
+import team.project.dto.vaccine.VaccineDto;
 import team.project.dto.weight.CreateWeightRequestDto;
 import team.project.dto.weight.UpdateWeightRequestDto;
 import team.project.dto.weight.WeightDto;
@@ -69,4 +71,6 @@ public interface ChildService {
     EyeDto updateEye(Long userId, Long childId, UpdateEyeRequestDto requestDto);
 
     EyeDto getEye(Long userId, Long childId);
+
+    VaccineDto saveVaccine(Long userId, Long childId, CreateVaccineRequestDto requestDto);
 }

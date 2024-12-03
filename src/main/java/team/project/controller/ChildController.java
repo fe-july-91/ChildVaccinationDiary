@@ -31,6 +31,8 @@ import team.project.dto.foot.UpdateFootRequestDto;
 import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
+import team.project.dto.vaccine.CreateVaccineRequestDto;
+import team.project.dto.vaccine.VaccineDto;
 import team.project.dto.weight.CreateWeightRequestDto;
 import team.project.dto.weight.UpdateWeightRequestDto;
 import team.project.dto.weight.WeightDto;
@@ -251,5 +253,14 @@ public class ChildController {
     public EyeDto getEye(@AuthenticationPrincipal User user,
                             @PathVariable @Positive Long childId) {
         return childService.getEye(user.getId(), childId);
+    }
+
+    @PostMapping("/{childId}/vaccination")
+    @Operation(summary = "Create a new note about kid's vaccine",
+            description = "Create a new note about kid's vaccine")
+    public VaccineDto createVaccine(@AuthenticationPrincipal User user,
+                                    @PathVariable @Positive Long childId,
+                                    @RequestBody @Valid CreateVaccineRequestDto requestDto) {
+        return childService.saveVaccine(user.getId(), childId, requestDto);
     }
 }
