@@ -1,11 +1,12 @@
 package team.project.dto.vaccine;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDate;
+import org.checkerframework.checker.index.qual.Positive;
 
 public record UpdateVaccineRequestDto(
-        @NotBlank String typeDescription,
-        @PastOrPresent LocalDate date) implements Serializable {
+        @NotBlank String type,
+        @NotNull @Positive Byte orderNumber,
+        @NotBlank String date) implements Serializable {
 }

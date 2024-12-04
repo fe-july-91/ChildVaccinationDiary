@@ -21,6 +21,7 @@ import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
 import team.project.dto.vaccine.CreateVaccineRequestDto;
+import team.project.dto.vaccine.UpdateVaccineRequestDto;
 import team.project.dto.vaccine.VaccineDto;
 import team.project.dto.weight.CreateWeightRequestDto;
 import team.project.dto.weight.UpdateWeightRequestDto;
@@ -169,7 +170,8 @@ public class ChildServiceImpl implements ChildService {
     @Override
     public List<FootDto> getAllFootByChildId(Long userId, Long childId) {
         return (childRepo.existsByIdAndUserId(childId, userId))
-                ? footService.getAllByChildId(childId) : List.of();
+                ? footService.getAllByChildId(childId)
+                : List.of();
     }
 
     @Override
@@ -211,6 +213,28 @@ public class ChildServiceImpl implements ChildService {
     @Override
     public VaccineDto saveVaccine(Long userId, Long childId, CreateVaccineRequestDto requestDto) {
         return vaccineService.save(getChildOfUser(childId, userId), requestDto);
+    }
+
+    @Override
+    public List<VaccineDto> getAllVaccine(Long userId, Long childId) {
+        return (childRepo.existsByIdAndUserId(childId, userId))
+                ? vaccineService.getAllByChildId(childId)
+                : List.of();
+    }
+
+    @Override
+    public VaccineDto updateVaccine(Long userId, Long childId, Long vaccineId,
+                                    UpdateVaccineRequestDto requestDto) {
+        return (childRepo.existsByIdAndUserId(childId, userId))
+                ? vaccineService.update(childId, vaccineId, requestDto)
+                : new VaccineDto();
+    }
+
+    @Override
+    public void deleteVaccine(Long userId, Long childId, Long vaccineId) {
+        if (childRepo.existsByIdAndUserId(childId, userId)) {
+            vaccineService.delete(childId, vaccineId);
+        }
     }
 
     private Child getChildOfUser(Long childId, Long userId) {

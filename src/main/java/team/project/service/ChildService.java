@@ -14,6 +14,7 @@ import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
 import team.project.dto.vaccine.CreateVaccineRequestDto;
+import team.project.dto.vaccine.UpdateVaccineRequestDto;
 import team.project.dto.vaccine.VaccineDto;
 import team.project.dto.weight.CreateWeightRequestDto;
 import team.project.dto.weight.UpdateWeightRequestDto;
@@ -73,4 +74,11 @@ public interface ChildService {
     EyeDto getEye(Long userId, Long childId);
 
     VaccineDto saveVaccine(Long userId, Long childId, CreateVaccineRequestDto requestDto);
+
+    List<VaccineDto> getAllVaccine(Long userId, Long childId);
+
+    VaccineDto updateVaccine(Long userId, Long childId, Long vaccineId,
+                             UpdateVaccineRequestDto requestDto);
+
+    void deleteVaccine(Long userId, Long childId, Long vaccineId);
 }
