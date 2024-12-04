@@ -31,6 +31,9 @@ import team.project.dto.foot.UpdateFootRequestDto;
 import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
 import team.project.dto.height.UpdateHeightRequestDto;
+import team.project.dto.vaccine.CreateVaccineRequestDto;
+import team.project.dto.vaccine.UpdateVaccineRequestDto;
+import team.project.dto.vaccine.VaccineDto;
 import team.project.dto.weight.CreateWeightRequestDto;
 import team.project.dto.weight.UpdateWeightRequestDto;
 import team.project.dto.weight.WeightDto;
@@ -251,5 +254,41 @@ public class ChildController {
     public EyeDto getEye(@AuthenticationPrincipal User user,
                             @PathVariable @Positive Long childId) {
         return childService.getEye(user.getId(), childId);
+    }
+
+    @PostMapping("/{childId}/vaccination")
+    @Operation(summary = "Create a new note about kid's vaccine",
+            description = "Create a new note about kid's vaccine")
+    public VaccineDto createVaccine(@AuthenticationPrincipal User user,
+                                    @PathVariable @Positive Long childId,
+                                    @RequestBody @Valid CreateVaccineRequestDto requestDto) {
+        return childService.saveVaccine(user.getId(), childId, requestDto);
+    }
+
+    @GetMapping("/{childId}/vaccination")
+    @Operation(summary = "Get all info about kid's vaccines",
+            description = "Get all info about kid's vaccines")
+    public List<VaccineDto> getAllVaccine(@AuthenticationPrincipal User user,
+                                    @PathVariable @Positive Long childId) {
+        return childService.getAllVaccine(user.getId(), childId);
+    }
+
+    @PutMapping("/{childId}/vaccination/{vaccineId}")
+    @Operation(summary = "Update kid's vaccine",
+            description = "Update info about kid's vaccine")
+    public VaccineDto updateVaccine(@AuthenticationPrincipal User user,
+                                    @PathVariable @Positive Long childId,
+                                    @PathVariable @Positive Long vaccineId,
+                                    @RequestBody @Valid UpdateVaccineRequestDto requestDto) {
+        return childService.updateVaccine(user.getId(), childId, vaccineId, requestDto);
+    }
+
+    @DeleteMapping("/{childId}/vaccination/{vaccineId}")
+    @Operation(summary = "Delete kid's vaccine",
+            description = "Delete info about kid's vaccine")
+    public void deleteVaccine(@AuthenticationPrincipal User user,
+                                    @PathVariable @Positive Long childId,
+                                    @PathVariable @Positive Long vaccineId) {
+        childService.deleteVaccine(user.getId(), childId, vaccineId);
     }
 }
