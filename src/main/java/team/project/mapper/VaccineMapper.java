@@ -46,7 +46,7 @@ public interface VaccineMapper {
     default void setDate(@MappingTarget VaccineDto vaccineDto,
                          Vaccine vaccine) {
         if (vaccine.getDate() != null) {
-            vaccineDto.setDate(vaccine.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+            vaccineDto.setDate(vaccine.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
         }
     }
 
