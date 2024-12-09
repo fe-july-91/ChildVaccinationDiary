@@ -37,6 +37,7 @@ import team.project.dto.vaccine.VaccineDto;
 import team.project.dto.weight.CreateWeightRequestDto;
 import team.project.dto.weight.UpdateWeightRequestDto;
 import team.project.dto.weight.WeightDto;
+import team.project.exception.DuplicateCheckingException;
 import team.project.model.User;
 import team.project.service.ChildService;
 
@@ -261,7 +262,8 @@ public class ChildController {
             description = "Create a new note about kid's vaccine")
     public VaccineDto createVaccine(@AuthenticationPrincipal User user,
                                     @PathVariable @Positive Long childId,
-                                    @RequestBody @Valid CreateVaccineRequestDto requestDto) {
+                                    @RequestBody @Valid CreateVaccineRequestDto requestDto)
+            throws DuplicateCheckingException {
         return childService.saveVaccine(user.getId(), childId, requestDto);
     }
 
