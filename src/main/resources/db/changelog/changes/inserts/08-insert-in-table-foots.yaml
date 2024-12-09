@@ -113,3 +113,23 @@ databaseChangeLog:
               - column:
                   name: child_id
                   valueNumeric: 1
+
+  - changeSet:
+      id: insert-foot1-of-second-child
+      author: yana_stepanova
+      changes:
+        - insert:
+            tableName: foots
+            columns:
+              - column:
+                  name: year
+                  valueNumeric: 2024
+              - column:
+                  name: month
+                  value: "Серпень"
+              - column:
+                  name: value
+                  valueNumeric: 16
+              - column:
+                  name: child_id
+                  valueNumeric: 2
