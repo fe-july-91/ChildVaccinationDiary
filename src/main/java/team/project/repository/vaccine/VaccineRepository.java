@@ -13,12 +13,9 @@ public interface VaccineRepository extends JpaRepository<Vaccine, Long> {
 
     Optional<Vaccine> findByIdAndChildIdAndIsDeletedFalse(Long vaccineId, Long childId);
 
-    Optional<Vaccine> findByChildIdAndTypeIdAndDate(
-            Long childId, Long typeId, LocalDate date);
-
     @Query("select v from Vaccine v where v.child.id = :childId "
             + "and v.type.id = :typeId and v.date = :date")
-    List<Vaccine> findByTypeIdAndDate(@Param("childId") Long childId,
+    List<Vaccine> findByChildIdAndTypeIdAndDate(@Param("childId") Long childId,
                                                     @Param("typeId") Long typeId,
                                                     @Param("date") LocalDate date);
 

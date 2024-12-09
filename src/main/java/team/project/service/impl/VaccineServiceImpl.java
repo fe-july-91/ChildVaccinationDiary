@@ -56,7 +56,7 @@ public class VaccineServiceImpl implements VaccineService {
                 requestDto);
         vaccine.setType(getType(requestDto.type()));
         List<Vaccine> duplicateOfVaccine = vaccineRepo
-                .findByTypeIdAndDate(childId,
+                .findByChildIdAndTypeIdAndDate(childId,
                 vaccine.getType().getId(),
                 vaccine.getDate());
         if (!duplicateOfVaccine.isEmpty()) {
