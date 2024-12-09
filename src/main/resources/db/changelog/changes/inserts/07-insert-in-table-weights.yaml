@@ -246,3 +246,23 @@ databaseChangeLog:
               - column:
                   name: child_id
                   valueNumeric: 1
+
+  - changeSet:
+      id: insert-weight1-of-second-child
+      author: yana_stepanova
+      changes:
+        - insert:
+            tableName: weights
+            columns:
+              - column:
+                  name: year
+                  valueNumeric: 2024
+              - column:
+                  name: month
+                  value: "Серпень"
+              - column:
+                  name: value
+                  valueNumeric: 17
+              - column:
+                  name: child_id
+                  valueNumeric: 2
