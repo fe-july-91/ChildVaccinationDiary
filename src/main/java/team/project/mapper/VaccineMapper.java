@@ -43,14 +43,6 @@ public interface VaccineMapper {
     }
 
     @AfterMapping
-    default void setDate(@MappingTarget VaccineDto vaccineDto,
-                         Vaccine vaccine) {
-        if (vaccine.getDate() != null) {
-            vaccineDto.setDate(vaccine.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-        }
-    }
-
-    @AfterMapping
     default void setDate(@MappingTarget Vaccine vaccine,
                          UpdateVaccineRequestDto requestDto) {
         if (requestDto.date() != null) {
@@ -58,6 +50,14 @@ public interface VaccineMapper {
             vaccine.setDate(LocalDate.of(Integer.parseInt(dates[YEAR]),
                     Integer.parseInt(dates[MONTH]),
                     Integer.parseInt(dates[DAY])));
+        }
+    }
+
+    @AfterMapping
+    default void setDate(@MappingTarget VaccineDto vaccineDto,
+                         Vaccine vaccine) {
+        if (vaccine.getDate() != null) {
+            vaccineDto.setDate(vaccine.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
         }
     }
 }
