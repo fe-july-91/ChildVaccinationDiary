@@ -87,7 +87,6 @@ MMR
 class Vaccine {
 - id: Long
 - type: Type
-- orderNumber: byte
 - date: LocalDate
 - child: Child
 - isDeleted: boolean
