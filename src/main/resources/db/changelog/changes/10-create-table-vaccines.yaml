@@ -22,11 +22,6 @@ databaseChangeLog:
                     referencedTableName: types
                     referencedColumnNames: id
               - column:
-                  name: order_number
-                  type: tinyint
-                  constraints:
-                    nullable: false
-              - column:
                   name: date
                   type: date
                   constraints:

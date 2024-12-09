@@ -31,17 +31,7 @@ public class VaccineServiceImpl implements VaccineService {
         Vaccine vaccine = vaccineMapper.toModel(requestDto);
         vaccine.setChild(child);
         vaccine.setType(typeFromDB);
-
-        boolean isVaccine = isVaccineExist(child.getId(), typeFromDB.getId(),
-                requestDto.orderNumber());
-        if (!isVaccine) {
-            vaccine.setOrderNumber(requestDto.orderNumber());
-            vaccine = vaccineRepo.save(vaccine);
-        } else {
-            vaccine = vaccineRepo.findByChildIdAndTypeIdAndOrderNumberAndIsDeletedFalse(
-                    child.getId(), typeFromDB.getId(), requestDto.orderNumber()).get();
-        }
-        return vaccineMapper.toDto(vaccine);
+        return vaccineMapper.toDto(vaccineRepo.save(vaccine));
     }
 
     @Override
@@ -79,10 +69,5 @@ public class VaccineServiceImpl implements VaccineService {
         return typeRepo.findByTypeName(TypeName.getByType(name))
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Can't find Type by '%s' in table types", name)));
-    }
-
-    private boolean isVaccineExist(Long childId, Long typeId, Byte orderNumber) {
-        return vaccineRepo.existsByChildIdAndTypeIdAndOrderNumberAndIsDeletedFalse(
-                childId, typeId, orderNumber);
     }
 }

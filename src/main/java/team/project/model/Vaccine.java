@@ -29,8 +29,6 @@ public class Vaccine {
     @JoinColumn(name = "type_id", nullable = false)
     private Type type;
     @Column(nullable = false)
-    private byte orderNumber;
-    @Column(nullable = false)
     private LocalDate date;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "child_id", nullable = false)

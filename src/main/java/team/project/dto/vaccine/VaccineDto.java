@@ -13,6 +13,5 @@ import lombok.Setter;
 public final class VaccineDto implements Serializable {
     private Long id;
     private String type;
-    private byte orderNumber;
     private String date;
 }
