@@ -26,6 +26,7 @@ import team.project.dto.vaccine.VaccineDto;
 import team.project.dto.weight.CreateWeightRequestDto;
 import team.project.dto.weight.UpdateWeightRequestDto;
 import team.project.dto.weight.WeightDto;
+import team.project.exception.DuplicateCheckingException;
 import team.project.mapper.ChildMapper;
 import team.project.model.Child;
 import team.project.model.User;
@@ -211,7 +212,8 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public VaccineDto saveVaccine(Long userId, Long childId, CreateVaccineRequestDto requestDto) {
+    public VaccineDto saveVaccine(Long userId, Long childId, CreateVaccineRequestDto requestDto)
+            throws DuplicateCheckingException {
         return vaccineService.save(getChildOfUser(childId, userId), requestDto);
     }
 

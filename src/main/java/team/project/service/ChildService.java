@@ -19,6 +19,7 @@ import team.project.dto.vaccine.VaccineDto;
 import team.project.dto.weight.CreateWeightRequestDto;
 import team.project.dto.weight.UpdateWeightRequestDto;
 import team.project.dto.weight.WeightDto;
+import team.project.exception.DuplicateCheckingException;
 import team.project.model.User;
 
 public interface ChildService {
@@ -73,7 +74,8 @@ public interface ChildService {
 
     EyeDto getEye(Long userId, Long childId);
 
-    VaccineDto saveVaccine(Long userId, Long childId, CreateVaccineRequestDto requestDto);
+    VaccineDto saveVaccine(Long userId, Long childId, CreateVaccineRequestDto requestDto)
+            throws DuplicateCheckingException;
 
     List<VaccineDto> getAllVaccine(Long userId, Long childId);
 
