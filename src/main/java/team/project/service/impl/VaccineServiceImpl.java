@@ -55,6 +55,7 @@ public class VaccineServiceImpl implements VaccineService {
         Vaccine vaccine = vaccineMapper.updateFromDto(getVaccineOfChild(vaccineId, childId),
                 requestDto);
         vaccine.setType(getType(requestDto.type()));
+
         List<Vaccine> duplicateOfVaccine = vaccineRepo
                 .findByChildIdAndTypeIdAndDate(childId,
                 vaccine.getType().getId(),
