@@ -29,6 +29,7 @@ public class FootServiceImpl implements FootService {
     }
 
     @Override
+    @Transactional
     public FootDto save(Child child, CreateFootRequestDto requestDto) {
         Foot foot = footMapper.toModel(requestDto);
         foot.setChild(child);
@@ -57,6 +58,7 @@ public class FootServiceImpl implements FootService {
     }
 
     @Override
+    @Transactional
     public Foot createDefault(Child child, int currentYear, String currentMonth) {
         Foot foot = new Foot();
         foot.setChild(child);
