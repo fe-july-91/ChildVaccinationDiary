@@ -29,6 +29,7 @@ public class HeightServiceImpl implements HeightService {
     }
 
     @Override
+    @Transactional
     public HeightDto save(Child child, CreateHeightRequestDto requestDto) {
         Height height = heightMapper.toModel(requestDto);
         height.setChild(child);
@@ -68,6 +69,7 @@ public class HeightServiceImpl implements HeightService {
     }
 
     @Override
+    @Transactional
     public Height createDefault(Child child, int currentYear, String currentMonth) {
         Height height = new Height();
         height.setChild(child);

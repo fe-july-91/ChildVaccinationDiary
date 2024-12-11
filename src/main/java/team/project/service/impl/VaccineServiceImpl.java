@@ -71,6 +71,7 @@ public class VaccineServiceImpl implements VaccineService {
     }
 
     @Override
+    @Transactional
     public void delete(Long childId, Long vaccineId) {
         vaccineRepo.delete(getVaccineOfChild(vaccineId, childId));
     }

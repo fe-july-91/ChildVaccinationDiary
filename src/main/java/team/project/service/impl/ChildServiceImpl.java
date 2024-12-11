@@ -50,6 +50,7 @@ public class ChildServiceImpl implements ChildService {
     private final VaccineService vaccineService;
 
     @Override
+    @Transactional
     public ChildDto save(User user, CreateChildRequestDto requestDto) {
         Child child = childMapper.toModel(requestDto);
         child.setUser(user);
@@ -103,7 +104,6 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    @Transactional
     public List<HeightDto> getAllHeightByChildId(Long userId, Long childId) {
         return (childRepo.existsByIdAndUserId(childId, userId))
                 ? heightService.getAllByChildId(childId) : List.of();
@@ -136,7 +136,6 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    @Transactional
     public List<WeightDto> getAllWeightByChildId(Long userId, Long childId) {
         return (childRepo.existsByIdAndUserId(childId, userId))
                 ? weightService.getAllByChildId(childId) : List.of();

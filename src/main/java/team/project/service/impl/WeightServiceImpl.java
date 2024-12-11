@@ -29,6 +29,7 @@ public class WeightServiceImpl implements WeightService {
     }
 
     @Override
+    @Transactional
     public WeightDto save(Child child, CreateWeightRequestDto requestDto) {
         Weight weight = weightMapper.toModel(requestDto);
         weight.setChild(child);
