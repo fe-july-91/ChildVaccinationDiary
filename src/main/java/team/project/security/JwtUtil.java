@@ -31,6 +31,15 @@ public class JwtUtil {
                 .compact();
     }
 
+    public String generatePasswordResetToken(String email) {
+        return Jwts.builder()
+                .subject(email)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + 15 * 60 * 1000)) // 15 хвилин
+                .signWith(secret)
+                .compact();
+    }
+
     public boolean isValidToken(String token) {
         try {
             Jws<Claims> claimsJws = Jwts.parser()

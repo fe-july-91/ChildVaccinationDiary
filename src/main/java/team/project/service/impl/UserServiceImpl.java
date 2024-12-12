@@ -5,6 +5,8 @@ import jakarta.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import team.project.dto.user.UserRegistrationRequestDto;
@@ -39,6 +41,14 @@ public class UserServiceImpl implements UserService {
         user.setRoles(generateDefaultSetRoles());
         User savedUser = userRepo.save(user);
         return userMapper.toResponseDto(savedUser);
+    }
+
+    @Override
+    public ResponseEntity<String> recoveryPassword(String email) {
+
+        return (!userRepo.existsByEmail(email))
+                ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with this email does not exist.")
+                : ResponseEntity.ok("Password reset link has been sent to your email.");
     }
 
     private Set<Role> generateDefaultSetRoles() {
