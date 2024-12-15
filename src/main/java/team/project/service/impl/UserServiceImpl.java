@@ -57,6 +57,11 @@ public class UserServiceImpl implements UserService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("User with this email does not exist.");
         }
+        /*
+        //stub for checking password replacement directly
+        String resetLink = createPasswordResetLink(requestDto.email());
+        return resetPassword(resetLink, "newPassword");
+        */
         try {
             String resetLink = createPasswordResetLink(requestDto.email());
             emailService.sendPasswordReset(requestDto.email(), resetLink);
@@ -91,7 +96,8 @@ public class UserServiceImpl implements UserService {
 
     private String createPasswordResetLink(String email) {
         String resetToken = jwtUtil.generateToken(email);
-        return String.format("http://localhost:8088/api/account/reset-password?token=%s", resetToken);
+        //return resetToken; //stub for checking password replacement directly
+        return String.format("http://localhost:8080/api/account/reset-password?token=%s", resetToken);
     }
 
     private Set<Role> generateDefaultSetRoles() {

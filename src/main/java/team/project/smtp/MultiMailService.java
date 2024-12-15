@@ -1,3 +1,4 @@
+/*
 package team.project.smtp;
 
 import jakarta.mail.MessagingException;
@@ -46,6 +47,7 @@ public class MultiMailService {
         MimeMessage message = mailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        //helper.setFrom("kidty@online.ua");
         helper.setTo(to);
         helper.setSubject(subject);
         helper.setText(text, true);
@@ -67,3 +69,4 @@ public class MultiMailService {
         };
     }
 }
+*/

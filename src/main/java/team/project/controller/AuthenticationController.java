@@ -47,7 +47,8 @@ public class AuthenticationController {
     @PostMapping("/forgot-password")
     @Operation(summary = "Recovery password",
             description = "Send an email with a password reset link to the provided email address")
-    public ResponseEntity<String> forgotPassword(@RequestBody UserRecoveryRequestDto requestDto) {
+    public ResponseEntity<String> forgotPassword(@RequestBody @Valid
+                                                             UserRecoveryRequestDto requestDto) {
         return userService.recoveryPassword(requestDto);
     }
 
