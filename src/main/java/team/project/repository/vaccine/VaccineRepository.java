@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import team.project.model.Vaccine;
 
 public interface VaccineRepository extends JpaRepository<Vaccine, Long> {
@@ -13,11 +11,7 @@ public interface VaccineRepository extends JpaRepository<Vaccine, Long> {
 
     Optional<Vaccine> findByIdAndChildIdAndIsDeletedFalse(Long vaccineId, Long childId);
 
-    @Query("select v from Vaccine v where v.child.id = :childId "
-            + "and v.type.id = :typeId and v.date = :date")
-    List<Vaccine> findByChildIdAndTypeIdAndDate(@Param("childId") Long childId,
-                                                    @Param("typeId") Long typeId,
-                                                    @Param("date") LocalDate date);
+    List<Vaccine> findByChildIdAndTypeIdAndDate(Long childId, Long typeId, LocalDate date);
 
     boolean existsByChildIdAndTypeIdAndDateAndIsDeletedFalse(
             Long childId, Long typeId, LocalDate date);
