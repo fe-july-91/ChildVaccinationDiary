@@ -34,7 +34,7 @@
 		<spring-boot-maven-plugin.version>3.2.10</spring-boot-maven-plugin.version>
 		<checkstyle.version>10.18.2</checkstyle.version>
 		<maven-checkstyle-plugin.version>3.5.0</maven-checkstyle-plugin.version>
-		<jjwt.versio>0.12.6</jjwt.versio>
+		<jjwt.version>0.12.6</jjwt.version>
 		<swagger.version>2.6.0</swagger.version>
 	</properties>
 	<dependencies>
@@ -97,18 +97,18 @@
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
-			<version>${jjwt.versio}</version>
+			<version>${jjwt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-impl</artifactId>
-			<version>${jjwt.versio}</version>
+			<version>${jjwt.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-jackson</artifactId>
-			<version>${jjwt.versio}</version>
+			<version>${jjwt.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -128,6 +128,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4-runtime</artifactId>
+			<version>4.7.2</version>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
