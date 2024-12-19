@@ -16,7 +16,6 @@ public class MailConfig {
 
     @Bean
     public JavaMailSender javaMailSender() {
-
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.online.ua");
         mailSender.setPort(25);
@@ -25,14 +24,14 @@ public class MailConfig {
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
-        // props.put("mail.smtp.socketFactory.port", "465");
+
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.ssl.enable", "false");
         props.put("mail.smtp.starttls.enable", "true");
-        // props.put("mail.smtp.ssl.protocols", "TLSv1.2");
         props.put("mail.debug", "true");
         props.put("mail.smtp.ssl.trust", "smtp.online.ua");
-
+        // props.put("mail.smtp.socketFactory.port", "465");
+        // props.put("mail.smtp.ssl.protocols", "TLSv1.2");
         return mailSender;
     }
 }

@@ -12,14 +12,13 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender mailSender;
 
     @Override
-    public void sendPasswordReset(String emailTo, String resetLink) {
-
+    public void sendPasswordReset(String emailTo, String resetPassword) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(emailTo);
         message.setSubject("Password Reset Request");
-        message.setText("You requested a password reset. Click the link below to reset "
-                + "your password:\n\n" + resetLink
-                + "\n\nIf you did not request this, please ignore this email.");
+        message.setText("You requested a password reset. "
+                + "Your new password: " + resetPassword
+                + "\n\nPlease change this password after login!");
         try {
             mailSender.send(message);
             System.out.println("Password reset email sent successfully to " + emailTo);

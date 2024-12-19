@@ -20,6 +20,7 @@ import team.project.mapper.UserMapper;
 import team.project.model.Role;
 import team.project.model.RoleName;
 import team.project.model.User;
+import team.project.password.PasswordGenerator;
 import team.project.repository.user.RoleRepository;
 import team.project.repository.user.UserRepository;
 import team.project.security.JwtUtil;
@@ -36,6 +37,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepo;
     private final EmailService emailService;
     private final JwtUtil jwtUtil;
+    private final PasswordGenerator passwordGenerator;
 
     @Override
     @Transactional
@@ -52,20 +54,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> recoveryPassword(UserRecoveryRequestDto requestDto) {
         if (!userRepo.existsByEmail(requestDto.email())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("User with this email does not exist.");
         }
-        /*
-        //stub for checking password replacement directly
-        String resetLink = createPasswordResetLink(requestDto.email());
-        return resetPassword(resetLink, "newPassword");
-        */
+        String newPassword = passwordGenerator.generatePassword(8);
+        updatePassword(requestDto.email(), newPassword);
         try {
-            String resetLink = createPasswordResetLink(requestDto.email());
-            emailService.sendPasswordReset(requestDto.email(), resetLink);
-            return ResponseEntity.ok("Password reset link has been sent to your email.");
+            emailService.sendPasswordReset(requestDto.email(), newPassword);
+            return ResponseEntity.ok("New password has been sent to your email.");
         } catch (EmailFormatException | MessagingException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.toString());
         }
@@ -92,12 +91,6 @@ public class UserServiceImpl implements UserService {
                         String.format("User with email %s not found.", email)));
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepo.save(user);
-    }
-
-    private String createPasswordResetLink(String email) {
-        String resetToken = jwtUtil.generateToken(email);
-        //return resetToken; //stub for checking password replacement directly
-        return String.format("http://localhost:8080/api/account/reset-password?token=%s", resetToken);
     }
 
     private Set<Role> generateDefaultSetRoles() {
