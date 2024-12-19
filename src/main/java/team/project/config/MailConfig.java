@@ -17,21 +17,20 @@ public class MailConfig {
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.online.ua");
-        mailSender.setPort(25);
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
         mailSender.setUsername(mailUserName);
         mailSender.setPassword(mailPassword);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
-
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.ssl.enable", "false");
+        props.put("mail.smtp.ssl.enable", "false"); // !!! should be "false"!
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.debug", "true");
-        props.put("mail.smtp.ssl.trust", "smtp.online.ua");
-        // props.put("mail.smtp.socketFactory.port", "465");
-        // props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        props.setProperty("mail.smtp.ssl.protocols", "TLSv1.1 TLSv1.2");
+
         return mailSender;
     }
 }
