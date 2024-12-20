@@ -9,7 +9,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import team.project.dto.user.UserLoginRequestDto;
 import team.project.dto.user.UserLoginResponseDto;
@@ -47,16 +46,8 @@ public class AuthenticationController {
     @PostMapping("/forgot-password")
     @Operation(summary = "Recovery password",
             description = "Send an email with a password reset link to the provided email address")
-    public ResponseEntity<String> forgotPassword(@RequestBody @Valid
-                                                             UserRecoveryRequestDto requestDto) {
+    public ResponseEntity<String> forgotPassword(
+            @RequestBody @Valid UserRecoveryRequestDto requestDto) {
         return userService.recoveryPassword(requestDto);
-    }
-
-    @PostMapping("/reset-password")
-    @Operation(summary = "Reset the user's password",
-            description = "Setting a new password by token")
-    public ResponseEntity<String> resetPassword(@RequestParam String token,
-                                                @RequestParam String newPassword) {
-        return userService.resetPassword(token, newPassword);
     }
 }

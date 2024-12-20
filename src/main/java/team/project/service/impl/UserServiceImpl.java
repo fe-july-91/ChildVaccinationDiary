@@ -1,6 +1,5 @@
 package team.project.service.impl;
 
-import io.jsonwebtoken.JwtException;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -13,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import team.project.dto.user.UserRecoveryRequestDto;
 import team.project.dto.user.UserRegistrationRequestDto;
+import team.project.dto.user.UserResetPasswordRequestDto;
 import team.project.dto.user.UserResponseDto;
 import team.project.exception.EmailFormatException;
 import team.project.exception.RegistrationException;
@@ -71,19 +71,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<String> resetPassword(String token, String newPassword) {
-        try {
-            String email = jwtUtil.getUserEmail(token);
-            updatePassword(email, newPassword);
-            return ResponseEntity.ok("Password has been successfully reset.");
-        } catch (JwtException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token.");
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
-        }
-    }
-
-    @Override
     @Transactional
     public void updatePassword(String email, String newPassword) {
         User user = (User) userRepo.findByEmail(email)
@@ -91,6 +78,14 @@ public class UserServiceImpl implements UserService {
                         String.format("User with email %s not found.", email)));
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepo.save(user);
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<String> resetPassword(User user, UserResetPasswordRequestDto requestDto) {
+        user.setPassword(passwordEncoder.encode(requestDto.password()));
+        userRepo.save(user);
+        return ResponseEntity.ok("Password has been successfully reset.");
     }
 
     private Set<Role> generateDefaultSetRoles() {
