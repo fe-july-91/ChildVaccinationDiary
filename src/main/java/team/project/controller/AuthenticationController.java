@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,7 +45,7 @@ public class AuthenticationController {
     @PostMapping("/forgot-password")
     @Operation(summary = "Recovery password",
             description = "Send an email with a password reset link to the provided email address")
-    public ResponseEntity<String> forgotPassword(
+    public String forgotPassword(
             @RequestBody @Valid UserRecoveryRequestDto requestDto) {
         return userService.recoveryPassword(requestDto);
     }

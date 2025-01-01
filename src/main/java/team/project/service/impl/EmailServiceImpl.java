@@ -19,12 +19,6 @@ public class EmailServiceImpl implements EmailService {
         message.setText("You requested a password reset. "
                 + "Your new password: " + resetPassword
                 + "\n\nPlease change this password after login!");
-        try {
-            mailSender.send(message);
-            System.out.println("Password reset email sent successfully to " + emailTo);
-        } catch (Exception e) {
-            System.err.println("Error sending email: " + e.getMessage());
-            throw new RuntimeException("Failed to send email.");
-        }
+        mailSender.send(message);
     }
 }

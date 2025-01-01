@@ -253,6 +253,6 @@ public class ChildServiceImpl implements ChildService {
         heightService.createDefault(child, currentDate.getYear(), formattedMonth);
         weightService.createDefault(child, currentDate.getYear(), formattedMonth);
         footService.createDefault(child, currentDate.getYear(), formattedMonth);
-        eyeService.createDefault(child);
+        //eyeService.createDefault(child);
     }
 }
