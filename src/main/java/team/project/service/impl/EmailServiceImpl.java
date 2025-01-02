@@ -15,10 +15,10 @@ public class EmailServiceImpl implements EmailService {
     public void sendPasswordReset(String emailTo, String resetPassword) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(emailTo);
-        message.setSubject("Password Reset Request");
-        message.setText("You requested a password reset. "
-                + "Your new password: " + resetPassword
-                + "\n\nPlease change this password after login!");
+        message.setSubject("Запит на скидання пароля.");
+        message.setText("Ви надіслали запит на скидання пароля. "
+                + "Ваш новий пароль: " + resetPassword
+                + "\n\nБудь ласка, змініть цей пароль після авторизації!");
         mailSender.send(message);
     }
 }

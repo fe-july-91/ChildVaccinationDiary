@@ -35,7 +35,7 @@ public class EyeServiceImpl implements EyeService {
     public EyeDto updateById(Long childId, UpdateEyeRequestDto requestDto) {
         Eye eyeFromDB = eyeRepo.findById(childId)
                 .orElseThrow(() -> new EntityNotFoundException(
-                String.format("Eye with id = %s not found for this child", childId)));
+                String.format("Значення зору з id = %s не знайдено для цієї дитини.", childId)));
         return eyeMapper.toDto(eyeRepo.save(eyeMapper.updateFromDto(eyeFromDB, requestDto)));
     }
 

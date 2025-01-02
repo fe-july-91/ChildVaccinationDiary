@@ -39,10 +39,7 @@ public class HeightServiceImpl implements HeightService {
     @Override
     @Transactional
     public HeightDto update(Long childId, Long heightId, UpdateHeightRequestDto requestDto) {
-        Height heightFromDB = heightRepo.findByIdAndChildId(heightId, childId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Height with id = %s not found for this childId = %s",
-                                heightId, childId)));
+        Height heightFromDB = getHeightByIdAndChildId(heightId, childId);
         return heightMapper.toDto(heightRepo.save(
                 heightMapper.updateFromDto(heightFromDB, requestDto)));
     }
@@ -50,14 +47,11 @@ public class HeightServiceImpl implements HeightService {
     @Override
     @Transactional
     public String delete(Long childId, Long heightId) {
-        Height heightFromDB = heightRepo.findByIdAndChildId(heightId, childId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Height with id = %s not found for this childId = %s",
-                                heightId, childId)));
+        Height heightFromDB = getHeightByIdAndChildId(heightId, childId);
         heightRepo.delete(heightFromDB);
         return (!heightRepo.existsByIdAndChildId(heightId, childId))
-                ? String.format("The height with id = %s was deleted", heightId)
-                : String.format("The height with id = %s wasn't deleted", heightId);
+                ? String.format("Значення зросту з id = %s було успішно видалено.", heightId)
+                : String.format("Значення зросту з id = %s НЕ було видалено.", heightId);
     }
 
     @Override
@@ -77,5 +71,12 @@ public class HeightServiceImpl implements HeightService {
         height.setMonth(currentMonth);
         height.setValue((short) 40);
         return heightRepo.save(height);
+    }
+
+    private Height getHeightByIdAndChildId(Long heightId, Long childId) {
+        return heightRepo.findByIdAndChildId(heightId, childId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Значення зросту з id = %s не знайдено для дитини з id = %s.",
+                                heightId, childId)));
     }
 }

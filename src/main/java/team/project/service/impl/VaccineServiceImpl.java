@@ -79,7 +79,7 @@ public class VaccineServiceImpl implements VaccineService {
     private Vaccine getVaccineOfChild(Long vaccineId, Long childId) {
         return vaccineRepo.findByIdAndChildIdAndIsDeletedFalse(vaccineId, childId)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Vaccine with id = %s not found for this childId = %s",
+                        String.format("Вакцина з id = %s не знайдена для дитини з id = %s.",
                                 vaccineId, childId)));
 
     }
@@ -87,7 +87,7 @@ public class VaccineServiceImpl implements VaccineService {
     private Type getType(String name) {
         return typeRepo.findByTypeName(TypeName.getByType(name))
                 .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Can't find Type by '%s' in table types", name)));
+                        String.format("Тип вакцини '%s' відсутній у таблиці вакцин", name)));
     }
 
     private void checkByDate(Long childId, Long typeId, LocalDate date)
@@ -96,8 +96,8 @@ public class VaccineServiceImpl implements VaccineService {
                 childId,
                 typeId,
                 date)) {
-            throw new DuplicateCheckingException("This vaccine exists on the date: "
-                    + "need to change a date or type of vaccine!");
+            throw new DuplicateCheckingException("Така вакцинація на цю дату вже була зроблена."
+                    + "Необхідно змінити тип вікцинації або вказати іншу дату!");
         }
     }
 }

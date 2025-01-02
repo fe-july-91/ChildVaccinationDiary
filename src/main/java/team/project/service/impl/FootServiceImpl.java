@@ -70,8 +70,8 @@ public class FootServiceImpl implements FootService {
 
     private Foot getFootOfChild(Long footId, Long childId) {
         return footRepo.findByIdAndChildId(footId, childId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Foot with id = %s not found for this childId = %s",
-                                footId, childId)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(
+                        "Значення розміру стопи з id = %s відсутнє для дитини з id = %s",
+                        footId, childId)));
     }
 }

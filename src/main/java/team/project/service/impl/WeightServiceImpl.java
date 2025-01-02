@@ -39,10 +39,7 @@ public class WeightServiceImpl implements WeightService {
     @Override
     @Transactional
     public WeightDto update(Long childId, Long weightId, UpdateWeightRequestDto requestDto) {
-        Weight weightFromDB = weightRepo.findByIdAndChildId(weightId, childId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Weight with id = %s not found for this childId = %s",
-                                weightId, childId)));
+        Weight weightFromDB = getWeightByIdAndChildId(weightId, childId);
         return weightMapper.toDto(weightRepo.save(
                 weightMapper.updateFromDto(weightFromDB, requestDto)));
     }
@@ -50,11 +47,7 @@ public class WeightServiceImpl implements WeightService {
     @Override
     @Transactional
     public void delete(Long childId, Long weightId) {
-        Weight weightFromDB = weightRepo.findByIdAndChildId(weightId, childId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Weight with id = %s not found for this childId = %s",
-                                weightId, childId)));
-        weightRepo.delete(weightFromDB);
+        weightRepo.delete(getWeightByIdAndChildId(weightId, childId));
     }
 
     @Override
@@ -73,5 +66,12 @@ public class WeightServiceImpl implements WeightService {
         weight.setMonth(currentMonth);
         weight.setValue((short) 3);
         return weightRepo.save(weight);
+    }
+
+    private Weight getWeightByIdAndChildId(Long weightId, Long childId) {
+        return weightRepo.findByIdAndChildId(weightId, childId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Значення ваги з id = %s не знайдено для дитини з id = %s.",
+                                weightId, childId)));
     }
 }

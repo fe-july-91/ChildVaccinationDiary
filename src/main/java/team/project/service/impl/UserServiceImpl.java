@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto register(UserRegistrationRequestDto requestDto)
             throws RegistrationException {
         if (userRepo.existsByEmail(requestDto.email())) {
-            throw new RegistrationException("This user can't be registered");
+            throw new RegistrationException("Цей користувач не може бути зареєстрований");
         }
         User user = userMapper.toModel(requestDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -53,12 +53,13 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public String recoveryPassword(UserRecoveryRequestDto requestDto) {
         if (!userRepo.existsByEmail(requestDto.email())) {
-            throw new EntityNotFoundCustomException("User with that email hasn't been registered");
+            throw new EntityNotFoundCustomException(
+                    "Користувач із такою електронною поштою не зареєстрований.");
         }
         String newPassword = passwordGenerator.generatePassword(8);
         updatePassword(requestDto.email(), newPassword);
         emailService.sendPasswordReset(requestDto.email(), newPassword);
-        return "New password has been sent to your email.";
+        return "Новий пароль було відправлено на вашу електронну пошту.";
     }
 
     @Override
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService {
     public void updatePassword(String email, String newPassword) {
         User user = (User) userRepo.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("User with email %s not found.", email)));
+                        String.format("Користувача з електронною поштою %s не знайдено.", email)));
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepo.save(user);
     }
@@ -76,7 +77,7 @@ public class UserServiceImpl implements UserService {
     public String resetPassword(User user, UserResetPasswordRequestDto requestDto) {
         user.setPassword(passwordEncoder.encode(requestDto.password()));
         userRepo.save(user);
-        return "Password has been successfully reset.";
+        return "Пароль було успішно скинуто.";
     }
 
     @Override
@@ -88,7 +89,8 @@ public class UserServiceImpl implements UserService {
     private Set<Role> generateDefaultSetRoles() {
         Role roleFromDB = roleRepo.findByName(RoleName.getByType(DEFAULT_ROLE))
                 .orElseThrow(() -> new EntityNotFoundCustomException(
-                        String.format("Can't find %s in table roles", DEFAULT_ROLE)));
+                        String.format("Не вдається знайти %s у таблиці ролей доступу",
+                                DEFAULT_ROLE)));
         Set<Role> roles = new HashSet<>();
         roles.add(roleFromDB);
         return roles;
