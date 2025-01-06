@@ -40,7 +40,8 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto register(UserRegistrationRequestDto requestDto)
             throws RegistrationException {
         if (userRepo.existsByEmail(requestDto.email())) {
-            throw new RegistrationException("Користувача із такою електронною поштою вже зареєстровано");
+            throw new RegistrationException(
+                    "Користувача із такою електронною поштою вже зареєстровано");
         }
         User user = userMapper.toModel(requestDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
