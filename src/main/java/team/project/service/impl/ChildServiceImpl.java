@@ -80,7 +80,7 @@ public class ChildServiceImpl implements ChildService {
         return childRepo.findById(id)
                 .map(childMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Child with id: %s not found", id)));
+                        String.format("Дитина з id: %s відсутня", id)));
     }
 
     @Override
@@ -125,7 +125,7 @@ public class ChildServiceImpl implements ChildService {
     public String deleteHeight(Long userId, Long childId, Long heightId) {
         return (childRepo.existsByIdAndUserId(childId, userId))
                 ? heightService.delete(childId, heightId)
-                : "The operation is impossible";
+                : "Операція неможлива.";
     }
 
     @Override
@@ -241,7 +241,7 @@ public class ChildServiceImpl implements ChildService {
     private Child getChildOfUser(Long childId, Long userId) {
         return childRepo.findByIdAndUserId(childId, userId)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Child with id = %s not found for this parent", childId)));
+                        String.format("Дитина з id = %s відсутня для цього користувача", childId)));
     }
 
     private void createDefaultData(Child child) {
@@ -253,6 +253,6 @@ public class ChildServiceImpl implements ChildService {
         heightService.createDefault(child, currentDate.getYear(), formattedMonth);
         weightService.createDefault(child, currentDate.getYear(), formattedMonth);
         footService.createDefault(child, currentDate.getYear(), formattedMonth);
-        eyeService.createDefault(child);
+        //eyeService.createDefault(child);
     }
 }

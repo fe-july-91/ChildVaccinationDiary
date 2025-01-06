@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.project.dto.user.UserLoginRequestDto;
 import team.project.dto.user.UserLoginResponseDto;
+import team.project.dto.user.UserRecoveryRequestDto;
 import team.project.dto.user.UserRegistrationRequestDto;
 import team.project.dto.user.UserResponseDto;
 import team.project.exception.RegistrationException;
@@ -39,5 +40,13 @@ public class AuthenticationController {
             description = "Login a user that exists in the database")
     public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto requestDto) {
         return authenticationService.authenticate(requestDto);
+    }
+
+    @PostMapping("/forgot-password")
+    @Operation(summary = "Recovery password",
+            description = "Send an email with a password reset link to the provided email address")
+    public String forgotPassword(
+            @RequestBody @Valid UserRecoveryRequestDto requestDto) {
+        return userService.recoveryPassword(requestDto);
     }
 }
