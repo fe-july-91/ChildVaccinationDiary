@@ -54,9 +54,24 @@ public class ChildServiceImpl implements ChildService {
     public ChildDto save(User user, CreateChildRequestDto requestDto) {
         Child child = childMapper.toModel(requestDto);
         child.setUser(user);
-        Child savedChild = childRepo.save(child);
-        createDefaultData(savedChild);
-        return childMapper.toDto(savedChild);
+        return childMapper.toDto(childRepo.save(child));
+    }
+
+    @Override
+    public void createDefaultData(Long childId) {
+        Child child = childRepo.findById(childId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                String.format("Дитина з id: %s відсутня", childId)));
+
+        YearMonth currentDate = YearMonth.now();
+        String monthLowCases = currentDate.getMonth()
+                .getDisplayName(TextStyle.FULL_STANDALONE, new Locale("uk"));
+        String formattedMonth = monthLowCases.substring(0, 1).toUpperCase()
+                + monthLowCases.substring(1);
+        heightService.createDefault(child, currentDate.getYear(), formattedMonth);
+        weightService.createDefault(child, currentDate.getYear(), formattedMonth);
+        footService.createDefault(child, currentDate.getYear(), formattedMonth);
+        eyeService.createDefault(child);
     }
 
     @Override
@@ -242,17 +257,5 @@ public class ChildServiceImpl implements ChildService {
         return childRepo.findByIdAndUserId(childId, userId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Дитина з id = %s відсутня для цього користувача", childId)));
-    }
-
-    private void createDefaultData(Child child) {
-        YearMonth currentDate = YearMonth.now();
-        String monthLowCases = currentDate.getMonth()
-                .getDisplayName(TextStyle.FULL_STANDALONE, new Locale("uk"));
-        String formattedMonth = monthLowCases.substring(0, 1).toUpperCase()
-                + monthLowCases.substring(1);
-        heightService.createDefault(child, currentDate.getYear(), formattedMonth);
-        weightService.createDefault(child, currentDate.getYear(), formattedMonth);
-        footService.createDefault(child, currentDate.getYear(), formattedMonth);
-        //eyeService.createDefault(child);
     }
 }

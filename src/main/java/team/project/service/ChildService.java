@@ -83,4 +83,6 @@ public interface ChildService {
                              UpdateVaccineRequestDto requestDto);
 
     void deleteVaccine(Long userId, Long childId, Long vaccineId);
+
+    void createDefaultData(Long childId);
 }
