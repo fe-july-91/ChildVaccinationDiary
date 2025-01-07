@@ -222,7 +222,7 @@ public class ChildServiceImpl implements ChildService {
 
     @Override
     public EyeDto getEye(Long userId, Long childId) {
-        return eyeService.getEyeById(getChildOfUser(childId, userId).getId());
+        return eyeService.getEyeByChildId(getChildOfUser(childId, userId).getId());
     }
 
     @Override

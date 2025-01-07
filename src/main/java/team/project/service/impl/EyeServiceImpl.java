@@ -9,7 +9,6 @@ import team.project.dto.eye.UpdateEyeRequestDto;
 import team.project.mapper.EyeMapper;
 import team.project.model.Child;
 import team.project.model.Eye;
-import team.project.repository.child.ChildRepository;
 import team.project.repository.child.EyeRepository;
 import team.project.service.EyeService;
 
@@ -23,13 +22,12 @@ public class EyeServiceImpl implements EyeService {
     @Transactional
     public void createDefault(Child child) {
         if (eyeRepo.findByChildId(child.getId()).isEmpty()) {
-            Eye eye = eyeMapper.mapChildToEye(child);
+            Eye eye = eyeMapper.toModel(child);
             eye.setLeftEye(1.0f);
             eye.setRightEye(1.0f);
             eyeRepo.save(eye);
         }
     }
-
 
     @Override
     @Transactional
@@ -41,9 +39,9 @@ public class EyeServiceImpl implements EyeService {
     }
 
     @Override
-    public EyeDto getEyeById(Long childId) {
+    public EyeDto getEyeByChildId(Long childId) {
         return (eyeRepo.findByChildId(childId).isPresent())
-                ? eyeMapper.toDto(eyeRepo.findById(childId).get())
+                ? eyeMapper.toDto(eyeRepo.findByChildId(childId).get())
                 : new EyeDto();
     }
 }
