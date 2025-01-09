@@ -21,28 +21,27 @@ public class EyeServiceImpl implements EyeService {
     @Override
     @Transactional
     public void createDefault(Child child) {
-        if (eyeRepo.existsById(child.getId())) {
-            return;
+        if (eyeRepo.findByChildId(child.getId()).isEmpty()) {
+            Eye eye = eyeMapper.toModel(child);
+            eye.setLeftEye(1.0f);
+            eye.setRightEye(1.0f);
+            eyeRepo.save(eye);
         }
-        Eye eye = eyeMapper.mapChildToEye(child);
-        eye.setLeftEye(1.0f);
-        eye.setRightEye(1.0f);
-        eyeRepo.save(eye);
     }
 
     @Override
     @Transactional
     public EyeDto updateById(Long childId, UpdateEyeRequestDto requestDto) {
-        Eye eyeFromDB = eyeRepo.findById(childId)
+        Eye eyeFromDB = eyeRepo.findByChildId(childId)
                 .orElseThrow(() -> new EntityNotFoundException(
                 String.format("Значення зору з id = %s не знайдено для цієї дитини.", childId)));
         return eyeMapper.toDto(eyeRepo.save(eyeMapper.updateFromDto(eyeFromDB, requestDto)));
     }
 
     @Override
-    public EyeDto getEyeById(Long childId) {
-        return (eyeRepo.existsById(childId))
-                ? eyeMapper.toDto(eyeRepo.findById(childId).get())
+    public EyeDto getEyeByChildId(Long childId) {
+        return (eyeRepo.findByChildId(childId).isPresent())
+                ? eyeMapper.toDto(eyeRepo.findByChildId(childId).get())
                 : new EyeDto();
     }
 }

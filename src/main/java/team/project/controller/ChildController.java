@@ -54,7 +54,9 @@ public class ChildController {
             description = "Create a new child card by parent")
     public ChildDto createChild(@AuthenticationPrincipal User user,
                                 @RequestBody @Valid CreateChildRequestDto requestDto) {
-        return childService.save(user, requestDto);
+        ChildDto createdChild = childService.save(user, requestDto);
+        childService.createDefaultData(createdChild.getId());
+        return createdChild;
     }
 
     @GetMapping("/{childId}")

@@ -12,7 +12,8 @@ import team.project.model.Eye;
 @Mapper(config = MapperConfig.class, uses = ChildMapper.class)
 public interface EyeMapper {
     @Mapping(source = "child", target = "child")
-    Eye mapChildToEye(Child child);
+    @Mapping(target = "id", ignore = true)
+    Eye toModel(Child child);
 
     Eye updateFromDto(@MappingTarget Eye eye, UpdateEyeRequestDto requestDto);
 

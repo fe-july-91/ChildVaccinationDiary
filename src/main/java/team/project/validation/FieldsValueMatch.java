@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FieldsValueMatch {
-    String message() default "Fields values don't match!";
+    String message() default "Значення полів не збігаються!";
 
     Class<?>[] groups() default {};
 

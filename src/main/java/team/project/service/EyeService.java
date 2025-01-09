@@ -9,5 +9,5 @@ public interface EyeService {
 
     EyeDto updateById(Long childId, UpdateEyeRequestDto requestDto);
 
-    EyeDto getEyeById(Long childId);
+    EyeDto getEyeByChildId(Long childId);
 }
