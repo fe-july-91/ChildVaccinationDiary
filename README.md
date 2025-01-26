@@ -36,7 +36,7 @@
 git clone https://github.com/fe-july-91/ChildVaccinationDiary.git
 cd ChildVaccinationDiary
 ```
-###2. Configure the Database
+### 2. Configure the Database
    - If running locally, create a PostgreSQL database and update the application.properties file:
 ```
    spring.datasource.url=jdbc:postgresql://localhost:5432/child_vaccination_db
@@ -44,7 +44,7 @@ cd ChildVaccinationDiary
    spring.datasource.password=your_password
 ```
    - If using Docker Compose, no manual setup is needed for the database, as it will be handled by Docker.
-###3. Run with Docker Compose
+### 3. Run with Docker Compose
 The project supports Docker Compose for running the application and the database in containers.
 
 Steps:
@@ -53,23 +53,27 @@ Steps:
 ```
 docker-compose up --build -d 
 ```
-3.Access the application at http://localhost:8088/api/swagger-ui/index.html
+ 3. Access the application at http://localhost:8088/api/swagger-ui/index.html
+---
 
-###API Documentation
-   The API documentation is available at: http://localhost:8080/api/swagger-ui/index.html
+### API Documentation
+The API documentation is available at: http://localhost:8080/api/swagger-ui/index.html
 
-###Development
+---
+
+### Development
 Key controller classes:
-####1.AuthenticationController:
+#### 1.AuthenticationController:
 - User registration, login, and password recovery.
-####2. ChildController:
+#### 2. ChildController:
 - CRUD operations for child profiles.
 - Managing information about height, weight, eye health, and vaccinations.
-####3. UserController:
+#### 3. UserController:
 - Manages operations related to user profile management, allowing users to reset their password and update their personal data (name and email).
 
+---
 
-###UML Diagram
+### UML Diagram
 Below is the UML class diagram for the project's structure
 
 ![UML Diagram](img/modelUML.png)
