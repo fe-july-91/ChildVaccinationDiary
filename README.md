@@ -8,7 +8,7 @@
 ![Docker Compose](https://img.shields.io/badge/Docker--Compose-Supported-blue)
 
 ## Description
-**Child Vaccination Diary** is an application designed for parents to conveniently track their children's vaccinations and store information about their height, weight, eye health, and other important health metrics.
+**Child Vaccination Diary**  is an application designed to help parents easily track their children's vaccinations and store important health information, such as height, weight, eye health, and more. Additionally, the application features an email-based password recovery system, allowing users to securely regain access to their accounts if they forget their password.
 
 ---
 ## Technologies
@@ -20,6 +20,7 @@
 - **JWT (JSON Web Tokens) 0.12.6**: For authentication.
 - **Swagger (Springdoc OpenAPI) 2.6.0**: API documentation.
 - **Docker Compose 3.2.10**: Simplifies container orchestration for the application.
+- **Spring Boot Starter Mail 3.2.10**: To send emails, such as password reset or user notifications.
 ---
 
 ## Requirements
