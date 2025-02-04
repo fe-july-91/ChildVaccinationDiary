@@ -1,16 +1,9 @@
 # Builder stage
-FROM openjdk:17-jdk-slim as builder
-WORKDIR application
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} application.jar
-RUN java -Djarmode=layertools -jar application.jar extract
+FROM maven:3-openjdk-17 AS builder
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Final stage
-FROM openjdk:17-jdk-slim
-WORKDIR application
-COPY --from=builder application/dependencies/ ./
-COPY --from=builder application/spring-boot-loader/ ./
-COPY --from=builder application/snapshot-dependencies/ ./
-COPY --from=builder application/application/ ./
-ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
+FROM openjdk:17.0.1-jdk-slim
+COPY --from=builder /target/ChildVaccinationDiary-0.0.1-SNAPSHOT.jar ChildVaccinationDiary.jar
 EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "ChildVaccinationDiary.jar"]
