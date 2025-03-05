@@ -10,8 +10,8 @@ import team.project.model.Foot;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-01-25T20:02:51+0200",
-    comments = "version: 1.6.2, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
+    date = "2025-03-05T17:54:31+0200",
+    comments = "version: 1.6.2, compiler: javac, environment: Java 17.0.14 (Amazon.com Inc.)"
 )
 @Component
 public class FootMapperImpl implements FootMapper {
