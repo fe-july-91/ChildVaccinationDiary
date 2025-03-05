@@ -40,10 +40,6 @@ public class SecurityConfig {
         return httpSecurity
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                /*.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf
-                        .requireCsrfProtectionMatcher(
-                                new AntPathRequestMatcher("/api/**")).disable())*/
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**", "/auth/**", "/error")
                         .permitAll()
@@ -65,14 +61,17 @@ public class SecurityConfig {
     }
 
     @Bean
-    protected CorsConfigurationSource corsConfigurationSource() {
+    CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000",
-                "https://fe-july-91.github.io"," https://fe-july-91.github.io/kidti"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE",
-                "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
+        configuration.setAllowedOrigins(
+                List.of("http://localhost:3000",
+                        "https://github.com/fe-july-91/kidti",
+                        "https://github.com/msdreams/kidty",
+                        "https://msdreams.github.io/kidty/"));
+        configuration.setAllowedMethods(
+                List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
