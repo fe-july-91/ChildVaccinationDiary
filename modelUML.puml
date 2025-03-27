@@ -33,6 +33,7 @@ class Child {
 - gender: Gender
 - image: String
 - isDeleted: boolean
+- child: Child
 }
 
 class Eye {
@@ -57,15 +58,12 @@ abstract class Journal {
 }
 
 class Weight {
-- child: Child
 }
 
 class Height {
-- child: Child
 }
 
 class Foot {
-- child: Child
 }
 
 class Type {

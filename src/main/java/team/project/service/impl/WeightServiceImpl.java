@@ -11,7 +11,7 @@ import team.project.dto.weight.WeightDto;
 import team.project.mapper.WeightMapper;
 import team.project.model.Child;
 import team.project.model.Weight;
-import team.project.repository.weight.WeightRepository;
+import team.project.repository.WeightRepository;
 import team.project.service.WeightService;
 
 @RequiredArgsConstructor

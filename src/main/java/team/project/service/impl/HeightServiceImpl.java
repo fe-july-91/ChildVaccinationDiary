@@ -11,7 +11,7 @@ import team.project.dto.height.UpdateHeightRequestDto;
 import team.project.mapper.HeightMapper;
 import team.project.model.Child;
 import team.project.model.Height;
-import team.project.repository.height.HeightRepository;
+import team.project.repository.HeightRepository;
 import team.project.service.HeightService;
 
 @RequiredArgsConstructor

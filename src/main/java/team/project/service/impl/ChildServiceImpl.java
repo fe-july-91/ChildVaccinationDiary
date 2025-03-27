@@ -30,7 +30,7 @@ import team.project.exception.DuplicateCheckingException;
 import team.project.mapper.ChildMapper;
 import team.project.model.Child;
 import team.project.model.User;
-import team.project.repository.child.ChildRepository;
+import team.project.repository.ChildRepository;
 import team.project.service.ChildService;
 import team.project.service.EyeService;
 import team.project.service.FootService;

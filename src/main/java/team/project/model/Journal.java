@@ -1,9 +1,12 @@
 package team.project.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,8 +28,11 @@ public abstract class Journal {
     private short value;
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "child_id", nullable = false)
+    private Child child;
 
-    public Journal(Long id) {
+    protected Journal(Long id) {
         this.id = id;
     }
 }

@@ -11,7 +11,7 @@ import team.project.dto.foot.UpdateFootRequestDto;
 import team.project.mapper.FootMapper;
 import team.project.model.Child;
 import team.project.model.Foot;
-import team.project.repository.foot.FootRepository;
+import team.project.repository.FootRepository;
 import team.project.service.FootService;
 
 @RequiredArgsConstructor

@@ -19,8 +19,8 @@ import team.project.model.Role;
 import team.project.model.RoleName;
 import team.project.model.User;
 import team.project.password.PasswordGenerator;
-import team.project.repository.user.RoleRepository;
-import team.project.repository.user.UserRepository;
+import team.project.repository.RoleRepository;
+import team.project.repository.UserRepository;
 import team.project.service.EmailService;
 import team.project.service.UserService;
 

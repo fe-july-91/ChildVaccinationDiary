@@ -1,4 +1,4 @@
-package team.project.repository.vaccine;
+package team.project.repository;
 
 import java.time.LocalDate;
 import java.util.List;
