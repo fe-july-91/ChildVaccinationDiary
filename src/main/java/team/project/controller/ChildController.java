@@ -25,18 +25,12 @@ import team.project.dto.child.CreateChildRequestDto;
 import team.project.dto.child.UpdateChildRequestDto;
 import team.project.dto.eye.EyeDto;
 import team.project.dto.eye.UpdateEyeRequestDto;
-import team.project.dto.foot.CreateFootRequestDto;
-import team.project.dto.foot.FootDto;
-import team.project.dto.foot.UpdateFootRequestDto;
-import team.project.dto.height.CreateHeightRequestDto;
-import team.project.dto.height.HeightDto;
-import team.project.dto.height.UpdateHeightRequestDto;
+import team.project.dto.journal.CreateJournalRequestDto;
+import team.project.dto.journal.JournalDto;
+import team.project.dto.journal.UpdateJournalRequestDto;
 import team.project.dto.vaccine.CreateVaccineRequestDto;
 import team.project.dto.vaccine.UpdateVaccineRequestDto;
 import team.project.dto.vaccine.VaccineDto;
-import team.project.dto.weight.CreateWeightRequestDto;
-import team.project.dto.weight.UpdateWeightRequestDto;
-import team.project.dto.weight.WeightDto;
 import team.project.exception.DuplicateCheckingException;
 import team.project.model.User;
 import team.project.service.ChildService;
@@ -110,52 +104,52 @@ public class ChildController {
     @GetMapping("/{childId}/height")
     @Operation(summary = "Get all info about kid's height",
             description = "Get all info about kid's height for parent")
-    public List<HeightDto> getAllHeight(@AuthenticationPrincipal User user,
-                                        @PathVariable @Positive Long childId) {
+    public List<JournalDto> getAllHeight(@AuthenticationPrincipal User user,
+                                         @PathVariable @Positive Long childId) {
         return childService.getAllHeightByChildId(user.getId(), childId);
     }
 
     @PostMapping("/{childId}/height")
     @Operation(summary = "Add info about kid's height",
             description = "Add info about kid's height by parent")
-    public HeightDto createHeight(@AuthenticationPrincipal User user,
-                                  @PathVariable @Positive Long childId,
-                                  @RequestBody @Valid CreateHeightRequestDto requestDto) {
+    public JournalDto createHeight(@AuthenticationPrincipal User user,
+                                   @PathVariable @Positive Long childId,
+                                   @RequestBody @Valid CreateJournalRequestDto requestDto) {
         return childService.saveHeight(user.getId(), childId, requestDto);
     }
 
     @PutMapping("/{childId}/height/{heightId}")
     @Operation(summary = "Update height by id",
             description = "Update kid's height by id")
-    public HeightDto updateHeight(@AuthenticationPrincipal User user,
+    public JournalDto updateHeight(@AuthenticationPrincipal User user,
                                   @PathVariable @Positive Long childId,
                                   @PathVariable @Positive Long heightId,
-                                  @RequestBody @Valid UpdateHeightRequestDto requestDto) {
+                                  @RequestBody @Valid UpdateJournalRequestDto requestDto) {
         return childService.updateHeight(user.getId(), childId, heightId, requestDto);
     }
 
     @DeleteMapping("/{childId}/height/{heightId}")
     @Operation(summary = "Delete height by id",
             description = "Delete kid's height by id")
-    public String deleteHeight(@AuthenticationPrincipal User user,
+    public void deleteHeight(@AuthenticationPrincipal User user,
                                   @PathVariable @Positive Long childId,
                                   @PathVariable @Positive Long heightId) {
-        return childService.deleteHeight(user.getId(), childId, heightId);
+        childService.deleteHeight(user.getId(), childId, heightId);
     }
 
     @GetMapping("/{childId}/height/{year}")
     @Operation(summary = "Get all heights for a year by child",
             description = "Get all heights for a year by child")
-    public List<HeightDto> getHeightsByYear(@AuthenticationPrincipal User user,
+    public List<JournalDto> getHeightsByYear(@AuthenticationPrincipal User user,
                                         @PathVariable @Positive Long childId,
                                         @PathVariable @Positive int year) {
-        return childService.getAllHeightByYearAndChildId(user.getId(), childId, year);
+        return childService.getAllHeightByChildIdAndYear(user.getId(), childId, year);
     }
 
     @GetMapping("/{childId}/weight")
     @Operation(summary = "Get all info about kid's weight",
             description = "Get all info about kid's weight for parent")
-    public List<WeightDto> getAllWeight(@AuthenticationPrincipal User user,
+    public List<JournalDto> getAllWeight(@AuthenticationPrincipal User user,
                                         @PathVariable @Positive Long childId) {
         return childService.getAllWeightByChildId(user.getId(), childId);
     }
@@ -163,19 +157,19 @@ public class ChildController {
     @PostMapping("/{childId}/weight")
     @Operation(summary = "Add info about kid's weight",
             description = "Add info about kid's weight by parent")
-    public WeightDto createWeight(@AuthenticationPrincipal User user,
+    public JournalDto createWeight(@AuthenticationPrincipal User user,
                                   @PathVariable @Positive Long childId,
-                                  @RequestBody @Valid CreateWeightRequestDto requestDto) {
+                                  @RequestBody @Valid CreateJournalRequestDto requestDto) {
         return childService.saveWeight(user.getId(), childId, requestDto);
     }
 
     @PutMapping("/{childId}/weight/{weightId}")
     @Operation(summary = "Update weight by id",
             description = "Update kid's weight by id")
-    public WeightDto updateWeight(@AuthenticationPrincipal User user,
+    public JournalDto updateWeight(@AuthenticationPrincipal User user,
                                   @PathVariable @Positive Long childId,
                                   @PathVariable @Positive Long weightId,
-                                  @RequestBody @Valid UpdateWeightRequestDto requestDto) {
+                                  @RequestBody @Valid UpdateJournalRequestDto requestDto) {
         return childService.updateWeight(user.getId(), childId, weightId, requestDto);
     }
 
@@ -191,16 +185,16 @@ public class ChildController {
     @GetMapping("/{childId}/weight/{year}")
     @Operation(summary = "Get all weights for a year by child",
             description = "Get all weights for a year by child")
-    public List<WeightDto> getWeightsByYear(@AuthenticationPrincipal User user,
+    public List<JournalDto> getWeightsByYear(@AuthenticationPrincipal User user,
                                             @PathVariable @Positive Long childId,
                                             @PathVariable @Positive int year) {
-        return childService.getAllWeightByYearAndChildId(user.getId(), childId, year);
+        return childService.getAllWeightByChildIdAndYear(user.getId(), childId, year);
     }
 
     @GetMapping("/{childId}/foot")
     @Operation(summary = "Get all info about kid's foot measurements",
             description = "Get all info about kid's foot measurements for parent")
-    public List<FootDto> getAllFoot(@AuthenticationPrincipal User user,
+    public List<JournalDto> getAllFoot(@AuthenticationPrincipal User user,
                                       @PathVariable @Positive Long childId) {
         return childService.getAllFootByChildId(user.getId(), childId);
     }
@@ -208,19 +202,19 @@ public class ChildController {
     @PostMapping("/{childId}/foot")
     @Operation(summary = "Add info about kid's foot measurement",
             description = "Add info about kid's foot measurement by parent")
-    public FootDto createFoot(@AuthenticationPrincipal User user,
+    public JournalDto createFoot(@AuthenticationPrincipal User user,
                                   @PathVariable @Positive Long childId,
-                                  @RequestBody @Valid CreateFootRequestDto requestDto) {
+                                  @RequestBody @Valid CreateJournalRequestDto requestDto) {
         return childService.saveFoot(user.getId(), childId, requestDto);
     }
 
     @PutMapping("/{childId}/foot/{footId}")
     @Operation(summary = "Update foot measurement by id",
             description = "Update kid's foot measurement by id")
-    public FootDto updateFoot(@AuthenticationPrincipal User user,
+    public JournalDto updateFoot(@AuthenticationPrincipal User user,
                                   @PathVariable @Positive Long childId,
                                   @PathVariable @Positive Long footId,
-                                  @RequestBody @Valid UpdateFootRequestDto requestDto) {
+                                  @RequestBody @Valid UpdateJournalRequestDto requestDto) {
         return childService.updateFoot(user.getId(), childId, footId, requestDto);
     }
 
@@ -236,10 +230,10 @@ public class ChildController {
     @GetMapping("/{childId}/foot/{year}")
     @Operation(summary = "Get all foot measurements for a year by child",
             description = "Get all foot measurements for a year by child")
-    public List<FootDto> getFootsByYear(@AuthenticationPrincipal User user,
+    public List<JournalDto> getFootsByYear(@AuthenticationPrincipal User user,
                                         @PathVariable @Positive Long childId,
                                         @PathVariable @Positive int year) {
-        return childService.getAllFootByYearAndChildId(user.getId(), childId, year);
+        return childService.getAllFootByChildIdAndYear(user.getId(), childId, year);
     }
 
     @PutMapping("/{childId}/eye")

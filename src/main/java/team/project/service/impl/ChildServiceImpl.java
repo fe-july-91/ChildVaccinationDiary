@@ -14,18 +14,12 @@ import team.project.dto.child.CreateChildRequestDto;
 import team.project.dto.child.UpdateChildRequestDto;
 import team.project.dto.eye.EyeDto;
 import team.project.dto.eye.UpdateEyeRequestDto;
-import team.project.dto.foot.CreateFootRequestDto;
-import team.project.dto.foot.FootDto;
-import team.project.dto.foot.UpdateFootRequestDto;
-import team.project.dto.height.CreateHeightRequestDto;
-import team.project.dto.height.HeightDto;
-import team.project.dto.height.UpdateHeightRequestDto;
+import team.project.dto.journal.CreateJournalRequestDto;
+import team.project.dto.journal.JournalDto;
+import team.project.dto.journal.UpdateJournalRequestDto;
 import team.project.dto.vaccine.CreateVaccineRequestDto;
 import team.project.dto.vaccine.UpdateVaccineRequestDto;
 import team.project.dto.vaccine.VaccineDto;
-import team.project.dto.weight.CreateWeightRequestDto;
-import team.project.dto.weight.UpdateWeightRequestDto;
-import team.project.dto.weight.WeightDto;
 import team.project.exception.DuplicateCheckingException;
 import team.project.mapper.ChildMapper;
 import team.project.model.Child;
@@ -119,53 +113,53 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public List<HeightDto> getAllHeightByChildId(Long userId, Long childId) {
+    public List<JournalDto> getAllHeightByChildId(Long userId, Long childId) {
         return (childRepo.existsByIdAndUserId(childId, userId))
                 ? heightService.getAllByChildId(childId) : List.of();
     }
 
     @Override
-    public HeightDto saveHeight(Long userId, Long childId, CreateHeightRequestDto requestDto) {
+    public JournalDto saveHeight(Long userId, Long childId, CreateJournalRequestDto requestDto) {
         return heightService.save(getChildOfUser(childId, userId), requestDto);
     }
 
     @Override
-    public HeightDto updateHeight(Long userId, Long childId, Long heightId,
-                                  UpdateHeightRequestDto requestDto) {
+    public JournalDto updateHeight(Long userId, Long childId, Long heightId,
+                                   UpdateJournalRequestDto requestDto) {
         return (childRepo.existsByIdAndUserId(childId, userId))
-                ? heightService.update(childId, heightId, requestDto) : new HeightDto();
+                ? heightService.update(childId, heightId, requestDto) : new JournalDto();
     }
 
     @Override
-    public String deleteHeight(Long userId, Long childId, Long heightId) {
-        return (childRepo.existsByIdAndUserId(childId, userId))
-                ? heightService.delete(childId, heightId)
-                : "Операція неможлива.";
+    public void deleteHeight(Long userId, Long childId, Long heightId) {
+        if (childRepo.existsByIdAndUserId(childId, userId)) {
+            heightService.delete(childId, heightId);
+        }
     }
 
     @Override
-    public List<HeightDto> getAllHeightByYearAndChildId(Long userId, Long childId, int year) {
+    public List<JournalDto> getAllHeightByChildIdAndYear(Long userId, Long childId, int year) {
         return (childRepo.existsByIdAndUserId(childId, userId))
                 ? heightService.getAllByYearAndChildId(childId, year)
                 : List.of();
     }
 
     @Override
-    public List<WeightDto> getAllWeightByChildId(Long userId, Long childId) {
+    public List<JournalDto> getAllWeightByChildId(Long userId, Long childId) {
         return (childRepo.existsByIdAndUserId(childId, userId))
                 ? weightService.getAllByChildId(childId) : List.of();
     }
 
     @Override
-    public WeightDto saveWeight(Long userId, Long childId, CreateWeightRequestDto requestDto) {
+    public JournalDto saveWeight(Long userId, Long childId, CreateJournalRequestDto requestDto) {
         return weightService.save(getChildOfUser(childId, userId), requestDto);
     }
 
     @Override
-    public WeightDto updateWeight(Long userId, Long childId, Long weightId,
-                                  UpdateWeightRequestDto requestDto) {
+    public JournalDto updateWeight(Long userId, Long childId, Long weightId,
+                                  UpdateJournalRequestDto requestDto) {
         return (childRepo.existsByIdAndUserId(childId, userId))
-                ? weightService.update(childId, weightId, requestDto) : new WeightDto();
+                ? weightService.update(childId, weightId, requestDto) : new JournalDto();
     }
 
     @Override
@@ -176,29 +170,29 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public List<WeightDto> getAllWeightByYearAndChildId(Long userId, Long childId, int year) {
+    public List<JournalDto> getAllWeightByChildIdAndYear(Long userId, Long childId, int year) {
         return (childRepo.existsByIdAndUserId(childId, userId))
                 ? weightService.getAllByYearAndChildId(childId, year)
                 : List.of();
     }
 
     @Override
-    public List<FootDto> getAllFootByChildId(Long userId, Long childId) {
+    public List<JournalDto> getAllFootByChildId(Long userId, Long childId) {
         return (childRepo.existsByIdAndUserId(childId, userId))
                 ? footService.getAllByChildId(childId)
                 : List.of();
     }
 
     @Override
-    public FootDto saveFoot(Long userId, Long childId, CreateFootRequestDto requestDto) {
+    public JournalDto saveFoot(Long userId, Long childId, CreateJournalRequestDto requestDto) {
         return footService.save(getChildOfUser(childId, userId), requestDto);
     }
 
     @Override
-    public FootDto updateFoot(Long userId, Long childId, Long footId,
-                              UpdateFootRequestDto requestDto) {
+    public JournalDto updateFoot(Long userId, Long childId, Long footId,
+                              UpdateJournalRequestDto requestDto) {
         return (childRepo.existsByIdAndUserId(childId, userId))
-                ? footService.update(childId, footId, requestDto) : new FootDto();
+                ? footService.update(childId, footId, requestDto) : new JournalDto();
     }
 
     @Override
@@ -209,7 +203,7 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public List<FootDto> getAllFootByYearAndChildId(Long userId, Long childId, int year) {
+    public List<JournalDto> getAllFootByChildIdAndYear(Long userId, Long childId, int year) {
         return (childRepo.existsByIdAndUserId(childId, userId))
                 ? footService.getAllByYearAndChildId(childId, year)
                 : List.of();

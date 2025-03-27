@@ -8,7 +8,7 @@ import org.mapstruct.MappingTarget;
 import team.project.config.MapperConfig;
 import team.project.dto.height.CreateHeightRequestDto;
 import team.project.dto.height.HeightDto;
-import team.project.dto.height.UpdateHeightRequestDto;
+import team.project.dto.journal.UpdateJournalRequestDto;
 import team.project.model.Height;
 
 @Mapper(config = MapperConfig.class, uses = ChildMapper.class)
@@ -18,7 +18,7 @@ public interface HeightMapper {
 
     HeightDto toDto(Height height);
 
-    Height updateFromDto(@MappingTarget Height height, UpdateHeightRequestDto requestDto);
+    Height updateFromDto(@MappingTarget Height height, UpdateJournalRequestDto requestDto);
 
     @AfterMapping
     default void setYear(@MappingTarget Height height,
