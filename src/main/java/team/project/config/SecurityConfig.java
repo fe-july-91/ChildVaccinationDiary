@@ -66,6 +66,7 @@ public class SecurityConfig {
         configuration.setAllowCredentials(true);
         configuration.setAllowedOrigins(
                 List.of("http://localhost:3000",
+                        "https://kidty.com.ua/",
                         "https://github.com/fe-july-91/kidti",
                         "https://github.com/msdreams/kidty",
                         "https://msdreams.github.io/kidty/"));
