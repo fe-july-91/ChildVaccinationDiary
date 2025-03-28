@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import team.project.dto.journal.CreateJournalRequestDto;
 import team.project.dto.journal.JournalDto;
 import team.project.dto.journal.UpdateJournalRequestDto;
-import team.project.mapper.JournalMapper;
+import team.project.mapper.HeightMapper;
 import team.project.model.Child;
 import team.project.model.Height;
 import team.project.repository.HeightRepository;
@@ -18,30 +18,30 @@ import team.project.service.HeightService;
 @Service
 public class HeightServiceImpl implements HeightService {
     private final HeightRepository heightRepo;
-    private final JournalMapper journalMapper;
+    private final HeightMapper heightMapper;
 
     @Override
     public List<JournalDto> getAllByChildId(Long childId) {
         List<Height> result = heightRepo.findAllByChildId(childId);
         return result.stream()
-                .map(journalMapper::toDto)
+                .map(heightMapper::toDto)
                 .toList();
     }
 
     @Override
     @Transactional
     public JournalDto save(Child child, CreateJournalRequestDto requestDto) {
-        Height height = journalMapper.toModel(Height.class, requestDto);
+        Height height = heightMapper.toModel(requestDto);
         height.setChild(child);
-        return journalMapper.toDto(heightRepo.save(height));
+        return heightMapper.toDto(heightRepo.save(height));
     }
 
     @Override
     @Transactional
     public JournalDto update(Long childId, Long heightId, UpdateJournalRequestDto requestDto) {
         Height heightFromDB = getHeightByIdAndChildId(heightId, childId);
-        return journalMapper.toDto(heightRepo.save(
-                journalMapper.updateFromDto(heightFromDB, requestDto)));
+        return heightMapper.toDto(heightRepo.save(
+                heightMapper.updateFromDto(heightFromDB, requestDto)));
     }
 
     @Override
@@ -54,7 +54,7 @@ public class HeightServiceImpl implements HeightService {
     public List<JournalDto> getAllByYearAndChildId(Long childId, int year) {
         List<Height> result = heightRepo.findAllByYearAndChildId(year, childId);
         return result.stream()
-                .map(journalMapper::toDto)
+                .map(heightMapper::toDto)
                 .toList();
     }
 

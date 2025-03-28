@@ -1,8 +1,7 @@
 package team.project.service;
 
-import java.util.List;
-
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.data.domain.Pageable;
 import team.project.dto.child.ChildDto;
 import team.project.dto.child.CreateChildRequestDto;
@@ -60,7 +59,8 @@ public interface ChildService {
 
     JournalDto saveFoot(Long userId, Long childId, CreateJournalRequestDto requestDto);
 
-    JournalDto updateFoot(Long userId, Long childId, Long footId, UpdateJournalRequestDto requestDto);
+    JournalDto updateFoot(Long userId, Long childId, Long footId,
+                          UpdateJournalRequestDto requestDto);
 
     void deleteFoot(Long userId, Long childId, Long footId);
 

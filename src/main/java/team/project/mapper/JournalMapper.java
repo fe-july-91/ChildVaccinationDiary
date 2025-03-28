@@ -1,29 +1,25 @@
 package team.project.mapper;
 
+import java.time.Year;
 import org.mapstruct.AfterMapping;
-import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import team.project.config.MapperConfig;
 import team.project.dto.journal.CreateJournalRequestDto;
 import team.project.dto.journal.JournalDto;
 import team.project.dto.journal.UpdateJournalRequestDto;
 import team.project.model.Journal;
 
-import java.time.Year;
-
-@Mapper(config = MapperConfig.class, uses = ChildMapper.class)
-public interface JournalMapper {
+public interface JournalMapper<T extends Journal> {
 
     @Mapping(target = "year", ignore = true)
-    <T extends Journal> T toModel(Class<T> clazz, CreateJournalRequestDto requestDto);
+    T toModel(CreateJournalRequestDto requestDto);
 
-    JournalDto toDto(Journal journal);
+    JournalDto toDto(T journal);
 
-    <T extends Journal> T updateFromDto(@MappingTarget T journal, UpdateJournalRequestDto requestDto);
+    T updateFromDto(@MappingTarget T journal, UpdateJournalRequestDto requestDto);
 
     @AfterMapping
-    default void setYear(@MappingTarget Journal journal, CreateJournalRequestDto requestDto) {
+    default void setYear(@MappingTarget T journal, CreateJournalRequestDto requestDto) {
         String strYear = requestDto.year();
         if (!strYear.matches("\\d+")) {
             journal.setYear(Year.now().getValue());
