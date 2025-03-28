@@ -7,5 +7,4 @@ import java.io.Serializable;
 
 public record CreateJournalRequestDto(@NotBlank String year,
                                       @NotBlank String month,
-                                      @Positive @NotNull short value) implements Serializable {
-}
+                                      @Positive @NotNull short value) implements Serializable {}

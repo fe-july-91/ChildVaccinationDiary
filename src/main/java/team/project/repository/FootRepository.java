@@ -5,5 +5,4 @@ import team.project.model.Foot;
 
 @Repository
 public interface FootRepository extends JournalRepository<Foot> {
-
 }

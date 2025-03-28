@@ -5,5 +5,4 @@ import team.project.model.Weight;
 
 @Repository
 public interface WeightRepository extends JournalRepository<Weight> {
-
 }

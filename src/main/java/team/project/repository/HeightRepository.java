@@ -6,5 +6,4 @@ import team.project.model.Height;
 @Repository
 public interface HeightRepository extends JournalRepository<Height> {
 
-    boolean existsByIdAndChildId(Long heightId, Long childId);
 }
