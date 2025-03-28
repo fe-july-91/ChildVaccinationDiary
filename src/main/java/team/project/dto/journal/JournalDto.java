@@ -1,6 +1,5 @@
-package team.project.dto.weight;
+package team.project.dto.journal;
 
-import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WeightDto implements Serializable {
+public class JournalDto {
     private Long id;
     private int year;
     private String month;

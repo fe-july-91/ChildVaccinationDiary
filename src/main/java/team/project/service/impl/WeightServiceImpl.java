@@ -5,13 +5,13 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import team.project.dto.weight.CreateWeightRequestDto;
-import team.project.dto.weight.UpdateWeightRequestDto;
-import team.project.dto.weight.WeightDto;
+import team.project.dto.journal.CreateJournalRequestDto;
+import team.project.dto.journal.JournalDto;
+import team.project.dto.journal.UpdateJournalRequestDto;
 import team.project.mapper.WeightMapper;
 import team.project.model.Child;
 import team.project.model.Weight;
-import team.project.repository.weight.WeightRepository;
+import team.project.repository.WeightRepository;
 import team.project.service.WeightService;
 
 @RequiredArgsConstructor
@@ -21,7 +21,7 @@ public class WeightServiceImpl implements WeightService {
     private final WeightMapper weightMapper;
 
     @Override
-    public List<WeightDto> getAllByChildId(Long childId) {
+    public List<JournalDto> getAllByChildId(Long childId) {
         List<Weight> result = weightRepo.findAllByChildId(childId);
         return result.stream()
                 .map(weightMapper::toDto)
@@ -30,7 +30,7 @@ public class WeightServiceImpl implements WeightService {
 
     @Override
     @Transactional
-    public WeightDto save(Child child, CreateWeightRequestDto requestDto) {
+    public JournalDto save(Child child, CreateJournalRequestDto requestDto) {
         Weight weight = weightMapper.toModel(requestDto);
         weight.setChild(child);
         return weightMapper.toDto(weightRepo.save(weight));
@@ -38,7 +38,7 @@ public class WeightServiceImpl implements WeightService {
 
     @Override
     @Transactional
-    public WeightDto update(Long childId, Long weightId, UpdateWeightRequestDto requestDto) {
+    public JournalDto update(Long childId, Long weightId, UpdateJournalRequestDto requestDto) {
         Weight weightFromDB = getWeightByIdAndChildId(weightId, childId);
         return weightMapper.toDto(weightRepo.save(
                 weightMapper.updateFromDto(weightFromDB, requestDto)));
@@ -51,7 +51,7 @@ public class WeightServiceImpl implements WeightService {
     }
 
     @Override
-    public List<WeightDto> getAllByYearAndChildId(Long childId, int year) {
+    public List<JournalDto> getAllByYearAndChildId(Long childId, int year) {
         List<Weight> result = weightRepo.findAllByYearAndChildId(year, childId);
         return result.stream()
                 .map(weightMapper::toDto)

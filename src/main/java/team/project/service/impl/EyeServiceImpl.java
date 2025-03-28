@@ -9,7 +9,7 @@ import team.project.dto.eye.UpdateEyeRequestDto;
 import team.project.mapper.EyeMapper;
 import team.project.model.Child;
 import team.project.model.Eye;
-import team.project.repository.child.EyeRepository;
+import team.project.repository.EyeRepository;
 import team.project.service.EyeService;
 
 @RequiredArgsConstructor

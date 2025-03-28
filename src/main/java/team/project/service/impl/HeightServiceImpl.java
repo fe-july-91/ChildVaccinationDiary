@@ -5,13 +5,13 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import team.project.dto.height.CreateHeightRequestDto;
-import team.project.dto.height.HeightDto;
-import team.project.dto.height.UpdateHeightRequestDto;
+import team.project.dto.journal.CreateJournalRequestDto;
+import team.project.dto.journal.JournalDto;
+import team.project.dto.journal.UpdateJournalRequestDto;
 import team.project.mapper.HeightMapper;
 import team.project.model.Child;
 import team.project.model.Height;
-import team.project.repository.height.HeightRepository;
+import team.project.repository.HeightRepository;
 import team.project.service.HeightService;
 
 @RequiredArgsConstructor
@@ -21,7 +21,7 @@ public class HeightServiceImpl implements HeightService {
     private final HeightMapper heightMapper;
 
     @Override
-    public List<HeightDto> getAllByChildId(Long childId) {
+    public List<JournalDto> getAllByChildId(Long childId) {
         List<Height> result = heightRepo.findAllByChildId(childId);
         return result.stream()
                 .map(heightMapper::toDto)
@@ -30,7 +30,7 @@ public class HeightServiceImpl implements HeightService {
 
     @Override
     @Transactional
-    public HeightDto save(Child child, CreateHeightRequestDto requestDto) {
+    public JournalDto save(Child child, CreateJournalRequestDto requestDto) {
         Height height = heightMapper.toModel(requestDto);
         height.setChild(child);
         return heightMapper.toDto(heightRepo.save(height));
@@ -38,7 +38,7 @@ public class HeightServiceImpl implements HeightService {
 
     @Override
     @Transactional
-    public HeightDto update(Long childId, Long heightId, UpdateHeightRequestDto requestDto) {
+    public JournalDto update(Long childId, Long heightId, UpdateJournalRequestDto requestDto) {
         Height heightFromDB = getHeightByIdAndChildId(heightId, childId);
         return heightMapper.toDto(heightRepo.save(
                 heightMapper.updateFromDto(heightFromDB, requestDto)));
@@ -46,16 +46,12 @@ public class HeightServiceImpl implements HeightService {
 
     @Override
     @Transactional
-    public String delete(Long childId, Long heightId) {
-        Height heightFromDB = getHeightByIdAndChildId(heightId, childId);
-        heightRepo.delete(heightFromDB);
-        return (!heightRepo.existsByIdAndChildId(heightId, childId))
-                ? String.format("Значення зросту з id = %s було успішно видалено.", heightId)
-                : String.format("Значення зросту з id = %s НЕ було видалено.", heightId);
+    public void delete(Long childId, Long heightId) {
+        heightRepo.delete(getHeightByIdAndChildId(heightId, childId));
     }
 
     @Override
-    public List<HeightDto> getAllByYearAndChildId(Long childId, int year) {
+    public List<JournalDto> getAllByYearAndChildId(Long childId, int year) {
         List<Height> result = heightRepo.findAllByYearAndChildId(year, childId);
         return result.stream()
                 .map(heightMapper::toDto)

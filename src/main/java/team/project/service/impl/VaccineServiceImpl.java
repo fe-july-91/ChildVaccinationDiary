@@ -15,8 +15,8 @@ import team.project.model.Child;
 import team.project.model.Type;
 import team.project.model.TypeName;
 import team.project.model.Vaccine;
-import team.project.repository.vaccine.TypeRepository;
-import team.project.repository.vaccine.VaccineRepository;
+import team.project.repository.TypeRepository;
+import team.project.repository.VaccineRepository;
 import team.project.service.VaccineService;
 
 @RequiredArgsConstructor

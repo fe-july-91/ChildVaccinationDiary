@@ -5,13 +5,13 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import team.project.dto.foot.CreateFootRequestDto;
-import team.project.dto.foot.FootDto;
-import team.project.dto.foot.UpdateFootRequestDto;
+import team.project.dto.journal.CreateJournalRequestDto;
+import team.project.dto.journal.JournalDto;
+import team.project.dto.journal.UpdateJournalRequestDto;
 import team.project.mapper.FootMapper;
 import team.project.model.Child;
 import team.project.model.Foot;
-import team.project.repository.foot.FootRepository;
+import team.project.repository.FootRepository;
 import team.project.service.FootService;
 
 @RequiredArgsConstructor
@@ -21,7 +21,7 @@ public class FootServiceImpl implements FootService {
     private final FootMapper footMapper;
 
     @Override
-    public List<FootDto> getAllByChildId(Long childId) {
+    public List<JournalDto> getAllByChildId(Long childId) {
         List<Foot> result = footRepo.findAllByChildId(childId);
         return result.stream()
                 .map(footMapper::toDto)
@@ -30,7 +30,7 @@ public class FootServiceImpl implements FootService {
 
     @Override
     @Transactional
-    public FootDto save(Child child, CreateFootRequestDto requestDto) {
+    public JournalDto save(Child child, CreateJournalRequestDto requestDto) {
         Foot foot = footMapper.toModel(requestDto);
         foot.setChild(child);
         return footMapper.toDto(footRepo.save(foot));
@@ -38,7 +38,7 @@ public class FootServiceImpl implements FootService {
 
     @Override
     @Transactional
-    public FootDto update(Long childId, Long footId, UpdateFootRequestDto requestDto) {
+    public JournalDto update(Long childId, Long footId, UpdateJournalRequestDto requestDto) {
         return footMapper.toDto(footRepo.save(
                 footMapper.updateFromDto(getFootOfChild(footId, childId), requestDto)));
     }
@@ -50,7 +50,7 @@ public class FootServiceImpl implements FootService {
     }
 
     @Override
-    public List<FootDto> getAllByYearAndChildId(Long childId, int year) {
+    public List<JournalDto> getAllByYearAndChildId(Long childId, int year) {
         List<Foot> result = footRepo.findAllByYearAndChildId(year, childId);
         return result.stream()
                 .map(footMapper::toDto)

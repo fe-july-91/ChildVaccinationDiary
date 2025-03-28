@@ -1,4 +1,4 @@
-package team.project.repository.child;
+package team.project.repository;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,5 +1,6 @@
 package team.project.service;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 import team.project.dto.child.ChildDto;
@@ -7,18 +8,12 @@ import team.project.dto.child.CreateChildRequestDto;
 import team.project.dto.child.UpdateChildRequestDto;
 import team.project.dto.eye.EyeDto;
 import team.project.dto.eye.UpdateEyeRequestDto;
-import team.project.dto.foot.CreateFootRequestDto;
-import team.project.dto.foot.FootDto;
-import team.project.dto.foot.UpdateFootRequestDto;
-import team.project.dto.height.CreateHeightRequestDto;
-import team.project.dto.height.HeightDto;
-import team.project.dto.height.UpdateHeightRequestDto;
+import team.project.dto.journal.CreateJournalRequestDto;
+import team.project.dto.journal.JournalDto;
+import team.project.dto.journal.UpdateJournalRequestDto;
 import team.project.dto.vaccine.CreateVaccineRequestDto;
 import team.project.dto.vaccine.UpdateVaccineRequestDto;
 import team.project.dto.vaccine.VaccineDto;
-import team.project.dto.weight.CreateWeightRequestDto;
-import team.project.dto.weight.UpdateWeightRequestDto;
-import team.project.dto.weight.WeightDto;
 import team.project.exception.DuplicateCheckingException;
 import team.project.model.User;
 
@@ -36,39 +31,40 @@ public interface ChildService {
     ChildDto updateChildByIdAndUserId(Long userId, Long childId,
                                       UpdateChildRequestDto newRequestDto);
 
-    List<HeightDto> getAllHeightByChildId(Long userId, Long childId);
+    List<JournalDto> getAllHeightByChildId(Long userId, Long childId);
 
-    HeightDto saveHeight(Long userId, Long childId, CreateHeightRequestDto requestDto);
+    JournalDto saveHeight(Long userId, Long childId, CreateJournalRequestDto requestDto);
 
-    HeightDto updateHeight(Long userId, Long childId, Long heightId,
-                           UpdateHeightRequestDto requestDto);
+    JournalDto updateHeight(Long userId, Long childId, Long heightId,
+                            @Valid UpdateJournalRequestDto requestDto);
 
-    String deleteHeight(Long userId, Long childId, Long heightId);
+    void deleteHeight(Long userId, Long childId, Long heightId);
 
-    List<HeightDto> getAllHeightByYearAndChildId(Long userId, Long childId, int year);
+    List<JournalDto> getAllHeightByChildIdAndYear(Long userId, Long childId, int year);
 
-    List<WeightDto> getAllWeightByChildId(Long userId, Long childId);
+    List<JournalDto> getAllWeightByChildId(Long userId, Long childId);
 
-    WeightDto saveWeight(Long userId, Long childId, CreateWeightRequestDto requestDto);
+    JournalDto saveWeight(Long userId, Long childId, CreateJournalRequestDto requestDto);
 
-    WeightDto updateWeight(Long userId, Long childId, Long weightId,
-                           UpdateWeightRequestDto requestDto);
+    JournalDto updateWeight(Long userId, Long childId, Long weightId,
+                           UpdateJournalRequestDto requestDto);
 
     void deleteWeight(Long userId, Long childId, Long weightId);
 
-    List<WeightDto> getAllWeightByYearAndChildId(Long userId, Long childId, int year);
+    List<JournalDto> getAllWeightByChildIdAndYear(Long userId, Long childId, int year);
 
     void deleteChildByIdAndUserId(Long userId, Long childId);
 
-    List<FootDto> getAllFootByChildId(Long userId, Long childId);
+    List<JournalDto> getAllFootByChildId(Long userId, Long childId);
 
-    FootDto saveFoot(Long userId, Long childId, CreateFootRequestDto requestDto);
+    JournalDto saveFoot(Long userId, Long childId, CreateJournalRequestDto requestDto);
 
-    FootDto updateFoot(Long userId, Long childId, Long footId, UpdateFootRequestDto requestDto);
+    JournalDto updateFoot(Long userId, Long childId, Long footId,
+                          UpdateJournalRequestDto requestDto);
 
     void deleteFoot(Long userId, Long childId, Long footId);
 
-    List<FootDto> getAllFootByYearAndChildId(Long userId, Long childId, int year);
+    List<JournalDto> getAllFootByChildIdAndYear(Long userId, Long childId, int year);
 
     EyeDto updateEye(Long userId, Long childId, UpdateEyeRequestDto requestDto);
 

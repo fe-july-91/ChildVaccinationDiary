@@ -1,4 +1,4 @@
-package team.project.repository.child;
+package team.project.repository;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
