@@ -26,8 +26,6 @@ public abstract class Journal {
     private String month;
     @Column(nullable = false)
     private short value;
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "child_id", nullable = false)
     private Child child;

@@ -9,10 +9,9 @@ import team.project.model.Vaccine;
 public interface VaccineRepository extends JpaRepository<Vaccine, Long> {
     List<Vaccine> findAllByChildId(Long childId);
 
-    Optional<Vaccine> findByIdAndChildIdAndIsDeletedFalse(Long vaccineId, Long childId);
+    Optional<Vaccine> findByIdAndChildId(Long vaccineId, Long childId);
 
     List<Vaccine> findByChildIdAndTypeIdAndDate(Long childId, Long typeId, LocalDate date);
 
-    boolean existsByChildIdAndTypeIdAndDateAndIsDeletedFalse(
-            Long childId, Long typeId, LocalDate date);
+    boolean existsByChildIdAndTypeIdAndDate(Long childId, Long typeId, LocalDate date);
 }

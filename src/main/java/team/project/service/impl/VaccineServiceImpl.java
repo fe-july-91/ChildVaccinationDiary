@@ -77,7 +77,7 @@ public class VaccineServiceImpl implements VaccineService {
     }
 
     private Vaccine getVaccineOfChild(Long vaccineId, Long childId) {
-        return vaccineRepo.findByIdAndChildIdAndIsDeletedFalse(vaccineId, childId)
+        return vaccineRepo.findByIdAndChildId(vaccineId, childId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Вакцина з id = %s не знайдена для дитини з id = %s.",
                                 vaccineId, childId)));
@@ -92,7 +92,7 @@ public class VaccineServiceImpl implements VaccineService {
 
     private void checkByDate(Long childId, Long typeId, LocalDate date)
             throws DuplicateCheckingException {
-        if (vaccineRepo.existsByChildIdAndTypeIdAndDateAndIsDeletedFalse(
+        if (vaccineRepo.existsByChildIdAndTypeIdAndDate(
                 childId,
                 typeId,
                 date)) {

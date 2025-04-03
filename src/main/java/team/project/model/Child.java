@@ -12,14 +12,10 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Setter
 @Entity
-@SQLDelete(sql = "UPDATE childs SET is_deleted = TRUE WHERE id = ?")
-@SQLRestriction("is_deleted = FALSE")
 @Table(name = "childs")
 public class Child {
     @Id
@@ -37,6 +33,4 @@ public class Child {
     @Column(nullable = false)
     private String genderName;
     private String image;
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted;
 }
