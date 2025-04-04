@@ -13,15 +13,17 @@ import team.project.dto.user.UserResetDataRequestDto;
 import team.project.dto.user.UserResetPasswordRequestDto;
 import team.project.dto.user.UserResponseDto;
 import team.project.exception.EntityNotFoundCustomException;
-import team.project.exception.RegistrationException;
+import team.project.exception.RegistrationCustomException;
 import team.project.mapper.UserMapper;
 import team.project.model.Role;
 import team.project.model.RoleName;
+import team.project.model.TokenConfirmation;
 import team.project.model.User;
 import team.project.password.PasswordGenerator;
 import team.project.repository.RoleRepository;
 import team.project.repository.UserRepository;
 import team.project.service.EmailService;
+import team.project.service.TokenConfirmationService;
 import team.project.service.UserService;
 
 @RequiredArgsConstructor
@@ -34,14 +36,19 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepo;
     private final EmailService emailService;
     private final PasswordGenerator passwordGenerator;
+    private final TokenConfirmationService tokenConfirmationService;
 
     @Override
     @Transactional
     public UserResponseDto register(UserRegistrationRequestDto requestDto)
-            throws RegistrationException {
+            throws RegistrationCustomException {
         if (userRepo.existsByEmail(requestDto.email())) {
-            throw new RegistrationException(
+            throw new RegistrationCustomException(
                     "Користувача із такою електронною поштою вже зареєстровано");
+        }
+        TokenConfirmation tokenConfirmation = tokenConfirmationService.createToken(requestDto.email());
+        if (tokenConfirmation != null) {
+            emailService.sendTokenConformation(tokenConfirmation.getEmail(), tokenConfirmation.getToken());
         }
         User user = userMapper.toModel(requestDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));

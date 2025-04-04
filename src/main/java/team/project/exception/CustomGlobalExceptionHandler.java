@@ -50,8 +50,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return generateErrorResponse(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
     }
 
-    @ExceptionHandler(RegistrationException.class)
-    protected ResponseEntity<Object> handleRegistrationException(RegistrationException ex) {
+    @ExceptionHandler(RegistrationCustomException.class)
+    protected ResponseEntity<Object> handleRegistrationException(RegistrationCustomException ex) {
         return generateErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY, ex.getLocalizedMessage());
     }
 

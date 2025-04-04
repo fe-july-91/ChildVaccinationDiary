@@ -1,6 +1,5 @@
 package team.project.service.impl;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +7,7 @@ import org.springframework.stereotype.Service;
 import team.project.dto.journal.CreateJournalRequestDto;
 import team.project.dto.journal.JournalDto;
 import team.project.dto.journal.UpdateJournalRequestDto;
+import team.project.exception.EntityNotFoundCustomException;
 import team.project.mapper.HeightMapper;
 import team.project.model.Child;
 import team.project.model.Height;
@@ -71,7 +71,7 @@ public class HeightServiceImpl implements HeightService {
 
     private Height getHeightByIdAndChildId(Long heightId, Long childId) {
         return heightRepo.findByIdAndChildId(heightId, childId)
-                .orElseThrow(() -> new EntityNotFoundException(
+                .orElseThrow(() -> new EntityNotFoundCustomException(
                         String.format("Значення зросту з id = %s не знайдено для дитини з id = %s.",
                                 heightId, childId)));
     }

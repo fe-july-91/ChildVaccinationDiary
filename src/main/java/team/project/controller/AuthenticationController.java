@@ -14,7 +14,7 @@ import team.project.dto.user.UserLoginResponseDto;
 import team.project.dto.user.UserRecoveryRequestDto;
 import team.project.dto.user.UserRegistrationRequestDto;
 import team.project.dto.user.UserResponseDto;
-import team.project.exception.RegistrationException;
+import team.project.exception.RegistrationCustomException;
 import team.project.security.AuthenticationService;
 import team.project.service.UserService;
 
@@ -31,7 +31,7 @@ public class AuthenticationController {
     @Operation(summary = "Create a new user",
             description = "Create a new user entity in the database")
     public UserResponseDto register(@RequestBody @Valid UserRegistrationRequestDto requestDto)
-            throws RegistrationException {
+            throws RegistrationCustomException {
         return userService.register(requestDto);
     }
 

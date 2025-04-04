@@ -15,6 +15,9 @@ databaseChangeLog:
               - column:
                   name: name
                   value: 'Some admin'
+              - column:
+                  name: is_verified
+                  valueBoolean: true
   - changeSet:
       id: insert-default-parent
       author: yana_stepanova
@@ -31,3 +34,6 @@ databaseChangeLog:
               - column:
                   name: name
                   value: 'Марія Шмакова'
+              - column:
+                  name: is_verified
+                  valueBoolean: true
