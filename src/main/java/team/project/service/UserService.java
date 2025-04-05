@@ -9,7 +9,9 @@ import team.project.exception.RegistrationCustomException;
 import team.project.model.User;
 
 public interface UserService {
-    UserResponseDto register(UserRegistrationRequestDto requestDto) throws RegistrationCustomException;
+
+    UserResponseDto register(UserRegistrationRequestDto requestDto,
+                             String urlHttp) throws RegistrationCustomException;
 
     String recoveryPassword(UserRecoveryRequestDto requestDto);
 
@@ -18,4 +20,6 @@ public interface UserService {
     String resetPassword(User user, UserResetPasswordRequestDto requestDto);
 
     UserResponseDto resetData(User user, UserResetDataRequestDto requestDto);
+
+    String verifyEmail(String token);
 }

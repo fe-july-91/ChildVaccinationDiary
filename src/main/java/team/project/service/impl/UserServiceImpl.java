@@ -2,6 +2,7 @@ package team.project.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -40,21 +41,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserResponseDto register(UserRegistrationRequestDto requestDto)
+    public UserResponseDto register(UserRegistrationRequestDto requestDto, String urlHttp)
             throws RegistrationCustomException {
         if (userRepo.existsByEmail(requestDto.email())) {
             throw new RegistrationCustomException(
                     "Користувача із такою електронною поштою вже зареєстровано");
         }
-        TokenConfirmation tokenConfirmation = tokenConfirmationService.createToken(requestDto.email());
-        if (tokenConfirmation != null) {
-            emailService.sendTokenConformation(tokenConfirmation.getEmail(), tokenConfirmation.getToken());
-        }
         User user = userMapper.toModel(requestDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(generateDefaultSetRoles());
         User savedUser = userRepo.save(user);
+        TokenConfirmation tokenConfirmation = tokenConfirmationService.createToken(savedUser);
+        emailService.sendTokenConformation(savedUser,
+                generteUrlWithToken(urlHttp, tokenConfirmation.getToken()));
         return userMapper.toResponseDto(savedUser);
+    }
+
+    private String generteUrlWithToken(String urlHttp, String token) {
+        return urlHttp + "/auth/verify-email?token=" + token;
     }
 
     @Override
@@ -92,6 +96,21 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserResponseDto resetData(User user, UserResetDataRequestDto requestDto) {
         return userMapper.toResponseDto(userRepo.save(userMapper.updateFromDto(user, requestDto)));
+    }
+
+    @Transactional
+    @Override
+    public String verifyEmail(String token) {
+        TokenConfirmation tokenConfirmation = tokenConfirmationService.getByToken(token);
+        User user = tokenConfirmation.getUser();
+        if (user.isEnabled()) {
+            return "Цей обліковий запис уже підтверджено.";
+        } else if (LocalDateTime.now().isBefore(tokenConfirmation.getExpireDate())) {
+            user.setVerified(true);
+            userRepo.save(user);
+            return "Ваш обліковий запис було успішно підтверджено!";
+        }
+        return "Пройшло занадто багато часу - посилання вже не дійсне";
     }
 
     private Set<Role> generateDefaultSetRoles() {

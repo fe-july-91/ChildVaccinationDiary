@@ -2,10 +2,10 @@ package team.project.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import team.project.model.User;
 import team.project.service.EmailService;
 
 @RequiredArgsConstructor
@@ -14,8 +14,6 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender mailSender;
     @Value("${jwt.expiration}")
     private long expiration;
-    @Value("${confirm.url}")
-    private String urlConfirmation;
 
     @Override
     public void sendPasswordReset(String emailTo, String resetPassword) {
@@ -29,14 +27,16 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendTokenConformation(String emailTo, String token) {
-
+    public void sendTokenConformation(User user, String urlWithToken) {
+        String mailContent = "<p> Вітаємо, " + user.getName() + "!</p>"
+                + "<p>Підтвердіть, будь ласка, реєстрацію на kidty.com.ua,"
+                + "перейшовши за цим посиланням: </p>"
+                + "<a href=\"" + urlWithToken + "\">Я підтверждую реєстрації</a>"
+                + "<p> Дякуємо, на все добре! </p>";
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(emailTo);
+        message.setTo(user.getEmail());
         message.setSubject("Підтвердження пошти");
-        message.setText("Підтвердіть, будь ласка, реєстрацію на kidty.com.ua!"
-                + "Перейдіть за посиланням: " + resetPassword
-                + "\n\nДякуємо, на все добре!");
+        message.setText(mailContent);
         mailSender.send(message);
     }
 }

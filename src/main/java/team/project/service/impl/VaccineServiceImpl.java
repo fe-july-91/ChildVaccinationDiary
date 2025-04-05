@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import team.project.dto.vaccine.CreateVaccineRequestDto;
 import team.project.dto.vaccine.UpdateVaccineRequestDto;
 import team.project.dto.vaccine.VaccineDto;
-import team.project.exception.DuplicateCheckingException;
+import team.project.exception.EntityExistsCustomException;
 import team.project.mapper.VaccineMapper;
 import team.project.model.Child;
 import team.project.model.Type;
@@ -29,7 +29,7 @@ public class VaccineServiceImpl implements VaccineService {
     @Override
     @Transactional
     public VaccineDto save(Child child, CreateVaccineRequestDto requestDto)
-            throws DuplicateCheckingException {
+            throws EntityExistsCustomException {
         Type typeFromDB = getType(requestDto.type());
         Vaccine vaccine = vaccineMapper.toModel(requestDto);
         vaccine.setChild(child);
@@ -91,12 +91,12 @@ public class VaccineServiceImpl implements VaccineService {
     }
 
     private void checkByDate(Long childId, Long typeId, LocalDate date)
-            throws DuplicateCheckingException {
+            throws EntityExistsCustomException {
         if (vaccineRepo.existsByChildIdAndTypeIdAndDate(
                 childId,
                 typeId,
                 date)) {
-            throw new DuplicateCheckingException("Така вакцинація на цю дату вже була зроблена."
+            throw new EntityExistsCustomException("Така вакцинація на цю дату вже була зроблена."
                     + "Необхідно змінити тип вікцинації або вказати іншу дату!");
         }
     }

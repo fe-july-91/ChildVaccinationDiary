@@ -5,23 +5,30 @@ interface UserDetails
 interface GrantedAuthority
 
 class User {
-- id : Long
-- email : String
-- password : String
-- firstName : String
-- lastName : String
-- roles : Set<Role>
-- isDeleted : boolean
+ - id : Long
+ - email : String
+ - password : String
+ - firstName : String
+ - lastName : String
+ - roles : Set<Role>
+ - isDeleted : boolean
 }
 
 class Role {
-- id : Long
-- name : RoleName
+ - id : Long
+ - name : RoleName
 }
 
 enum RoleName {
-ADMIN
-PARENT
+ ADMIN
+ PARENT
+}
+
+class TokenConfirmation{
+ -  id : Long
+ -  token : String
+ -  expireDate : LocalDateTime
+ -  user : User
 }
 
 class Child {
@@ -103,6 +110,7 @@ Child "n" -o "1" User
 User "n" o- "n" Role
 UserDetails <|.. User
 GrantedAuthority <|.. Role
+User "1" o-- "n" TokenConfirmation
 
 note "org.springframework.security.core" as MyNote
 MyNote .. GrantedAuthority

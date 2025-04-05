@@ -20,7 +20,7 @@ import team.project.dto.journal.UpdateJournalRequestDto;
 import team.project.dto.vaccine.CreateVaccineRequestDto;
 import team.project.dto.vaccine.UpdateVaccineRequestDto;
 import team.project.dto.vaccine.VaccineDto;
-import team.project.exception.DuplicateCheckingException;
+import team.project.exception.EntityExistsCustomException;
 import team.project.mapper.ChildMapper;
 import team.project.model.Child;
 import team.project.model.User;
@@ -221,7 +221,7 @@ public class ChildServiceImpl implements ChildService {
 
     @Override
     public VaccineDto saveVaccine(Long userId, Long childId, CreateVaccineRequestDto requestDto)
-            throws DuplicateCheckingException {
+            throws EntityExistsCustomException {
         return vaccineService.save(getChildOfUser(childId, userId), requestDto);
     }
 
