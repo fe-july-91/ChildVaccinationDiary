@@ -16,8 +16,12 @@ import team.project.dto.user.UserLoginRequestDto;
 import team.project.dto.user.UserLoginResponseDto;
 import team.project.dto.user.UserRecoveryRequestDto;
 import team.project.dto.user.UserRegistrationRequestDto;
+import team.project.dto.user.UserResponseDto;
 import team.project.exception.RegistrationCustomException;
+import team.project.model.TokenConfirmation;
+import team.project.model.User;
 import team.project.security.AuthenticationService;
+import team.project.service.TokenConfirmationService;
 import team.project.service.UserService;
 
 @Tag(name = "Authentication manager", description = "Endpoints for managing users")
@@ -28,6 +32,7 @@ import team.project.service.UserService;
 public class AuthenticationController {
     private final UserService userService;
     private final AuthenticationService authenticationService;
+    private final TokenConfirmationService tokenService;
 
     @PostMapping("/registration")
     @Operation(summary = "Create a new user",
@@ -36,7 +41,10 @@ public class AuthenticationController {
                            final HttpServletRequest requestHttp)
             throws RegistrationCustomException {
         String urlHttp = generateUrl(requestHttp);
-        userService.register(requestDto, urlHttp);
+        UserResponseDto responseDto = userService.register(requestDto);
+        User user = userService.getById(responseDto.id());
+        TokenConfirmation token = tokenService.createToken(user);
+        userService.sendEmailVerification(token, urlHttp);
         return "Для завершення реєстрації перевірте ваш імейл та пройдіть веріфікацію";
     }
 

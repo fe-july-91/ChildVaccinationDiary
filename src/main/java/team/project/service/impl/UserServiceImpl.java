@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserResponseDto register(UserRegistrationRequestDto requestDto, String urlHttp)
+    public UserResponseDto register(UserRegistrationRequestDto requestDto)
             throws RegistrationCustomException {
         if (userRepo.existsByEmail(requestDto.email())) {
             throw new RegistrationCustomException(
@@ -51,14 +51,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(generateDefaultSetRoles());
         User savedUser = userRepo.save(user);
-        TokenConfirmation tokenConfirmation = tokenConfirmationService.createToken(savedUser);
-        emailService.sendTokenConformation(savedUser,
-                generteUrlWithToken(urlHttp, tokenConfirmation.getToken()));
         return userMapper.toResponseDto(savedUser);
-    }
-
-    private String generteUrlWithToken(String urlHttp, String token) {
-        return urlHttp + "/auth/verify-email?token=" + token;
     }
 
     @Override
@@ -113,6 +106,19 @@ public class UserServiceImpl implements UserService {
         return "Пройшло занадто багато часу - посилання вже не дійсне";
     }
 
+    @Override
+    public User getById(Long id) {
+        return userRepo.findById(id).orElseThrow(() -> new EntityNotFoundCustomException(
+                String.format("Не вдається знайти обліковий запис за id = %s", id)
+        ));
+    }
+
+    @Override
+    public void sendEmailVerification(TokenConfirmation token, String urlHttp) {
+        emailService.sendTokenConformation(token.getUser(),
+                generteUrlWithToken(urlHttp, token.getToken()));
+    }
+
     private Set<Role> generateDefaultSetRoles() {
         Role roleFromDB = roleRepo.findByName(RoleName.getByType(DEFAULT_ROLE))
                 .orElseThrow(() -> new EntityNotFoundCustomException(
@@ -121,5 +127,9 @@ public class UserServiceImpl implements UserService {
         Set<Role> roles = new HashSet<>();
         roles.add(roleFromDB);
         return roles;
+    }
+
+    private String generteUrlWithToken(String urlHttp, String token) {
+        return urlHttp + "/auth/verify-email?token=" + token;
     }
 }
