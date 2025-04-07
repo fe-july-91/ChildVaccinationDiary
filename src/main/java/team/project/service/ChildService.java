@@ -14,7 +14,7 @@ import team.project.dto.journal.UpdateJournalRequestDto;
 import team.project.dto.vaccine.CreateVaccineRequestDto;
 import team.project.dto.vaccine.UpdateVaccineRequestDto;
 import team.project.dto.vaccine.VaccineDto;
-import team.project.exception.DuplicateCheckingException;
+import team.project.exception.EntityExistsCustomException;
 import team.project.model.User;
 
 public interface ChildService {
@@ -71,7 +71,7 @@ public interface ChildService {
     EyeDto getEye(Long userId, Long childId);
 
     VaccineDto saveVaccine(Long userId, Long childId, CreateVaccineRequestDto requestDto)
-            throws DuplicateCheckingException;
+            throws EntityExistsCustomException;
 
     List<VaccineDto> getAllVaccine(Long userId, Long childId);
 

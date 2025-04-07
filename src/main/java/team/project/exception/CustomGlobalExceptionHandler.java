@@ -35,24 +35,28 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(bodyErrors, headers, status);
     }
 
-    private String getErrorMessage(ObjectError error) {
-        if (error instanceof FieldError errorField) {
-            String field = errorField.getField();
-            String message = errorField.getDefaultMessage();
-            return field + " " + message;
-        }
-        return error.getDefaultMessage();
-    }
-
     @ExceptionHandler(EntityNotFoundCustomException.class)
     protected ResponseEntity<Object> handleEntityNotFoundCustomException(
             EntityNotFoundCustomException ex) {
         return generateErrorResponse(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
     }
 
-    @ExceptionHandler(RegistrationException.class)
-    protected ResponseEntity<Object> handleRegistrationException(RegistrationException ex) {
+    @ExceptionHandler(RegistrationCustomException.class)
+    protected ResponseEntity<Object> handleRegistrationCustomException(
+            RegistrationCustomException ex) {
         return generateErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY, ex.getLocalizedMessage());
+    }
+
+    @ExceptionHandler(EntityExistsCustomException.class)
+    protected ResponseEntity<Object> handleEntityExistsCustomException(
+            EntityExistsCustomException ex) {
+        return generateErrorResponse(HttpStatus.CONFLICT, ex.getLocalizedMessage());
+    }
+
+    @ExceptionHandler(UserUnverifiedException.class)
+    protected ResponseEntity<Object> handleUserUnverifiedException(
+            UserUnverifiedException ex) {
+        return generateErrorResponse(HttpStatus.FORBIDDEN, ex.getLocalizedMessage());
     }
 
     private ResponseEntity<Object> generateErrorResponse(HttpStatus status, String errorText) {
@@ -61,5 +65,14 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         bodyErrors.put("status", status);
         bodyErrors.put("error", errorText);
         return new ResponseEntity<>(bodyErrors, status);
+    }
+
+    private String getErrorMessage(ObjectError error) {
+        if (error instanceof FieldError errorField) {
+            String field = errorField.getField();
+            String message = errorField.getDefaultMessage();
+            return field + " " + message;
+        }
+        return error.getDefaultMessage();
     }
 }

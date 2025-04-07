@@ -2,6 +2,7 @@ package team.project.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -13,15 +14,18 @@ import team.project.dto.user.UserResetDataRequestDto;
 import team.project.dto.user.UserResetPasswordRequestDto;
 import team.project.dto.user.UserResponseDto;
 import team.project.exception.EntityNotFoundCustomException;
-import team.project.exception.RegistrationException;
+import team.project.exception.RegistrationCustomException;
+import team.project.exception.UserUnverifiedException;
 import team.project.mapper.UserMapper;
 import team.project.model.Role;
 import team.project.model.RoleName;
+import team.project.model.TokenConfirmation;
 import team.project.model.User;
 import team.project.password.PasswordGenerator;
 import team.project.repository.RoleRepository;
 import team.project.repository.UserRepository;
 import team.project.service.EmailService;
+import team.project.service.TokenConfirmationService;
 import team.project.service.UserService;
 
 @RequiredArgsConstructor
@@ -34,13 +38,14 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepo;
     private final EmailService emailService;
     private final PasswordGenerator passwordGenerator;
+    private final TokenConfirmationService tokenConfirmationService;
 
     @Override
     @Transactional
     public UserResponseDto register(UserRegistrationRequestDto requestDto)
-            throws RegistrationException {
+            throws RegistrationCustomException {
         if (userRepo.existsByEmail(requestDto.email())) {
-            throw new RegistrationException(
+            throw new RegistrationCustomException(
                     "Користувача із такою електронною поштою вже зареєстровано");
         }
         User user = userMapper.toModel(requestDto);
@@ -53,9 +58,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public String recoveryPassword(UserRecoveryRequestDto requestDto) {
-        if (!userRepo.existsByEmail(requestDto.email())) {
-            throw new EntityNotFoundCustomException(
-                    "Користувач із такою електронною поштою не зареєстрований.");
+        User userFromDB = getByEmail(requestDto.email());
+        if (!userFromDB.isEnabled()) {
+            throw new UserUnverifiedException(
+                    "Користувач із цією адресою електронної пошти не перевірений, "
+                            + "тому ця операція недоступна.");
         }
         String newPassword = passwordGenerator.generatePassword(8);
         updatePassword(requestDto.email(), newPassword);
@@ -87,6 +94,33 @@ public class UserServiceImpl implements UserService {
         return userMapper.toResponseDto(userRepo.save(userMapper.updateFromDto(user, requestDto)));
     }
 
+    @Transactional
+    @Override
+    public String verifyEmail(String token) {
+        TokenConfirmation tokenConfirmation = tokenConfirmationService.getByToken(token);
+        User user = tokenConfirmation.getUser();
+        if (user.isEnabled()) {
+            return "Цей обліковий запис уже підтверджено.";
+        } else if (LocalDateTime.now().isBefore(tokenConfirmation.getExpireDate())) {
+            user.setVerified(true);
+            userRepo.save(user);
+            return "Ваш обліковий запис було успішно підтверджено!";
+        }
+        return "Пройшло занадто багато часу - посилання вже не дійсне";
+    }
+
+    @Override
+    public User getById(Long id) {
+        return userRepo.findById(id).orElseThrow(() -> new EntityNotFoundCustomException(
+                String.format("Не вдається знайти обліковий запис за id = %s", id)));
+    }
+
+    @Override
+    public void sendEmailVerification(TokenConfirmation token, String urlHttp) {
+        emailService.sendTokenConformation(token.getUser(),
+                generteUrlWithToken(urlHttp, token.getToken()));
+    }
+
     private Set<Role> generateDefaultSetRoles() {
         Role roleFromDB = roleRepo.findByName(RoleName.getByType(DEFAULT_ROLE))
                 .orElseThrow(() -> new EntityNotFoundCustomException(
@@ -95,5 +129,15 @@ public class UserServiceImpl implements UserService {
         Set<Role> roles = new HashSet<>();
         roles.add(roleFromDB);
         return roles;
+    }
+
+    private String generteUrlWithToken(String urlHttp, String token) {
+        return urlHttp + "/auth/verify-email?token=" + token;
+    }
+
+    private User getByEmail(String email) {
+        return (User) userRepo.findByEmail(email).orElseThrow(
+                () -> new EntityNotFoundCustomException(
+                String.format("Не вдається знайти обліковий запис за email: %s", email)));
     }
 }

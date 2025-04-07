@@ -31,7 +31,7 @@ import team.project.dto.journal.UpdateJournalRequestDto;
 import team.project.dto.vaccine.CreateVaccineRequestDto;
 import team.project.dto.vaccine.UpdateVaccineRequestDto;
 import team.project.dto.vaccine.VaccineDto;
-import team.project.exception.DuplicateCheckingException;
+import team.project.exception.EntityExistsCustomException;
 import team.project.model.User;
 import team.project.service.ChildService;
 
@@ -259,7 +259,7 @@ public class ChildController {
     public VaccineDto createVaccine(@AuthenticationPrincipal User user,
                                     @PathVariable @Positive Long childId,
                                     @RequestBody @Valid CreateVaccineRequestDto requestDto)
-            throws DuplicateCheckingException {
+            throws EntityExistsCustomException {
         return childService.saveVaccine(user.getId(), childId, requestDto);
     }
 
