@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import org.mockito.exceptions.misusing.UnfinishedVerificationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import team.project.dto.user.UserRecoveryRequestDto;
@@ -62,7 +61,8 @@ public class UserServiceImpl implements UserService {
         User userFromDB = getByEmail(requestDto.email());
         if (!userFromDB.isEnabled()) {
             throw new UserUnverifiedException(
-                    "Користувач із цією адресою електронної пошти не перевірений, тому ця операція недоступна.");
+                    "Користувач із цією адресою електронної пошти не перевірений, "
+                            + "тому ця операція недоступна.");
         }
         String newPassword = passwordGenerator.generatePassword(8);
         updatePassword(requestDto.email(), newPassword);
@@ -136,7 +136,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private User getByEmail(String email) {
-        return (User) userRepo.findByEmail(email).orElseThrow(() -> new EntityNotFoundCustomException(
+        return (User) userRepo.findByEmail(email).orElseThrow(
+                () -> new EntityNotFoundCustomException(
                 String.format("Не вдається знайти обліковий запис за email: %s", email)));
     }
 }
