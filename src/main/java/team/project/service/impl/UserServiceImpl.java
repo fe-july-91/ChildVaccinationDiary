@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.mockito.exceptions.misusing.UnfinishedVerificationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import team.project.dto.user.UserRecoveryRequestDto;
@@ -15,6 +16,7 @@ import team.project.dto.user.UserResetPasswordRequestDto;
 import team.project.dto.user.UserResponseDto;
 import team.project.exception.EntityNotFoundCustomException;
 import team.project.exception.RegistrationCustomException;
+import team.project.exception.UserUnverifiedException;
 import team.project.mapper.UserMapper;
 import team.project.model.Role;
 import team.project.model.RoleName;
@@ -57,9 +59,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public String recoveryPassword(UserRecoveryRequestDto requestDto) {
-        if (!userRepo.existsByEmail(requestDto.email())) {
-            throw new EntityNotFoundCustomException(
-                    "Користувач із такою електронною поштою не зареєстрований.");
+        User userFromDB = getByEmail(requestDto.email());
+        if (!userFromDB.isEnabled()) {
+            throw new UserUnverifiedException(
+                    "Користувач із цією адресою електронної пошти не перевірений, тому ця операція недоступна.");
         }
         String newPassword = passwordGenerator.generatePassword(8);
         updatePassword(requestDto.email(), newPassword);
@@ -109,8 +112,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getById(Long id) {
         return userRepo.findById(id).orElseThrow(() -> new EntityNotFoundCustomException(
-                String.format("Не вдається знайти обліковий запис за id = %s", id)
-        ));
+                String.format("Не вдається знайти обліковий запис за id = %s", id)));
     }
 
     @Override
@@ -131,5 +133,10 @@ public class UserServiceImpl implements UserService {
 
     private String generteUrlWithToken(String urlHttp, String token) {
         return urlHttp + "/auth/verify-email?token=" + token;
+    }
+
+    private User getByEmail(String email) {
+        return (User) userRepo.findByEmail(email).orElseThrow(() -> new EntityNotFoundCustomException(
+                String.format("Не вдається знайти обліковий запис за email: %s", email)));
     }
 }

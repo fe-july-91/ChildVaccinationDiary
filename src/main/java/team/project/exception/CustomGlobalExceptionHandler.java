@@ -53,6 +53,12 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return generateErrorResponse(HttpStatus.CONFLICT, ex.getLocalizedMessage());
     }
 
+    @ExceptionHandler(UserUnverifiedException.class)
+    protected ResponseEntity<Object> handleUserUnverifiedException(
+            UserUnverifiedException ex) {
+        return generateErrorResponse(HttpStatus.FORBIDDEN, ex.getLocalizedMessage());
+    }
+
     private ResponseEntity<Object> generateErrorResponse(HttpStatus status, String errorText) {
         Map<String,Object> bodyErrors = new LinkedHashMap<>();
         bodyErrors.put("timestamp", LocalDateTime.now());

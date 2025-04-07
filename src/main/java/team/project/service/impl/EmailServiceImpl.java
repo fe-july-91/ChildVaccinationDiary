@@ -31,7 +31,7 @@ public class EmailServiceImpl implements EmailService {
         message.setSubject("Підтвердження пошти при реєстрації");
         message.setText(String.format("""
                 Вітаємо, %s!
-                Підтвердіть, будь ласка, реєстрацію на kidty.com.ua.
+                Підтвердіть, будь ласка, реєстрацію  у вебдодатку KIDTY.
                 Для цього перейдіть за посиланням: %s
                 Дякуємо!""", user.getName(), urlWithToken));
         mailSender.send(message);
