@@ -16,4 +16,6 @@ public interface VaccineService {
     VaccineDto update(Long childId, Long vaccineId, UpdateVaccineRequestDto requestDto);
 
     void delete(Long childId, Long vaccineId);
+
+    void deleteAllByChildId(Long childId);
 }

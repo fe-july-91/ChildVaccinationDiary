@@ -10,4 +10,6 @@ public interface EyeService {
     EyeDto updateById(Long childId, UpdateEyeRequestDto requestDto);
 
     EyeDto getEyeByChildId(Long childId);
+
+    void deleteByChildId(Long childId);
 }

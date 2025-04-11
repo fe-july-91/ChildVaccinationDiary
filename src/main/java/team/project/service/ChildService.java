@@ -31,6 +31,11 @@ public interface ChildService {
     ChildDto updateChildByIdAndUserId(Long userId, Long childId,
                                       UpdateChildRequestDto newRequestDto);
 
+    void deleteChildByIdAndUserId(Long userId, Long childId);
+
+    void deleteAllByUserId(Long userId);
+
+    // ========== Height ============
     List<JournalDto> getAllHeightByChildId(Long userId, Long childId);
 
     JournalDto saveHeight(Long userId, Long childId, CreateJournalRequestDto requestDto);
@@ -42,6 +47,7 @@ public interface ChildService {
 
     List<JournalDto> getAllHeightByChildIdAndYear(Long userId, Long childId, int year);
 
+    // ========== Weight ============
     List<JournalDto> getAllWeightByChildId(Long userId, Long childId);
 
     JournalDto saveWeight(Long userId, Long childId, CreateJournalRequestDto requestDto);
@@ -53,8 +59,7 @@ public interface ChildService {
 
     List<JournalDto> getAllWeightByChildIdAndYear(Long userId, Long childId, int year);
 
-    void deleteChildByIdAndUserId(Long userId, Long childId);
-
+    // ========== Foot ============
     List<JournalDto> getAllFootByChildId(Long userId, Long childId);
 
     JournalDto saveFoot(Long userId, Long childId, CreateJournalRequestDto requestDto);
@@ -66,10 +71,12 @@ public interface ChildService {
 
     List<JournalDto> getAllFootByChildIdAndYear(Long userId, Long childId, int year);
 
+    // ========== Eye ============
     EyeDto updateEye(Long userId, Long childId, UpdateEyeRequestDto requestDto);
 
     EyeDto getEye(Long userId, Long childId);
 
+    // ========== Height ============
     VaccineDto saveVaccine(Long userId, Long childId, CreateVaccineRequestDto requestDto)
             throws EntityExistsCustomException;
 
@@ -80,5 +87,6 @@ public interface ChildService {
 
     void deleteVaccine(Long userId, Long childId, Long vaccineId);
 
+    // =============================
     void createDefaultData(Long childId);
 }

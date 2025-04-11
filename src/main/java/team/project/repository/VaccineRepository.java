@@ -14,4 +14,6 @@ public interface VaccineRepository extends JpaRepository<Vaccine, Long> {
     List<Vaccine> findByChildIdAndTypeIdAndDate(Long childId, Long typeId, LocalDate date);
 
     boolean existsByChildIdAndTypeIdAndDate(Long childId, Long typeId, LocalDate date);
+
+    void deleteAllByChildId(Long childId);
 }

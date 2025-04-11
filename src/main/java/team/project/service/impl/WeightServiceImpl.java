@@ -59,6 +59,7 @@ public class WeightServiceImpl implements WeightService {
     }
 
     @Override
+    @Transactional
     public Weight createDefault(Child child, int currentYear, String currentMonth) {
         Weight weight = new Weight();
         weight.setChild(child);
@@ -66,6 +67,12 @@ public class WeightServiceImpl implements WeightService {
         weight.setMonth(currentMonth);
         weight.setValue((short) 3);
         return weightRepo.save(weight);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllByChildId(Long childId) {
+        weightRepo.deleteAllByChildId(childId);
     }
 
     private Weight getWeightByIdAndChildId(Long weightId, Long childId) {

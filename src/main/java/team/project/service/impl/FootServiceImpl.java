@@ -68,6 +68,12 @@ public class FootServiceImpl implements FootService {
         return footRepo.save(foot);
     }
 
+    @Override
+    @Transactional
+    public void deleteAllByChildId(Long childId) {
+        footRepo.deleteAllByChildId(childId);
+    }
+
     private Foot getFootOfChild(Long footId, Long childId) {
         return footRepo.findByIdAndChildId(footId, childId)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(

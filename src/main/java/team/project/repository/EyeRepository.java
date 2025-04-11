@@ -10,4 +10,6 @@ public interface EyeRepository extends JpaRepository<Eye, Long> {
     @Query(value = "SELECT * FROM eyes e WHERE e.child_id = :childId",
             nativeQuery = true)
     Optional<Eye> findByChildId(@Param("childId") Long childId);
+
+    void deleteByChildId(Long childId);
 }
