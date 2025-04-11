@@ -1,6 +1,8 @@
 package team.project.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -80,9 +83,13 @@ public class ChildController {
     @DeleteMapping("/{childId}")
     @Operation(summary = "Delete child's card by id",
             description = "Delete child's card by id (parent)")
-    public void deleteChild(@AuthenticationPrincipal User user,
-                            @PathVariable @Positive Long childId) {
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Child deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Child not found")})
+    public ResponseEntity<Void> deleteChild(@AuthenticationPrincipal User user,
+                                            @PathVariable @Positive Long childId) {
         childService.deleteChildByIdAndUserId(user.getId(), childId);
+        return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -131,10 +138,15 @@ public class ChildController {
     @DeleteMapping("/{childId}/height/{heightId}")
     @Operation(summary = "Delete height by id",
             description = "Delete kid's height by id")
-    public void deleteHeight(@AuthenticationPrincipal User user,
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Height measurement deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Height measurement not found")})
+    public ResponseEntity<Void> deleteHeight(@AuthenticationPrincipal User user,
                                   @PathVariable @Positive Long childId,
                                   @PathVariable @Positive Long heightId) {
         childService.deleteHeight(user.getId(), childId, heightId);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{childId}/height/{year}")
@@ -176,10 +188,15 @@ public class ChildController {
     @DeleteMapping("/{childId}/weight/{weightId}")
     @Operation(summary = "Delete weight by id",
             description = "Delete kid's weight by id")
-    public void deleteWeight(@AuthenticationPrincipal User user,
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Weight measurement deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Weight measurement not found")})
+    public ResponseEntity<Void> deleteWeight(@AuthenticationPrincipal User user,
                                @PathVariable @Positive Long childId,
                                @PathVariable @Positive Long weightId) {
         childService.deleteWeight(user.getId(), childId, weightId);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{childId}/weight/{year}")
@@ -221,10 +238,15 @@ public class ChildController {
     @DeleteMapping("/{childId}/foot/{footId}")
     @Operation(summary = "Delete foot measurement by id",
             description = "Delete kid's foot measurement by id")
-    public void deleteFoot(@AuthenticationPrincipal User user,
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Foot measurement deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Foot measurement not found")})
+    public ResponseEntity<Void> deleteFoot(@AuthenticationPrincipal User user,
                            @PathVariable @Positive Long childId,
                            @PathVariable @Positive Long footId) {
         childService.deleteFoot(user.getId(), childId, footId);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{childId}/foot/{year}")
@@ -284,9 +306,13 @@ public class ChildController {
     @DeleteMapping("/{childId}/vaccination/{vaccineId}")
     @Operation(summary = "Delete kid's vaccine",
             description = "Delete info about kid's vaccine")
-    public void deleteVaccine(@AuthenticationPrincipal User user,
-                                    @PathVariable @Positive Long childId,
-                                    @PathVariable @Positive Long vaccineId) {
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Vaccine deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Vaccine not found")})
+    public ResponseEntity<Void> deleteVaccine(@AuthenticationPrincipal User user,
+                                                @PathVariable @Positive Long childId,
+                                                @PathVariable @Positive Long vaccineId) {
         childService.deleteVaccine(user.getId(), childId, vaccineId);
+        return ResponseEntity.noContent().build();
     }
 }
