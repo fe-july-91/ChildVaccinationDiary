@@ -44,4 +44,10 @@ public class EyeServiceImpl implements EyeService {
                 ? eyeMapper.toDto(eyeRepo.findByChildId(childId).get())
                 : new EyeDto();
     }
+
+    @Override
+    @Transactional
+    public void deleteByChildId(Long childId) {
+        eyeRepo.deleteByChildId(childId);
+    }
 }

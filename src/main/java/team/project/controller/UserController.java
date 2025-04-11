@@ -1,11 +1,15 @@
 package team.project.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,5 +44,16 @@ public class UserController {
             @AuthenticationPrincipal User user,
             @RequestBody @Valid UserResetDataRequestDto newRequestDto) {
         return userService.resetData(user, newRequestDto);
+    }
+
+    @DeleteMapping("/delete")
+    @Operation(summary = "Delete user's account",
+            description = "Delete user's account")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Account deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "User's account not found")})
+    public ResponseEntity<Void> deleteAccount(@AuthenticationPrincipal User user) {
+        userService.deleteAccountById(user.getId());
+        return ResponseEntity.noContent().build();
     }
 }

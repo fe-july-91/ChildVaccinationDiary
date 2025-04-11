@@ -27,4 +27,6 @@ public interface UserService {
     User getById(Long id);
 
     void sendEmailVerification(TokenConfirmation token, String urlHttp);
+
+    void deleteAccountById(Long id);
 }

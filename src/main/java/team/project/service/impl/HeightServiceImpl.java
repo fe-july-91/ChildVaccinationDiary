@@ -69,6 +69,12 @@ public class HeightServiceImpl implements HeightService {
         return heightRepo.save(height);
     }
 
+    @Override
+    @Transactional
+    public void deleteAllByChildId(Long childId) {
+        heightRepo.deleteAllByChildId(childId);
+    }
+
     private Height getHeightByIdAndChildId(Long heightId, Long childId) {
         return heightRepo.findByIdAndChildId(heightId, childId)
                 .orElseThrow(() -> new EntityNotFoundCustomException(

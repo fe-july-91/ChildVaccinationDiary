@@ -14,4 +14,6 @@ public interface JournalRepository<T extends Journal> extends JpaRepository<T,Lo
     List<T> findAllByYearAndChildId(int year, Long childId);
 
     List<T> findAllByChildId(Long childId);
+
+    void deleteAllByChildId(Long childId);
 }

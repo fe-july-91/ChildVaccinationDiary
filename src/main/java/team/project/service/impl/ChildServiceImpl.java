@@ -70,6 +70,21 @@ public class ChildServiceImpl implements ChildService {
 
     @Override
     @Transactional
+    public void deleteAllByUserId(Long userId) {
+        List<Child> kidsList = childRepo.findAllByUserId(userId);
+        for (Child kid : kidsList) {
+            Long childId = kid.getId();
+            weightService.deleteAllByChildId(childId);
+            heightService.deleteAllByChildId(childId);
+            footService.deleteAllByChildId(childId);
+            eyeService.deleteByChildId(childId);
+            vaccineService.deleteAllByChildId(childId);
+        }
+        childRepo.deleteAll(kidsList);
+    }
+
+    @Override
+    @Transactional
     public List<ChildDto> getChildsByUser(Long userId) {
         return childRepo.findAllByUserId(userId).stream()
                 .map(childMapper::toDto).toList();
@@ -109,7 +124,13 @@ public class ChildServiceImpl implements ChildService {
     @Override
     @Transactional
     public void deleteChildByIdAndUserId(Long userId, Long childId) {
-        childRepo.delete(getChildOfUser(childId, userId));
+        Child childFromDB = getChildOfUser(childId, userId);
+        heightService.deleteAllByChildId(childFromDB.getId());
+        weightService.deleteAllByChildId(childFromDB.getId());
+        footService.deleteAllByChildId(childFromDB.getId());
+        eyeService.deleteByChildId(childFromDB.getId());
+        vaccineService.deleteAllByChildId(childFromDB.getId());
+        childRepo.delete(childFromDB);
     }
 
     @Override
