@@ -11,4 +11,6 @@ public interface ChildRepository extends JpaRepository<Child, Long> {
     Optional<Child> findByIdAndUserId(Long childId, Long userId);
 
     boolean existsByIdAndUserId(Long childId, Long userId);
+
+    void deleteAllByUserId(Long userId);
 }

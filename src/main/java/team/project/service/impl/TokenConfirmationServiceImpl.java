@@ -25,12 +25,6 @@ public class TokenConfirmationServiceImpl implements TokenConfirmationService {
 
     @Transactional
     @Override
-    public void deleteAllByUserId(Long userId) {
-        tokenConfirmationRepo.deleteAllByUserId(userId);
-    }
-
-    @Transactional
-    @Override
     public TokenConfirmation createToken(User user) {
         TokenConfirmation tokenConfirmation = new TokenConfirmation();
         tokenConfirmation.setUser(user);

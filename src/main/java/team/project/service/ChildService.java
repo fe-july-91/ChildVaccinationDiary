@@ -33,8 +33,6 @@ public interface ChildService {
 
     void deleteChildByIdAndUserId(Long userId, Long childId);
 
-    void deleteAllByUserId(Long userId);
-
     // ========== Height ============
     List<JournalDto> getAllHeightByChildId(Long userId, Long childId);
 
