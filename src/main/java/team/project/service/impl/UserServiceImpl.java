@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
         } else if (LocalDateTime.now().isBefore(tokenConfirmation.getExpireDate())) {
             user.setVerified(true);
             userRepo.save(user);
-            return "Ваш обліковий запис було успішно підтверджено!";
+            return "https://kidty.com.ua/#/success";
         }
         return "Пройшло занадто багато часу - посилання вже не дійсне";
     }
