@@ -24,7 +24,6 @@ import team.project.model.User;
 import team.project.password.PasswordGenerator;
 import team.project.repository.RoleRepository;
 import team.project.repository.UserRepository;
-import team.project.service.ChildService;
 import team.project.service.EmailService;
 import team.project.service.TokenConfirmationService;
 import team.project.service.UserService;
@@ -40,7 +39,6 @@ public class UserServiceImpl implements UserService {
     private final EmailService emailService;
     private final PasswordGenerator passwordGenerator;
     private final TokenConfirmationService tokenConfirmationService;
-    private final ChildService childService;
 
     @Override
     @Transactional
@@ -106,7 +104,7 @@ public class UserServiceImpl implements UserService {
         } else if (LocalDateTime.now().isBefore(tokenConfirmation.getExpireDate())) {
             user.setVerified(true);
             userRepo.save(user);
-            return "Ваш обліковий запис було успішно підтверджено!";
+            return "https://kidty.com.ua/#/success";
         }
         return "Пройшло занадто багато часу - посилання вже не дійсне";
     }
@@ -126,8 +124,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteAccountById(Long id) {
-        tokenConfirmationService.deleteAllByUserId(id);
-        childService.deleteAllByUserId(id);
         userRepo.deleteById(id);
     }
 

@@ -69,12 +69,6 @@ public class WeightServiceImpl implements WeightService {
         return weightRepo.save(weight);
     }
 
-    @Override
-    @Transactional
-    public void deleteAllByChildId(Long childId) {
-        weightRepo.deleteAllByChildId(childId);
-    }
-
     private Weight getWeightByIdAndChildId(Long weightId, Long childId) {
         return weightRepo.findByIdAndChildId(weightId, childId)
                 .orElseThrow(() -> new EntityNotFoundException(

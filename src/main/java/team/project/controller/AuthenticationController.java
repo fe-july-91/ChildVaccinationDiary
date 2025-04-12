@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,8 +68,14 @@ public class AuthenticationController {
     @GetMapping("/verify-email")
     @Operation(summary = "Verification an email",
             description = "Verify an email by token")
-    public String verifyEmail(@RequestParam("token") String token) {
-        return userService.verifyEmail(token);
+    public ResponseEntity<Void> verifyEmail(@RequestParam("token") String token) {
+        String result = userService.verifyEmail(token);
+        if (result.equals("https://kidty.com.ua/#/success")) {
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .header("Location", result)
+                    .build();
+        }
+        return ResponseEntity.noContent().build();
     }
 
     public String generateUrl(HttpServletRequest request) {

@@ -7,6 +7,4 @@ public interface TokenConfirmationService {
     TokenConfirmation createToken(User user);
 
     TokenConfirmation getByToken(String token);
-
-    void deleteAllByUserId(Long id);
 }

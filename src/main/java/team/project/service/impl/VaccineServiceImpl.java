@@ -76,12 +76,6 @@ public class VaccineServiceImpl implements VaccineService {
         vaccineRepo.delete(getVaccineOfChild(vaccineId, childId));
     }
 
-    @Override
-    @Transactional
-    public void deleteAllByChildId(Long childId) {
-        vaccineRepo.deleteAllByChildId(childId);
-    }
-
     private Vaccine getVaccineOfChild(Long vaccineId, Long childId) {
         return vaccineRepo.findByIdAndChildId(vaccineId, childId)
                 .orElseThrow(() -> new EntityNotFoundException(

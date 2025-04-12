@@ -19,6 +19,4 @@ public interface JournalService<T extends Journal> {
     List<JournalDto> getAllByYearAndChildId(Long childId, int year);
 
     T createDefault(Child child, int currentYear, String currentMonth);
-
-    void deleteAllByChildId(Long childId);
 }
